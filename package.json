@@ -1,0 +1,15 @@
+{
+  "name": "@metlife/appd-services-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@metlife/appd-client-js": "git+https://devtools.metlife.com/bitbucket/scm/~jgraham/appd-client-js.git",
+    "moment": "2.24.0"
+  }
+}
