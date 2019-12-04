@@ -1,13 +1,16 @@
 {
   "name": "@metlife/appd-services-js",
   "version": "1.0.0",
-  "description": "",
+  "description": "Various services / service-extensions for AppDynamics",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Jamey Graham <jgraham@metlife.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://devtools.metlife.com/bitbucket/scm/~jgraham/appd-services-js.git"
+  },
+  "license": "UNLICENSED",
   "dependencies": {
     "@metlife/appd-client-js": "git+https://devtools.metlife.com/bitbucket/scm/~jgraham/appd-client-js.git",
     "moment": "2.24.0"
