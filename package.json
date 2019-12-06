@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "Various services / service-extensions for AppDynamics",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "author": "Jamey Graham <jgraham@metlife.com>",
   "repository": {
     "type": "git",
@@ -13,6 +12,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@metlife/appd-client-js": "git+https://devtools.metlife.com/bitbucket/scm/~jgraham/appd-client-js.git",
+    "lodash": "4.17.15",
     "moment": "2.24.0"
   }
 }
