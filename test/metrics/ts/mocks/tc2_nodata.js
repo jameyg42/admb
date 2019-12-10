@@ -17,5 +17,5 @@ module.exports =  {
         "hasChildren" : false,
         "path":["Overall Application Performance", "Calls per Minute"]
     },
-    "range": require('../../../lib/range').beforeNow(60).fix(),
+    "range": require('../../../../lib/range').beforeNow(60).fix(),
   } 

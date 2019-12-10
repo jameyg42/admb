@@ -16,7 +16,7 @@ module.exports = {
         "hasChildren" : false,
         "path":["Overall Application Performance", "Calls per Minute"]
     },
-    "range": require('../../../lib/range').beforeNow(180).fix(),
+    "range": require('../../../../lib/range').beforeNow(180).fix(),
     "dataTimeslices" : [ {
       "startTime" : 1575644220000,
       "metricValue" : {
