@@ -22,6 +22,10 @@ const itApp = {
 // pipeline.exec(e3, itApp)
 // .then(console.log);
 
-const e4 = 'Overall*|{Calls*,Average Re*} |> sub (Overall*|Errors* |> scale 100)';
-pipeline.exec(e4, itApp)
+// const e4 = 'Overall*|{Calls*,Average Re*} |> sub (Overall*|Errors* |> scale 100)';
+// pipeline.exec(e4, itApp)
+// .then(x => console.log('done', x));
+
+const e5 = 'Overall*|{Calls*,Errors per*} |> percentOf';
+pipeline.exec(e5, itApp)
 .then(x => console.log('done', x));
