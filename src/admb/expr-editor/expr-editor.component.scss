@@ -1,0 +1,15 @@
+:host ::ng-deep textarea {
+  font-family: 'Consolas', 'Courier New', Courier, monospace;
+  width: 100%;
+  border: none !important;
+  padding: 0px !important;
+}
+:host .heightAlignmentWrapper {
+
+}
+:host .heightAlignmentWrapper:hover {
+  border-color: #212121;
+}
+:host .heightAlignmentWrapper:focus-within {
+  border-color: #007ad9;
+}

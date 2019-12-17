@@ -1,0 +1,9 @@
+<div class="heightAlignmentWrapper ui-inputtext ui-corner-all">
+  <textarea
+    pInputTextarea
+    [rows]="1" [cols]="80"
+    autoResize="autoResize"
+    [(ngModel)]="expr"
+    (ngModelChange)="exprChange.emit(expr)"
+  ></textarea>
+</div>

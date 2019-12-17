@@ -1,0 +1,49 @@
+@charset "UTF-8";
+@import 'colors';
+
+/* this theme is intended to "extend" PrimeNG nova-lite theme */
+
+/* TABVIEW */
+body .ui-tabview {
+  padding: unset;
+}
+body .ui-tabview.ui-tabview-top .ui-tabview-nav li,
+body .ui-tabview.ui-tabview-bottom .ui-tabview-nav li,
+body .ui-tabview.ui-tabview-left .ui-tabview-nav li,
+body .ui-tabview.ui-tabview-right .ui-tabview-nav li
+{
+  border: none;
+  background: transparent;
+
+  a {
+    color: $gray3;
+  }
+
+  &:not(.ui-state-active):not(.ui-state-disabled):hover {
+    border: none;
+    background: transparent;
+    a, a .ui-tabview-left-icon {
+      color: $gray3;
+    }
+  }
+  &.ui-state-active, &.ui-state-active:hover {
+    border: none;
+    background: transparent;
+    a, a .ui-tabview-left-icon {
+      color: $gray1;
+    }
+  }
+}
+body .ui-tabview.ui-tabview-top .ui-tabview-nav {
+  li, li:hover,
+  li:not(.ui-state-active):not(.ui-state-disabled),
+  li:not(.ui-state-active):not(.ui-state-disabled):hover {
+    transition: border-color 400ms ease;
+    border-bottom: solid 4px $gray5;
+    margin-right: 0px;
+  }
+  li.ui-state-active, li.ui-state-active:hover {
+    border-bottom: solid 4px $green2;
+  }
+}
+/* /TABVIEW */

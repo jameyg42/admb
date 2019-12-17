@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChildren, QueryList } from '@angular/core';
+import { BrowserPanelComponent } from 'src/admb/browser-panel/browser-panel.component';
 
 @Component({
   selector: 'admb-root',
@@ -7,4 +8,18 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'appd-browser-webui';
+  items = [];
+
+  @ViewChildren('admb') components: QueryList<BrowserPanelComponent>;
+
+  newItem() {
+    this.items.push({header: 'new'});
+  }
+  removeItem(item: number) {
+    this.items.splice(item, 1);
+  }
+
+  ngOnInit() {
+    this.newItem();
+  }
 }

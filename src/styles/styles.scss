@@ -1,0 +1,9 @@
+/* You can add global styles to this file, and also import other style files */
+@import './topography.scss';
+@import './layout.scss';
+@import './components.scss';
+@import './theme.scss';
+
+*:focus {
+  outline: none !important;
+}

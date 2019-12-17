@@ -1,0 +1,3 @@
+<div *ngIf="flattenedGroups$">
+  <admb-ts-plot *ngFor="let g of flattenedGroups$ | async" [timeseriesGroup]="g"></admb-ts-plot>
+</div>

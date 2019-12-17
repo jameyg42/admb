@@ -10,7 +10,8 @@
     "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2015",
+    "target": "es5", // FIXME https://github.com/plotly/angular-plotly.js/issues/75#issuecomment-526871836
+    "resolveJsonModule": true,
     "typeRoots": [
       "node_modules/@types"
     ],

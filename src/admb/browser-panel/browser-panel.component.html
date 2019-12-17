@@ -1,0 +1,18 @@
+<div class="header">
+  <div>
+    <admb-app-select [(selectedApp)]="app" (selectedAppChange)="appChange.emit(app)"></admb-app-select>
+    <admb-range-select [(selectedRange)]="range"></admb-range-select>
+  </div>
+  <div class="p-grid">
+    <admb-expr-editor class="p-col" [(expr)]="expr" (keypress)="onKeypress($event)"></admb-expr-editor>
+    <p-button class="p-col-fixed" label="Execute" (onClick)="runExpression()" [disabled]="!isValid()"></p-button>
+  </div>
+  <p-progressBar #progress mode="determinate"></p-progressBar>
+</div>
+<div class="results">
+  <p-scrollPanel>
+    <div *ngIf="plotGroups">
+      <admb-ts-groups [groups]="plotGroups"></admb-ts-groups>
+    </div>
+  </p-scrollPanel>
+</div>

@@ -1,0 +1,36 @@
+:host .admb-view {
+  height: 100vh;
+}
+:host .admb-view ::ng-deep .ui-tabview {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+:host .admb-view ::ng-deep .ui-tabview-nav {
+  margin-left: 40px;
+}
+:host .admb-view ::ng-deep .ui-tabview-panels,
+:host .admb-view ::ng-deep .ui-tabview-panel
+{
+  width: 100%;
+  height: 100%;
+}
+
+
+:host .admb-view .ui-newtab-button {
+  position: absolute;
+  top: 5px;
+  z-index: 9999;
+
+  ::ng-deep .ui-button {
+    background: transparent;
+    border: none;
+    // border-color: #13AA52;
+    // border-width: 2px;
+    color: #13AA52;
+  }
+  ::ng-deep .ui-button:enabled:focus {
+    box-shadow: none;
+  }
+}
+
