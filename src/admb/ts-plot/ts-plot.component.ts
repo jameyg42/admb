@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { MetricTimeseries } from '../svc/model';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'admb-ts-plot',
   templateUrl: './ts-plot.component.html',
   styleUrls: ['./ts-plot.component.scss']
@@ -29,7 +30,7 @@ export class TsPlotComponent implements OnInit {
 
   constructor() {
     this.config = {
-      staticPlot: false,
+      staticPlot: true,
       editable: false,
       displayModeBar: true,
       displaylogo: false,
