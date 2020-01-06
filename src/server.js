@@ -17,23 +17,20 @@ const appdSession = appd.open({
   pwd : 'gad8babU'
 });
 
-app.post('/api/pipeline/exec', (req,rsp) => {
+app.post('/api/pipeline/exec', (req,rsp,next) => {
   const expr = req.body;
   pipeline(appdSession)
     .exec(expr.expr, expr.app, expr.range)
     .then(function(r) {
       rsp.json(r);
-    }).catch(function(e) {
-      rsp.status = 500;
-      rsp.json(e);
-    });
+    }).catch(next);
 });
-app.get('/api/apps', (req,rsp) => {
+app.get('/api/apps', (req,rsp,next) => {
   appdServices(appdSession).app.fetchAllApps()
   .then(function(r) {
     rsp.json(r);
-  })
-})
+  }).catch(next);
+});
 
 
 const server = http.createServer(app);
