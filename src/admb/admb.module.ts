@@ -7,9 +7,10 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
-import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 import { PlotlyModule } from 'angular-plotly.js';
@@ -42,9 +43,10 @@ PlotlyModule.plotlyjs = PlotlyJS;
 
     ButtonModule,
     DropdownModule,
-    InputTextareaModule,
     ProgressBarModule,
     ScrollPanelModule,
+
+    CodemirrorModule,
 
     PlotlyModule,
   ],

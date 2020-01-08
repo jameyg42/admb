@@ -19,4 +19,8 @@
 }
 :host ::ng-deep .ui-progressbar {
    height: 3px;
+   background-color: red;
+ }
+ :host ::ng-deep .valid .ui-progressbar {
+  background-color: green;
  }

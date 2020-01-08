@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter, Output, NgZone } from '@angular/core';
 import { Application, Range, MetricTimeseries } from '../svc/model';
 import { AdmbService } from '../svc/admb.service';
 import { ProgressBar } from 'primeng/progressbar';
@@ -26,14 +26,22 @@ export class BrowserPanelComponent implements OnInit {
   constructor(private admbSvc: AdmbService) { }
 
   runExpression() {
+    console.log('running ' + this.expr, NgZone.isInAngularZone());
     if (this.isValid()) {
       this.progress.mode = 'indeterminate';
       this.admbSvc.execPipelineExpression(this.expr, this.app, this.range)
       .subscribe(ts => {
+        console.log('got results', ts);
         this.plotGroups = ts;
         this.progress.mode = 'determinate';
       });
+    } else {
+      console.log('not valid', this.app, this.range, this.expr);
     }
+  }
+
+  onExprExecute(expr) {
+    this.runExpression();
   }
 
   isValid() {
@@ -41,13 +49,6 @@ export class BrowserPanelComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
-
-  onKeypress($event: KeyboardEvent) {
-    if ($event.code === 'Enter' && !$event.shiftKey) {
-      this.runExpression();
-      $event.preventDefault();
-    }
   }
 
 }
