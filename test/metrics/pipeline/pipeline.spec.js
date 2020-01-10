@@ -26,6 +26,6 @@ const itApp = {
 // pipeline.exec(e4, itApp)
 // .then(x => console.log('done', x));
 
-const e5 = 'app=0000 Over*|*|Average Res* |> scale .001';
+const e5 = 'app=0000* Over*|*|Average Res* |> scale .001';
 pipeline.exec(e5, itApp)
 .then(x => console.log('done', x));
