@@ -16,8 +16,8 @@ export class AdmbService {
     return this.http.get<Application[]>('/api/apps')
       .pipe(
         catchError((e, c) => {
-          this.messageService.add({severity: 'error', detail: e, life: 5000});
-          return c;
+          this.messageService.add({severity: 'error', detail: e.message, life: 5000});
+          throw e;
         })
       );
   }
@@ -26,8 +26,8 @@ export class AdmbService {
     return this.http.post<any[]>('/api/pipeline/exec', {expr, app, range})
       .pipe(
         catchError((e, c) => {
-          this.messageService.add({severity: 'error', detail: e, life: 5000});
-          return c;
+          this.messageService.add({severity: 'error', detail: e.message, life: 5000});
+          throw e;
         })
       );
 }

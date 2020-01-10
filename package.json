@@ -26,6 +26,7 @@
     "codemirror": "5.50.2",
     "cors": "2.8.5",
     "express": "4.17.1",
+    "nearley": "2.19.0",
     "plotly.js": "1.51.2",
     "primeflex": "1.0.0",
     "primeicons": "2.0.0",
