@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, EventEmitter, Output, NgZone } from '@ang
 import { Application, Range, MetricTimeseries } from '../svc/model';
 import { AdmbService } from '../svc/admb.service';
 import { ProgressBar } from 'primeng/progressbar';
+import { ParseResult } from '../expr-editor/expr-editor.component';
 
 @Component({
   selector: 'admb-browser-panel',
@@ -16,7 +17,7 @@ export class BrowserPanelComponent implements OnInit {
 
   range: Range;
 
-  expr: string;
+  parseResult: ParseResult;
 
   plotGroups: any;
 
@@ -26,17 +27,16 @@ export class BrowserPanelComponent implements OnInit {
   constructor(private admbSvc: AdmbService) { }
 
   runExpression() {
-    console.log('running ' + this.expr, NgZone.isInAngularZone());
     if (this.isValid()) {
       this.progress.mode = 'indeterminate';
-      this.admbSvc.execPipelineExpression(this.expr, this.app, this.range)
+      this.admbSvc.execPipelineExpression(this.parseResult.expr, this.app, this.range)
       .subscribe(ts => {
         console.log('got results', ts);
         this.plotGroups = ts;
         this.progress.mode = 'determinate';
       });
     } else {
-      console.log('not valid', this.app, this.range, this.expr);
+      console.log('not valid', this.app, this.range, this.parseResult.expr);
     }
   }
 
@@ -45,7 +45,7 @@ export class BrowserPanelComponent implements OnInit {
   }
 
   isValid() {
-    return this.app && this.range && this.expr && this.expr.length > 0;
+    return this.app && this.range && this.parseResult && this.parseResult.valid;
   }
 
   ngOnInit() {

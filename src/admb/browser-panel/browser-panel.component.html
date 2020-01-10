@@ -4,7 +4,7 @@
     <admb-range-select [(selectedRange)]="range"></admb-range-select>
   </div>
   <div class="p-grid">
-    <admb-expr-editor class="p-col" [(expr)]="expr" (exprExecute)="onExprExecute($event)"></admb-expr-editor>
+    <admb-expr-editor class="p-col" (parseResultChange)="this.parseResult = $event" (exprExecute)="onExprExecute($event)"></admb-expr-editor>
     <p-button class="p-col-fixed" label="Execute" (onClick)="runExpression()" [disabled]="!isValid()"></p-button>
   </div>
   <p-progressBar #progress mode="determinate" [class.valid]="isValid()"></p-progressBar>

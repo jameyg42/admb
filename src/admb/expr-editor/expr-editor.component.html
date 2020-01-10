@@ -1,4 +1,4 @@
 <ngx-codemirror
   [(ngModel)]="expr"
-  (ngModelChange)="exprChange.emit(expr)"
+  (ngModelChange)="_onModelChange($event)"
 ></ngx-codemirror>
