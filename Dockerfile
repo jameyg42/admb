@@ -7,7 +7,7 @@ RUN npm install express cors git+https://jgraham@devtools.metlife.com/bitbucket/
 FROM node:alpine
 COPY --from=SETUP /app/ ./
 WORKDIR /app
-CMD node src/server.js
+CMD ["node", "src/server.js"]
 
 ADD src/server.js src/
 ADD ./dist ./dist

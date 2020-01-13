@@ -37,3 +37,8 @@ const server = http.createServer(app);
 server.listen(8070, () => {
     console.log(`Server started on port ${server.address().port} :)`);
 });
+
+
+process.on('SIGINT', function() {
+  process.exit();
+});
