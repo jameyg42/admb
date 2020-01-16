@@ -50,7 +50,7 @@ export class TsPlotComponent implements OnInit {
       yaxis2: {
         rangemode: 'tozero',
         automargin: true,
-        side: 'left',
+        side: 'right',
         overlaying: 'y'
       },
       margin: {
