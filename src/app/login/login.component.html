@@ -1,0 +1,32 @@
+<div>
+  <div *ngIf="user != null">
+    <div (click)="profile.toggle($event)">{{user.name}}@{{url}}</div>
+    <p-overlayPanel #profile appendTo="body">
+      {{user.displayName}}
+      <button pButton (click)="doLogout()" type="button" label="Logout"></button>
+    </p-overlayPanel>
+  </div>
+  <div *ngIf="user == null" (click)="login.show($event)">Not logged in</div>
+</div>
+
+<p-overlayPanel #login appendTo="body">
+  <form [formGroup]="loginForm" (ngSubmit)="doLogin(loginForm.value)">
+    <div>
+      <p-dropdown [options]="controllers" [(ngModel)]="url" formControlName="url" placeholder="controller"></p-dropdown>
+    </div>
+    <div>
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+        <input type="text" pInputText formControlName="uid" placeholder="username">
+      </div>
+    </div>
+    <div>
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+        <input type="password" pPassword [feedback]="false" formControlName="pwd" placeholder="password">
+      </div>
+    </div>
+    <button pButton (click)="doLogin()" type="submit" label="Login"></button>
+  </form>
+  <div *ngIf="loginError" style="color: red;">{{loginError}}</div>
+</p-overlayPanel>

@@ -1,3 +1,4 @@
+<admb-login #login></admb-login>
 <div class="app-layout">
   <section class="sidebar collapsed">
       <header>
@@ -10,7 +11,7 @@
       </nav>
   </section>
   <section class="content">
-    <div class="admb-view">
+    <div class="admb-view"  *ngIf="login.user != null">
       <p-button (onClick)="newItem()" icon="pi pi-plus" class="ui-newtab-button"></p-button>
       <p-tabView (onClose)="removeItem($event.index)">
         <p-tabPanel *ngFor="let item of items; let i = index" [selected]="i == 0" [header]="item.header" [closable]="true">
