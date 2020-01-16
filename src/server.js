@@ -1,7 +1,6 @@
 const express = require('express');
 const http = require('http')
 const cors = require('cors');
-const session = require('express-session');
 
 const xor = require('./xor');
 
