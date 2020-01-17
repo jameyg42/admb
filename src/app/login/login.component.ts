@@ -14,14 +14,11 @@ export class LoginComponent implements OnInit {
   user: any;
 
   loginForm: FormGroup;
-  url: string;
-
   controllers: SelectItem[];
 
   @ViewChild('login', {static: false})
   loginOverlay: OverlayPanel;
   loginError: string;
-
 
   constructor(private http: HttpClient) {
     this.controllers =  [
@@ -30,7 +27,7 @@ export class LoginComponent implements OnInit {
       {label: 'Dev/Lab', value: 'https://dev.appd.metlife.com'}
     ];
     this.loginForm = new FormGroup({
-      url: new FormControl(''),
+      url: new FormControl(this.controllers[0].value),
       uid: new FormControl(''),
       pwd: new FormControl('')
     });
@@ -41,15 +38,14 @@ export class LoginComponent implements OnInit {
     .subscribe(
       user => {
         this.user = user;
-        this.url = this.user.url;
       },
       err => console.log(err),
       undefined
     );
   }
 
-  doLogin(con) {
-    con.pwd = xor(con.pwd);
+  doLogin() {
+    const con = Object.assign({}, this.loginForm.value, {pwd: xor(this.loginForm.value.pwd)});
     this.http.post('/api/login', con)
     .subscribe(
       user => {
@@ -62,6 +58,7 @@ export class LoginComponent implements OnInit {
       },
       undefined
     );
+    this.loginForm.controls.pwd.setValue('');
   }
   doLogout() {
     this.http.post('/api/logout', {})

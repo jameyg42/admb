@@ -20,10 +20,7 @@ app.post('/api/login', (req,rsp,next) => {
   cred.pwd = xor(cred.pwd);
   appdSession = appd.open(cred);
   appdSession.info()
-    .then(user => {
-      user.url = appdSession.con.url;
-      rsp.json(user)
-    })
+    .then(r => rsp.json(r))
     .catch(next);
 })
 app.post('/api/logout', (req,rsp,next) => {
@@ -41,10 +38,7 @@ app.get('/api/user', (req,rsp,next) => {
     return;
   }
   appdSession.info()
-  .then(user => {
-    user.url = appdSession.con.url;
-    rsp.json(user)
-  })
+  .then(r => rsp.json(r))
   .catch(next);
 })
 
