@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic": "~8.2.11",
     "@angular/router": "~8.2.11",
     "@ctrl/ngx-codemirror": "2.2.1",
-    "@metlife/appd-client-js": "git+https://devtools.metlife.com/bitbucket/scm/~jgraham/appd-client-js.git",
+    "@metlife/appd-client-js": "git+https://devtools.metlife.com/bitbucket/scm/~jgraham/appd-client-js.git#rel-1.1.0",
     "@metlife/appd-services-js": "git+https://jgraham@devtools.metlife.com/bitbucket/scm/~jgraham/appd-services-js.git",
     "angular-plotly.js": "1.4.2",
     "codemirror": "5.50.2",
