@@ -9,6 +9,6 @@ COPY --from=SETUP /app/ ./
 WORKDIR /app
 CMD ["node", "src/server.js"]
 
-ADD src/server.js src/
+ADD src/*.js src/
 ADD ./dist ./dist
 
