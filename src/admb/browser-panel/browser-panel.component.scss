@@ -4,8 +4,6 @@
   width: 100%;
   height: 100%;
 }
-:host .header {
-}
 :host .results {
   flex-grow: 1;
   flex-shrink: 1;
@@ -24,3 +22,24 @@
  :host ::ng-deep .valid .ui-progressbar {
   background-color: green;
  }
+
+ @media print {
+  :host {
+    display: contents;
+  }
+  :host ::ng-deep .ui-scrollpanel {
+    display: contents;
+  }
+  :host .results {
+    display: contents;
+  }
+  :host .header div {
+    display: none;
+  }
+  :host .header div.p-grid {
+    display: block;
+  }
+  :host .header p-button {
+    display: none;
+  }
+}

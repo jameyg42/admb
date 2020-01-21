@@ -44,3 +44,20 @@
   }
 }
 
+@media print {
+  :host admb-login {
+    display: none;
+  }
+  :host .admb-view {
+    display: contents;
+  }
+  :host .admb-view .ui-newtab-button {
+    display: none;
+  }
+  :host .admb-view ::ng-deep .ui-tabview,
+  :host .admb-view ::ng-deep .ui-tabview-panels,
+  :host .admb-view ::ng-deep .ui-tabview-panel
+    {
+    display: contents;
+  }
+}

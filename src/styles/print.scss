@@ -1,3 +1,45 @@
+@page {
+  size: legal portrait;
+}
 @media print {
+  html {
+    overflow: auto;
+    height: 100%;
+    width: 8.5in;
+  }
+  body {
+    height: unset;
+  }
+  body .app-layout {
+    display: contents;
+  }
+  body section.sidebar {
+    display: none;
+  }
+  body section.content {
+    display: contents;
+  }
 
+
+  body .ui-scrollpanel {
+    display: contents;
+    .ui-scrollpanel-wrapper {
+      display: contents;
+      .ui-scrollpanel-content {
+        display: contents;
+      }
+    }
+  }
+
+  body .ui-tabview {
+    .ui-tabview-nav {
+      display: none;
+    }
+    .ui-tabview-panels {
+      display: contents;
+    }
+    .ui-tabview-panel {
+      display: contents;
+    }
+  }
 }
