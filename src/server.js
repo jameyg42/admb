@@ -28,8 +28,8 @@ app.post('/api/logout', (req,rsp,next) => {
   appdSession = null;
   rsp.json({
     loggedOff: true,
-    from: t.url,
-    with: t.uid
+    from: t == null ? null : t.url,
+    with: t == null ? null : t.uid
   })
 });
 app.get('/api/user', (req,rsp,next) => {

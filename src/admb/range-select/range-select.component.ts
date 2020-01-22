@@ -17,7 +17,8 @@ export class RangeSelectComponent implements OnInit {
     {name: 'Last 7 Days', range: {type: 'BEFORE_NOW', durationInMinutes: 60 * 24 * 7}},
     {name: 'Last 2 Weeks', range: {type: 'BEFORE_NOW', durationInMinutes: 60 * 24 * 14}},
     {name: 'Last 1 Month', range: {type: 'BEFORE_NOW', durationInMinutes: 60 * 24 * 30}},
-    {name: 'Last 3 Months', range: {type: 'BEFORE_NOW', durationInMinutes: 60 * 24 * 180}},
+    {name: 'Last 3 Months', range: {type: 'BEFORE_NOW', durationInMinutes: 60 * 24 * 90}},
+    {name: 'Last 6 Months', range: {type: 'BEFORE_NOW', durationInMinutes: 60 * 24 * 180}},
   ];
   selectedRangeOption;
 
