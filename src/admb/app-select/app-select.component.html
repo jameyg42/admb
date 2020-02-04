@@ -1,11 +1,12 @@
 <p-dropdown
   [(ngModel)]="selectedApp"
-  [options]="applications$ | async"
-  optionLabel="name"
+  [options]="applications"
   appendTo="body"
   scrollHeight="300px"
   placeholder="Application"
-  filter="true"
-  resetFilterOnHide="true"
+  [filter]="true"
+  [resetFilterOnHide]="true"
+  [group]="true"
+
   (ngModelChange)="selectedAppChange.emit(selectedApp)"
 ></p-dropdown>
