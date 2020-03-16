@@ -16,7 +16,7 @@ export class TimepickerComponent implements OnInit {
   fixedRange: Range;
 
   @Output()
-  rangeChange = new EventEmitter<Range>();
+  rangeChange = new EventEmitter<Range>(true);
 
   @ViewChild(OverlayPanel, {static: false})
   rangesPanel: OverlayPanel;
@@ -37,8 +37,8 @@ export class TimepickerComponent implements OnInit {
   absoluteStart: Date;
   absoluteEnd: Date;
 
-  constructor() { }
-
+  constructor() {
+  }
   ngOnInit() {
     this.setRange(this.range || beforeNow(moment.duration(4, 'hours')));
   }
@@ -50,6 +50,10 @@ export class TimepickerComponent implements OnInit {
 
     this.absoluteStart = new Date(this.fixedRange.startTime);
     this.absoluteEnd = new Date(this.fixedRange.endTime);
+
+    const dur = moment.duration(new Date().getTime() - this.fixedRange.startTime, 'ms');
+    this.relativeUnits = Math.floor(dur.asMonths()) > 0 ? 'months' :  (Math.floor(dur.asDays()) > 0 ? 'days' : (Math.floor(dur.asHours()) > 0 ? 'hours' : 'minutes'));
+    this.relativeDuration = Math.floor(dur.as(this.relativeUnits));
 
     this.rangesPanel && this.rangesPanel.hide();
   }
