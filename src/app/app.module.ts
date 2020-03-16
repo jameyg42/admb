@@ -12,10 +12,11 @@ import {PasswordModule} from 'primeng/password';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {DropdownModule} from 'primeng/dropdown';
 
+import { TimepickerModule } from '../widget/timepicker/timepicker.module';
+
 import { AppComponent } from './app.component';
 import { AdmbModule } from 'src/admb/admb.module';
 import { LoginComponent } from './login/login.component';
-import { Pass } from 'codemirror';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { Pass } from 'codemirror';
     OverlayPanelModule,
     DropdownModule,
 
+    TimepickerModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

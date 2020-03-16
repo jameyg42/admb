@@ -1,7 +1,7 @@
 <div class="header">
   <div>
     <admb-app-select [(selectedApp)]="app" (selectedAppChange)="appChange.emit(app)"></admb-app-select>
-    <admb-range-select [(selectedRange)]="range"></admb-range-select>
+    <admb-timepicker [(range)]="range"></admb-timepicker>
   </div>
   <div class="p-grid">
     <admb-expr-editor class="p-col" (parseResultChange)="this.parseResult = $event" (exprExecute)="onExprExecute($event)"></admb-expr-editor>

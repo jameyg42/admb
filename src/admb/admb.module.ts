@@ -10,13 +10,13 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 
+import { TimepickerModule } from '../widget/timepicker/timepicker.module';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 import { PlotlyModule } from 'angular-plotly.js';
 
 import { AppSelectComponent } from './app-select/app-select.component';
-import { RangeSelectComponent } from './range-select/range-select.component';
 import { BrowserPanelComponent } from './browser-panel/browser-panel.component';
 import { ExprEditorComponent } from './expr-editor/expr-editor.component';
 import { TsPlotComponent } from './ts-plot/ts-plot.component';
@@ -28,7 +28,6 @@ PlotlyModule.plotlyjs = PlotlyJS;
 @NgModule({
   declarations: [
     AppSelectComponent,
-    RangeSelectComponent,
     BrowserPanelComponent,
     ExprEditorComponent,
     TsPlotComponent,
@@ -45,6 +44,8 @@ PlotlyModule.plotlyjs = PlotlyJS;
     DropdownModule,
     ProgressBarModule,
     ScrollPanelModule,
+
+    TimepickerModule,
 
     CodemirrorModule,
 

@@ -48,4 +48,16 @@ body .ui-tabview.ui-tabview-top .ui-tabview-nav {
     border-bottom: solid 4px $green2;
   }
 }
+body .ui-tabview.ui-tabview-left .ui-tabview-nav {
+  li, li:hover,
+  li:not(.ui-state-active):not(.ui-state-disabled),
+  li:not(.ui-state-active):not(.ui-state-disabled):hover {
+    transition: border-color 400ms ease;
+    border-right: solid 4px $gray5;
+    margin-right: 0px;
+  }
+  li.ui-state-active, li.ui-state-active:hover {
+    border-right: solid 4px $green2;
+  }
+}
 /* /TABVIEW */

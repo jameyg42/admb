@@ -1,0 +1,28 @@
+:host {
+  display: inline-block;
+}
+h5 {
+  margin-top: 0em;
+  margin-bottom: .2em;
+}
+
+::ng-deep {
+  .ui-overlaypanel-content {
+    width: 475px;
+
+    .ui-tabview .ui-tabview-panels {
+      border: none;
+    }
+    .ui-tabview-left ul.ui-tabview-nav  {
+      width: 100px;
+      border-right: solid 1px #bfbfbe;
+    }
+  }
+}
+span.c1 {
+  display: inline-block;
+  width: 5em;
+}
+a {
+  cursor: pointer;
+}
