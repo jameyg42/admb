@@ -2,7 +2,7 @@ FROM node:alpine as SETUP
 
 WORKDIR /app
 RUN apk --no-cache add git
-RUN npm install express cors git+https://jgraham@devtools.metlife.com/bitbucket/scm/~jgraham/appd-services-js.git
+RUN npm config set strict-ssl false; npm install express cors git+https://jgraham@devtools.metlife.com/bitbucket/scm/~jgraham/appd-services-js.git
 
 FROM node:alpine
 COPY --from=SETUP /app/ ./
