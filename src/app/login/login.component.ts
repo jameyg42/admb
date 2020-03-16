@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   controllers: SelectItem[];
 
-  @ViewChild('login', {static: false})
+  @ViewChild('login')
   loginOverlay: OverlayPanel;
   loginError: string;
 

@@ -21,7 +21,7 @@ export class BrowserPanelComponent implements OnInit {
 
   plotGroups: any;
 
-  @ViewChild(ProgressBar, {static: false})
+  @ViewChild(ProgressBar)
   progress: ProgressBar;
 
   constructor(private admbSvc: AdmbService) { }

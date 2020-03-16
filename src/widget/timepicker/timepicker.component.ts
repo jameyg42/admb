@@ -18,7 +18,7 @@ export class TimepickerComponent implements OnInit {
   @Output()
   rangeChange = new EventEmitter<Range>(true);
 
-  @ViewChild(OverlayPanel, {static: false})
+  @ViewChild(OverlayPanel)
   rangesPanel: OverlayPanel;
 
   rangeLabel: string;

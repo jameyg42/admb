@@ -30,7 +30,7 @@ export class ExprEditorComponent implements AfterViewInit {
   parseResult: ParseResult;
   parseTable: any;
 
-  @ViewChild(CodemirrorComponent, {static: false})
+  @ViewChild(CodemirrorComponent)
   cm: CodemirrorComponent;
 
   constructor(private ngZone: NgZone) { }
