@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { ButtonModule } from 'primeng/button';
+import { SplitButtonModule } from 'primeng/splitbutton';
 import { DropdownModule } from 'primeng/dropdown';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
@@ -21,6 +22,10 @@ import { BrowserPanelComponent } from './browser-panel/browser-panel.component';
 import { ExprEditorComponent } from './expr-editor/expr-editor.component';
 import { TsPlotComponent } from './ts-plot/ts-plot.component';
 import { TsGroupsComponent } from './ts-groups/ts-groups.component';
+import { HistoryListComponent } from './history-list/history-list.component';
+
+// SplitButton hack
+import { Router } from '@angular/router';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -31,7 +36,8 @@ PlotlyModule.plotlyjs = PlotlyJS;
     BrowserPanelComponent,
     ExprEditorComponent,
     TsPlotComponent,
-    TsGroupsComponent
+    TsGroupsComponent,
+    HistoryListComponent
   ],
   imports: [
     CommonModule,
@@ -41,6 +47,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     HttpClientModule,
 
     ButtonModule,
+    SplitButtonModule,
     DropdownModule,
     ProgressBarModule,
     ScrollPanelModule,
@@ -52,7 +59,12 @@ PlotlyModule.plotlyjs = PlotlyJS;
     PlotlyModule,
   ],
   exports: [
-    BrowserPanelComponent
+    BrowserPanelComponent,
+    HistoryListComponent
+  ],
+  providers: [
+    // SplitButton hack
+    {provide: Router, useValue: {}}
   ]
 })
 export class AdmbModule { }

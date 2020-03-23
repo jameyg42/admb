@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild, EventEmitter, Output, NgZone } from '@ang
 import { Application, Range, MetricTimeseries } from '../svc/model';
 import { AdmbService } from '../svc/admb.service';
 import { ProgressBar } from 'primeng/progressbar';
-import { ParseResult } from '../expr-editor/expr-editor.component';
+import { ParseResult, ExprEditorComponent } from '../expr-editor/expr-editor.component';
+import { HistoryService } from '../history-list/history.service';
 
 @Component({
   selector: 'admb-browser-panel',
@@ -21,10 +22,20 @@ export class BrowserPanelComponent implements OnInit {
 
   plotGroups: any;
 
+  @ViewChild(ExprEditorComponent)
+  editor: ExprEditorComponent;
+
   @ViewChild(ProgressBar)
   progress: ProgressBar;
 
-  constructor(private admbSvc: AdmbService) { }
+  constructor(private admbSvc: AdmbService, private historyService: HistoryService) {
+    historyService.historySelect$.subscribe(evt => {
+      if (evt.range) this.range = evt.range;
+      if (evt.app) this.app = evt.app;
+      this.editor.expr = evt.expr;
+      this.editor._onModelChange(evt.expr);
+    });
+  }
 
   runExpression() {
     if (this.isValid()) {
