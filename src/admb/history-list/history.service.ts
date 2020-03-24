@@ -18,10 +18,9 @@ export class HistoryService {
   }
 
   push(expr: string, app: Application, range: Range) {
-console.log('BEFORE', this.history);
     const e: HistoryEntry = {
       expr, app, range,
-      lastUsed: new Date(),
+      lastUsed: new Date().getTime(),
       useCount: 1
     };
     const ee = this._delete(expr);
@@ -49,7 +48,6 @@ console.log('BEFORE', this.history);
   handleChange() {
     storage.put(this.history);
     this.historyChange.next(this.history);
-console.log('AFTER', JSON.stringify(this.history));
   }
   select(entry, exprOnly=false) {
     this.historySelect.next(exprOnly ? {expr: entry.expr} : {expr: entry.expr, app: entry.app, range: entry.range});
@@ -68,7 +66,7 @@ const storage = {
 
 export interface HistoryEntry {
   expr: string;
-  lastUsed: Date;
+  lastUsed: number;
   useCount: number;
   app?: Application;
   range?: Range;

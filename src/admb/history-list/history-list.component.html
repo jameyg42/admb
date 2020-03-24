@@ -1,23 +1,7 @@
-<div class="p-grid" *ngFor="let entry of history">
-  <div class="p-col-2">{{entry.lastUsed | date}}</div>
-  <div class="p-col-5">
-    <div class="expr-container">
-      <div class="expr-content">{{entry.expr}}</div>
-      <div class="expr-toggle"></div>
-    </div>
+<div *ngFor="let group of groupedByDateHistory; trackBy: trackGroupBy ">
+  <h3>{{group.key}}</h3>
+  <div *ngFor="let entry of group.value; trackBy: trackEntryBy">
+    <admb-history-list-item [entry]="entry"></admb-history-list-item>
   </div>
-  <div class="p-col-3">
-    <div class="p-grid">
-      <div class="p-col-5">Usage Count</div>
-      <div class="p-col-7">{{entry.useCount}}</div>
-    </div>
-    <div class="p-grid">
-      <div class="p-col-5">Last Used On</div>
-      <div class="p-col-7">{{entry.app.name}}</div>
-    </div>
-    <div class="p-grid">
-      <div class="p-col-5">Last Used Range</div>
-      <div class="p-col-7">{{entry.range.startTime | date}}</div>
-    </div>
-  </div>
+  <hr/>
 </div>

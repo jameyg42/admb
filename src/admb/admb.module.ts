@@ -14,6 +14,10 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { TimepickerModule } from '../widget/timepicker/timepicker.module';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
+import { MatListModule } from '@angular/material/list';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 import { PlotlyModule } from 'angular-plotly.js';
 
@@ -26,6 +30,7 @@ import { HistoryListComponent } from './history-list/history-list.component';
 
 // SplitButton hack
 import { Router } from '@angular/router';
+import { HistoryListItemComponent } from './history-list/history-list-item/history-list-item.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -37,7 +42,8 @@ PlotlyModule.plotlyjs = PlotlyJS;
     ExprEditorComponent,
     TsPlotComponent,
     TsGroupsComponent,
-    HistoryListComponent
+    HistoryListComponent,
+    HistoryListItemComponent,
   ],
   imports: [
     CommonModule,
@@ -51,6 +57,10 @@ PlotlyModule.plotlyjs = PlotlyJS;
     DropdownModule,
     ProgressBarModule,
     ScrollPanelModule,
+
+    MatListModule,
+    MatDividerModule,
+    MatTooltipModule,
 
     TimepickerModule,
 

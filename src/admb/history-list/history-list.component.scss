@@ -1,0 +1,9 @@
+:host {
+  min-width: 400px;
+}
+
+::ng-deep {
+  .p-grid {
+    width: 100%;
+  }
+}

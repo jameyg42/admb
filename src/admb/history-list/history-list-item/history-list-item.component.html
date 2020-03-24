@@ -1,0 +1,22 @@
+<div class="admb-history-item" (click)="toggle()" [class.expanded]="expanded">
+  <div class="p-grid p-nogutter summary">
+    <span class="p-col-2 date-col">{{entry.lastUsed | date:'shortTime'}}</span>
+    <span class="p-col-10 expr-col">{{entry.expr}}</span>
+  </div>
+  <div class="details">
+    <div class="p-grid p-nogutter">
+      <span class="p-col-1">
+        <span class="uc">{{entry.useCount}}</span>
+      </span>
+      <span class="p-col-10 expr">{{entry.expr}}</span>
+      <span class="p-col-1 action">
+        <button pButton class="ui-button-rounded ui-button-secondary" icon="pi pi-angle-left" (click)="setExpr($event)"></button>
+        <button pButton class="ui-button-rounded ui-button-secondary" icon="pi pi-angle-double-left" (click)="setAll($event)"></button>
+      </span>
+    </div>
+    <div class="p-grid p-nogutter addl">
+      <span class="p-col">{{entry.app?.name || '-'}}</span>
+      <span class="p-col">{{entry.range | range}}</span>
+    </div>
+  </div>
+</div>
