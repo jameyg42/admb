@@ -22,14 +22,24 @@ export class HistoryListItemComponent implements OnInit {
     this.expanded = !this.expanded;
   }
 
-  setExpr(event) {
-    this.historyService.select(this.entry, true)
+  setExpr() {
+    this.historyService.select(this.entry, true);
   }
-  setAll(event) {
+  setAll() {
     this.historyService.select(this.entry);
-
+  }
+  deleteExpr() {
+    this.historyService.delete(this.entry.expr);
   }
 
+  menuModel() {
+    return  [
+    {label: 'Set All', icon: 'pi pi-angle-double-left', command: () => this.setAll()},
+    {label: 'Set Expression', icon: 'pi pi-angle-left', command: () => this.setExpr()},
+    {separator: true},
+    {label: 'Delete Item', icon: 'pi pi-trash', command: () => this.deleteExpr()}
+    ];
+  }
   ngOnInit(): void {
   }
 

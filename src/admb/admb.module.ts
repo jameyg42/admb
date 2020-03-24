@@ -10,13 +10,10 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { DropdownModule } from 'primeng/dropdown';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { MenuModule } from 'primeng/menu';
 
 import { TimepickerModule } from '../widget/timepicker/timepicker.module';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-
-import { MatListModule } from '@angular/material/list';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 import { PlotlyModule } from 'angular-plotly.js';
@@ -57,10 +54,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     DropdownModule,
     ProgressBarModule,
     ScrollPanelModule,
-
-    MatListModule,
-    MatDividerModule,
-    MatTooltipModule,
+    MenuModule,
 
     TimepickerModule,
 
