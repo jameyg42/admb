@@ -1,12 +1,15 @@
 <div class="header">
-  <div>
-    <admb-app-select [(selectedApp)]="app" (selectedAppChange)="appChange.emit(app)"></admb-app-select>
-    <admb-timepicker [(range)]="range"></admb-timepicker>
+  <div style="display: flex;">
+    <div style="flex: 1 1 auto;">
+      <admb-app-select [(selectedApp)]="app" (selectedAppChange)="appChange.emit(app)"></admb-app-select>
+    </div>
+    <div>
+      <admb-timepicker [(range)]="range"></admb-timepicker>
+      <span style="display: inline-block; width: 2px;"></span>
+      <p-button label="Execute" (onClick)="runExpression()" [disabled]="!isValid()" icon="pi pi-cog"></p-button>
+    </div>
   </div>
-  <div class="p-grid">
-    <admb-expr-editor class="p-col" (parseResultChange)="this.parseResult = $event" (exprExecute)="onExprExecute($event)"></admb-expr-editor>
-    <p-button class="p-col-fixed" label="Execute" (onClick)="runExpression()" [disabled]="!isValid()"></p-button>
-  </div>
+  <admb-expr-editor (parseResultChange)="this.parseResult = $event" (exprExecute)="onExprExecute($event)"></admb-expr-editor>
   <p-progressBar #progress mode="determinate" [class.valid]="isValid()"></p-progressBar>
 </div>
 <div class="results">
