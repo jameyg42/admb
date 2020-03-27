@@ -1,19 +1,12 @@
 :host {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
+  height:100%;
 }
 :host .results {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: auto;
-  overflow: hidden;
+  flex: 1 1 auto;
+  overflow: overlay;
   position: relative;
-}
-:host ::ng-deep .ui-scrollpanel {
-  position: absolute;
-  top: 0; bottom: 0; left: 0; right: 0;
 }
 :host ::ng-deep .ui-progressbar {
    height: 3px;
@@ -25,9 +18,6 @@
 
  @media print {
   :host {
-    display: contents;
-  }
-  :host ::ng-deep .ui-scrollpanel {
     display: contents;
   }
   :host .results {

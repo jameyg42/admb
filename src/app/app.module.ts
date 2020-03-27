@@ -11,6 +11,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { DropdownModule } from 'primeng/dropdown';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 
 import { AppComponent } from './app.component';
 import { AdmbModule } from 'src/admb/admb.module';
@@ -34,6 +35,7 @@ import { LoginComponent } from './login/login.component';
     PasswordModule,
     OverlayPanelModule,
     DropdownModule,
+    ScrollPanelModule,
 
     AdmbModule,
   ],

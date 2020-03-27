@@ -9,20 +9,22 @@
   border-radius: 3px;
 }
 :host .admb-view {
-  height: 100vh;
+  height: 100%;
 }
 :host .admb-view ::ng-deep .ui-tabview {
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
 }
 :host .admb-view ::ng-deep .ui-tabview-nav {
   margin-left: 40px;
 }
-:host .admb-view ::ng-deep .ui-tabview-panels,
+:host .admb-view ::ng-deep .ui-tabview-panels {
+  flex: 1 1 auto;
+  min-height: 0px;
+}
 :host .admb-view ::ng-deep .ui-tabview-panel
 {
-  width: 100%;
   height: 100%;
 }
 

@@ -38,6 +38,8 @@
   }
   .expr {
    font-family: monospace;
+   user-select: text;
+   white-space: pre-line;
    margin-bottom: 1em;
    font-size: 110%;
   }

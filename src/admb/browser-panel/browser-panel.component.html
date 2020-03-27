@@ -10,9 +10,7 @@
   <p-progressBar #progress mode="determinate" [class.valid]="isValid()"></p-progressBar>
 </div>
 <div class="results">
-  <p-scrollPanel>
-    <div *ngIf="plotGroups">
-      <admb-ts-groups [groups]="plotGroups"></admb-ts-groups>
-    </div>
-  </p-scrollPanel>
+  <div *ngIf="plotGroups">
+    <admb-ts-groups [groups]="plotGroups"></admb-ts-groups>
+  </div>
 </div>

@@ -2,6 +2,10 @@
   size: legal portrait;
 }
 @media print {
+  .noprint {
+    display: none;
+  }
+
   html {
     overflow: auto;
     height: 100%;
@@ -12,9 +16,6 @@
   }
   body .app-layout {
     display: contents;
-  }
-  body section.sidebar {
-    display: none;
   }
   body section.content {
     display: contents;

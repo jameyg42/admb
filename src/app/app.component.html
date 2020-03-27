@@ -1,6 +1,6 @@
-<admb-login #login></admb-login>
+<admb-login #login class="noprint"></admb-login>
 <div class="app-layout">
-  <section class="menubar collapsed">
+  <section class="menubar noprint collapsed">
       <header>
         <i class="material-icons icon">trending_up</i>
       </header>
@@ -20,7 +20,7 @@
       </p-tabView>
     </div>
   </section>
-  <section class="palettebar" [class.expanded]="palettebarExpanded" [class.pinned]="palettebarPinned">
+  <section class="palettebar noprint" [class.expanded]="palettebarExpanded" [class.pinned]="palettebarPinned">
     <div class="thumb" (click)="palettebarExpanded = true"><i class="material-icons icon">restore</i></div>
     <admb-history-list></admb-history-list>
   </section>
