@@ -1,6 +1,6 @@
 <admb-login #login></admb-login>
 <div class="app-layout">
-  <section class="sidebar collapsed">
+  <section class="menubar collapsed">
       <header>
         <i class="material-icons icon">trending_up</i>
       </header>
@@ -10,7 +10,7 @@
         </ul>
       </nav>
   </section>
-  <section class="content">
+  <section class="content" (click)="palettebarExpanded=false">
     <div class="admb-view"  *ngIf="login.user != null">
       <p-button (onClick)="newItem()" icon="pi pi-plus" class="ui-newtab-button"></p-button>
       <p-tabView (onClose)="removeItem($event.index)">
@@ -20,8 +20,9 @@
       </p-tabView>
     </div>
   </section>
-  <section style="display: flex; width: 400px; flex-basis: 400px;">
-    <admb-history-list style="overflow: auto;"></admb-history-list>
+  <section class="palettebar" [class.expanded]="palettebarExpanded" [class.pinned]="palettebarPinned">
+    <div class="thumb" (click)="palettebarExpanded = true"><i class="material-icons icon">restore</i></div>
+    <admb-history-list></admb-history-list>
   </section>
-  <p-toast></p-toast>
-  </div>
+</div>
+<p-toast></p-toast>

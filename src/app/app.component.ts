@@ -10,6 +10,9 @@ export class AppComponent {
   title = 'appd-browser-webui';
   items = [];
 
+  palettebarExpanded: boolean;
+  palettebarPinned: boolean;
+
   @ViewChildren('admb') components: QueryList<BrowserPanelComponent>;
 
   newItem() {

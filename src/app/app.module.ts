@@ -7,12 +7,10 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { TabViewModule } from 'primeng/tabview';
 import { ButtonModule } from 'primeng/button';
-import {InputTextModule} from 'primeng/inputtext';
-import {PasswordModule} from 'primeng/password';
-import {OverlayPanelModule} from 'primeng/overlaypanel';
-import {DropdownModule} from 'primeng/dropdown';
-
-import { TimepickerModule } from '../widget/timepicker/timepicker.module';
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { DropdownModule } from 'primeng/dropdown';
 
 import { AppComponent } from './app.component';
 import { AdmbModule } from 'src/admb/admb.module';
@@ -27,9 +25,8 @@ import { LoginComponent } from './login/login.component';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-
     BrowserModule,
-    AdmbModule,
+
     ToastModule,
     TabViewModule,
     ButtonModule,
@@ -38,7 +35,7 @@ import { LoginComponent } from './login/login.component';
     OverlayPanelModule,
     DropdownModule,
 
-    TimepickerModule,
+    AdmbModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
