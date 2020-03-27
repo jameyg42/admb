@@ -3,6 +3,19 @@
 
 @import "~codemirror/lib/codemirror";
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #007ad9;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #116fbf;
+}
+
 /* this theme is intended to "extend" PrimeNG nova-lite theme */
 
 /* TABVIEW */
