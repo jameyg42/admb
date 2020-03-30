@@ -18,6 +18,7 @@
         </p-tabPanel>
       </p-tabView>
     </div>
+    <admb-profile [user]="user" class="noprint"></admb-profile>
   </section>
   <section class="palettebar noprint" [class.expanded]="palettebarExpanded" [class.pinned]="palettebarPinned">
     <div class="thumb" (click)="palettebarExpanded = true"><i class="material-icons icon">restore</i></div>
