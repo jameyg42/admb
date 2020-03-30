@@ -1,0 +1,13 @@
+<div>
+  <span class="material-icons icon">account_circle</span>
+  <span class="" (click)="profile.toggle($event)">{{user.account.displayName}}</span>
+  <p-overlayPanel #profile appendTo="body">
+    <h3>{{user.account.displayName}}</h3>
+    <div>Account: {{user.account.name}} (from {{user.account.securityProviderType}})</div>
+    <div>Roles:</div>
+    <ul>
+      <li *ngFor="let role of user.account.roles">{{role.name}}</li>
+    </ul>
+    <button pButton (click)="doLogout()" type="button" label="Logout"></button>
+  </p-overlayPanel>
+</div>

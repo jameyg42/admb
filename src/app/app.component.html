@@ -1,5 +1,4 @@
-<admb-login #login class="noprint"></admb-login>
-<div class="app-layout">
+<div class="app-layout" *ngIf="user != null">
   <section class="menubar noprint collapsed">
       <header>
         <i class="material-icons icon">trending_up</i>
@@ -11,7 +10,7 @@
       </nav>
   </section>
   <section class="content" (click)="palettebarExpanded=false">
-    <div class="admb-view"  *ngIf="login.user != null">
+    <div class="admb-view">
       <p-button (onClick)="newItem()" icon="pi pi-plus" class="ui-newtab-button"></p-button>
       <p-tabView (onClose)="removeItem($event.index)">
         <p-tabPanel *ngFor="let item of items; let i = index" [selected]="i == 0" [header]="item.header" [closable]="true">
@@ -25,4 +24,6 @@
     <admb-history-list></admb-history-list>
   </section>
 </div>
+
+<admb-login *ngIf="user == null && !userLoading" class="noprint"></admb-login>
 <p-toast></p-toast>

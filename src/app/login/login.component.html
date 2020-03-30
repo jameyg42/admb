@@ -1,44 +1,20 @@
-<div>
-  <div *ngIf="user != null">
-    <div>
-      <span (click)="profile.toggle($event)">{{user.account.name}}@{{user.controller}}</span>
-      <button pButton (click)="doLogout()" type="button" label="Logout"></button>
+<div class="underlay">
+  <div class="loginOverlay">
+    <h2>Controller Login</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="doLogin()">
+    <div class="login-form-control">
+      <p-dropdown [options]="controllers" formControlName="url"></p-dropdown>
     </div>
-    <p-overlayPanel #profile appendTo="body">
-      <h3>{{user.account.displayName}}</h3>
-      <div>Account: {{user.account.name}} (from {{user.account.securityProviderType}})</div>
-      <div>Roles:</div>
-      <ul>
-        <li *ngFor="let role of user.account.roles">{{role.name}}</li>
-      </ul>
-    </p-overlayPanel>
-  </div>
-
-  <div *ngIf="user == null">
-    <button pButton type="button" (click)="login.show($event)" label="Log in"></button>
-  </div>
-</div>
-
-<p-overlayPanel #login appendTo="body">
-  <form [formGroup]="loginForm" (ngSubmit)="doLogin()">
-    <div>
-      <div class="login-form-control">
-        <p-dropdown [options]="controllers" formControlName="url"></p-dropdown>
-      </div>
+    <div class="ui-inputgroup login-form-control">
+      <input type="text" pInputText formControlName="uid" placeholder="username">
+      <span class="ui-inputgroup-addon"><i class="pi pi-user"></i></span>
     </div>
-    <div>
-      <div class="ui-inputgroup login-form-control">
-        <input type="text" pInputText formControlName="uid" placeholder="username">
-        <span class="ui-inputgroup-addon"><i class="pi pi-user"></i></span>
-      </div>
-    </div>
-    <div>
-      <div class="ui-inputgroup login-form-control">
-        <input type="password" pPassword [feedback]="false" formControlName="pwd" placeholder="password">
-        <span class="ui-inputgroup-addon"><i class="pi pi-lock"></i></span>
-      </div>
+    <div class="ui-inputgroup login-form-control">
+      <input type="password" pPassword [feedback]="false" formControlName="pwd" placeholder="password">
+      <span class="ui-inputgroup-addon"><i class="pi pi-lock"></i></span>
     </div>
     <button pButton type="submit" label="Login"></button>
-  </form>
-  <div *ngIf="loginError" style="color: red;">{{loginError}}</div>
-</p-overlayPanel>
+    </form>
+    <div *ngIf="loginError" style="color: red;">{{loginError}}</div>
+  </div>
+</div>

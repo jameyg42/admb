@@ -16,12 +16,14 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { AppComponent } from './app.component';
 import { AdmbModule } from 'src/admb/admb.module';
 import { LoginComponent } from './login/login.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    ProfileComponent
   ],
   imports: [
     FormsModule,

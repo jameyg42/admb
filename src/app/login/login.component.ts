@@ -1,9 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import * as xor from '../../xor';
 import { SelectItem } from 'primeng/api/selectitem';
 import { OverlayPanel } from 'primeng/overlaypanel/public_api';
 import { FormGroup, FormControl } from '@angular/forms';
+import { LoginService } from './login.service';
 
 @Component({
   selector: 'admb-login',
@@ -11,8 +10,6 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  user: any;
-
   loginForm: FormGroup;
   controllers: SelectItem[];
 
@@ -20,7 +17,7 @@ export class LoginComponent implements OnInit {
   loginOverlay: OverlayPanel;
   loginError: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private loginService: LoginService) {
     this.controllers =  [
       {label: 'Production', value: 'https://appd.metlife.com'},
       {label: 'QA', value: 'https://qa.appd.metlife.com'},
@@ -34,37 +31,14 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.get('/api/user')
-    .subscribe(
-      user => {
-        this.user = user;
-      },
-      err => console.log(err),
-      undefined
-    );
   }
 
   doLogin() {
-    const con = Object.assign({}, this.loginForm.value, {pwd: xor(this.loginForm.value.pwd)});
-    this.http.post('/api/login', con)
-    .subscribe(
-      user => {
-        this.user = user;
-        this.loginError = null;
-        this.loginOverlay.hide();
-      },
-      err => {
-        this.loginError = err.message;
-      },
-      undefined
-    );
-    this.loginForm.controls.pwd.setValue('');
-  }
-  doLogout() {
-    this.http.post('/api/logout', {})
-    .subscribe(() => {
-      this.user = null;
-      console.log('LOGGED OUT', this.user);
-    });
+    const con = this.loginForm.value;
+    this.loginService
+      .login(con.url, con.uid, con.pwd)
+      .catch(err => {
+
+      });
   }
 }
