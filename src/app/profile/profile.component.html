@@ -1,9 +1,9 @@
 <div>
-  <span class="material-icons icon">account_circle</span>
-  <span class="label" (click)="profile.toggle($event)">{{user.account.displayName}} ({{user.controller}})</span>
+  <span (click)="profile.toggle($event)" class="material-icons icon">account_circle</span>
 </div>
 <p-overlayPanel #profile appendTo="body">
   <h3>{{user.account.displayName}}</h3>
+  <div>Host: {{user.controller}}</div>
   <div>Account: {{user.account.name}} (from {{user.account.securityProviderType}})</div>
   <div>Roles:</div>
   <ul>

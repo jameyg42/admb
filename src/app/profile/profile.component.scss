@@ -1,14 +1,3 @@
-:host .label {
-  display: inline-block;
-  font-weight: bold;
-  margin-top: 5px;
-  vertical-align: middle;
-
-}
 :host .icon {
-  vertical-align: middle;
-}
-
-:host ::ng-deep .ui-button {
-  width: 100%;
+  font-size: 30px;
 }
