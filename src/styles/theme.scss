@@ -6,16 +6,33 @@
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: $gray8;
 }
 ::-webkit-scrollbar-thumb {
-  background: #007ad9;
+  background: $gray5;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #116fbf;
+  background: $gray4;
 }
 
 /* this theme is intended to "extend" PrimeNG nova-lite theme */
+/* BUTTON */
+body .ui-button,
+body .ui-button-like
+{
+  background-color: $primary;
+  border: 1px solid $primary;
+  color: white;
+}
+body .ui-button:enabled:hover,
+body .ui-button-like:hover
+{
+  background-color: $primaryHover;
+  border-color: $primaryHover;
+}
+body .ui-button:enabled:focus {
+  box-shadow: none;
+}
 
 /* TABVIEW */
 body .ui-tabview {
@@ -57,7 +74,10 @@ body .ui-tabview.ui-tabview-top .ui-tabview-nav {
     margin-right: 0px;
   }
   li.ui-state-active, li.ui-state-active:hover {
-    border-bottom: solid 4px $green2;
+    border-bottom: solid 4px $primary;
+  }
+  li .ui-tabview-close {
+    color: $gray3 !important;
   }
 }
 body .ui-tabview.ui-tabview-left .ui-tabview-nav {
@@ -68,8 +88,8 @@ body .ui-tabview.ui-tabview-left .ui-tabview-nav {
     border-right: solid 4px $gray5;
     margin-right: 0px;
   }
-  li.ui-state-active, li.ui-state-active:hover {
-    border-right: solid 4px $green2;
+  li.ui-state-active, li.ui-state-active:hover  {
+    border-right: solid 4px $primary;
   }
 }
 /* /TABVIEW */

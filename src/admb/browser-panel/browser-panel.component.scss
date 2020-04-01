@@ -3,17 +3,25 @@
   flex-direction: column;
   height:100%;
 }
+:host .header {
+  padding: 4px;
+  margin-bottom: 4px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.3);
+}
 :host .results {
   flex: 1 1 auto;
   overflow: overlay;
   position: relative;
 }
 :host ::ng-deep .ui-progressbar {
-   height: 3px;
+   height: 5px;
    background-color: red;
  }
  :host ::ng-deep .valid .ui-progressbar {
   background-color: green;
+  .ui-progressbar-value {
+    background-color: white;
+  }
  }
 
  @media print {
