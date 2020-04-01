@@ -61,51 +61,6 @@ section.menubar nav {
         vertical-align: middle;
         line-height: normal;
       }
-
-    }
+   }
   }
-}
-
-
-section.palettebar {
-  position: absolute;
-  z-index: 200;
-  width: 500px;
-  height: 100%;
-
-  top: 0px;
-  right: -500px;
-  transition: right 0.2s;
-  padding: 8px;
-
-  background: white;
-  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);
-
-  admb-history-list {
-    display: block;
-    height: 100%;
-    overflow: auto;
-  }
-  .thumb {
-    position: absolute;
-    z-index: 199;
-    width: 36px;
-    height: 36px;
-    left: -36px;
-    top: 3px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-bottom-left-radius: 5px;
-    border-top-left-radius: 5px;
-
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.3);
-    background: #007ad9;
-    color: white;
-  }
-}
-section.palettebar.expanded {
-  right: 0px;
 }

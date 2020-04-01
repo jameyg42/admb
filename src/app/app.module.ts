@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { TabViewModule } from 'primeng/tabview';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
@@ -31,7 +30,6 @@ import { ProfileComponent } from './profile/profile.component';
     BrowserModule,
 
     ToastModule,
-    TabViewModule,
     ButtonModule,
     InputTextModule,
     PasswordModule,

@@ -1,5 +1,4 @@
-import { Component, ViewChildren, QueryList, OnInit } from '@angular/core';
-import { BrowserPanelComponent } from 'src/admb/browser-panel/browser-panel.component';
+import { Component, OnInit } from '@angular/core';
 import { LoginService } from './login/login.service';
 
 @Component({
@@ -9,16 +8,9 @@ import { LoginService } from './login/login.service';
 })
 export class AppComponent implements OnInit {
   title = 'appd-browser-webui';
-  items = [];
 
   user: any;
   userLoading = true;
-
-  palettebarExpanded: boolean;
-  palettebarPinned: boolean;
-
-  @ViewChildren('admb') components: QueryList<BrowserPanelComponent>;
-
   constructor(private loginService: LoginService) {
     loginService.currentUser()
       .then(user => {
@@ -33,15 +25,6 @@ export class AppComponent implements OnInit {
       this.user = user;
     });
   }
-
-  newItem() {
-    this.items.push({header: 'new'});
-  }
-  removeItem(item: number) {
-    this.items.splice(item, 1);
-  }
-
   ngOnInit() {
-    this.newItem();
   }
 }
