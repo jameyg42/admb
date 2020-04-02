@@ -49,7 +49,7 @@ app.post('/api/pipeline/exec', (req,rsp,next) => {
     return;
   }
   pipeline(appdSession)
-    .exec(expr.expr, expr.app, expr.range)
+    .exec(expr.expr, expr.range)
     .then(r => rsp.json(r))
     .catch(next);
 });
