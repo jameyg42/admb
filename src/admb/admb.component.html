@@ -2,7 +2,7 @@
   <p-button (onClick)="newItem()" icon="pi pi-plus" class="ui-newtab-button"></p-button>
   <p-tabView (onClose)="removeItem($event.index)">
     <p-tabPanel *ngFor="let item of items; let i = index" [selected]="i == 0" [header]="item.header" [closable]="true">
-      <admb-browser-panel #admb (appChange)="item.header = $event.name"></admb-browser-panel>
+      <admb-browser-panel></admb-browser-panel>
     </p-tabPanel>
   </p-tabView>
 </div>

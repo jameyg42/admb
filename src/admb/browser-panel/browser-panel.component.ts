@@ -11,15 +11,10 @@ import { HistoryService } from '../history-list/history.service';
   styleUrls: ['./browser-panel.component.scss']
 })
 export class BrowserPanelComponent implements OnInit {
-  app: Application;
-
-  @Output()
-  appChange = new EventEmitter<Application>();
-
   range: Range;
-
   parseResult: ParseResult;
 
+  variables = {} as any;
   plotGroups: any;
 
   @ViewChild(ExprEditorComponent)
@@ -30,24 +25,30 @@ export class BrowserPanelComponent implements OnInit {
 
   constructor(private admbSvc: AdmbService, private historyService: HistoryService) {
     historyService.historySelect$.subscribe(evt => {
-      if (evt.range) this.range = evt.range;
-      if (evt.app) this.app = evt.app;
+      if (evt.range) {
+        this.range = evt.range;
+      }
       this.editor.expr = evt.expr;
       this.editor._onModelChange(evt.expr);
     });
   }
+  selectApps(apps) {
+    this.variables.apps = `{${apps.map(a => a.name).join(',')}}`;
+  }
 
   runExpression() {
+    const apps = this.variables.apps || '';
+    const expr = eval('`' + this.parseResult.expr + '`');
     if (this.isValid()) {
       this.progress.mode = 'indeterminate';
-      this.admbSvc.execPipelineExpression(this.parseResult.expr, this.app, this.range)
+      this.admbSvc.execPipelineExpression(expr, this.range)
       .subscribe(ts => {
         console.log('got results', ts);
         this.plotGroups = ts;
         this.progress.mode = 'determinate';
       });
     } else {
-      console.log('not valid', this.app, this.range, this.parseResult.expr);
+      console.log('not valid', this.range, this.parseResult.expr);
     }
   }
 
@@ -56,7 +57,7 @@ export class BrowserPanelComponent implements OnInit {
   }
 
   isValid() {
-    return this.app && this.range && this.parseResult && this.parseResult.valid;
+    return this.range && this.parseResult && this.parseResult.valid;
   }
 
   ngOnInit() {

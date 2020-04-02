@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Range, Application } from '../svc/model';
+import { Range } from '../svc/model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +17,9 @@ export class HistoryService {
     this.history = storage.get();
   }
 
-  push(expr: string, app: Application, range: Range) {
+  push(expr: string, range: Range) {
     const e: HistoryEntry = {
-      expr, app, range,
+      expr, range,
       lastUsed: new Date().getTime(),
       useCount: 1
     };
@@ -51,7 +51,7 @@ export class HistoryService {
   }
   select(entry, exprOnly=false) {
     console.log(entry);
-    this.historySelect.next(exprOnly ? {expr: entry.expr} : {expr: entry.expr, app: entry.app, range: entry.range});
+    this.historySelect.next(exprOnly ? {expr: entry.expr} : {expr: entry.expr, range: entry.range});
   }
 }
 
@@ -69,12 +69,10 @@ export interface HistoryEntry {
   expr: string;
   lastUsed: number;
   useCount: number;
-  app?: Application;
   range?: Range;
 }
 
 export interface HistorySelectEvent {
   expr: string;
-  app?: Application;
   range?: Range;
 }

@@ -1,12 +1,11 @@
-<p-dropdown
-  [(ngModel)]="selectedApp"
+<p-multiSelect
+  [(ngModel)]="selectedApps"
   [options]="applications"
   appendTo="body"
   scrollHeight="300px"
   placeholder="Application"
   [filter]="true"
   [resetFilterOnHide]="true"
-  [group]="true"
 
-  (ngModelChange)="selectedAppChange.emit(selectedApp)"
-></p-dropdown>
+  (ngModelChange)="selectedAppsChange.emit(selectedApps)"
+></p-multiSelect>

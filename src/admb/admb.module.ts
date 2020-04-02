@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ButtonModule } from 'primeng/button';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { DropdownModule } from 'primeng/dropdown';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { MenuModule } from 'primeng/menu';
@@ -55,6 +56,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     ButtonModule,
     SplitButtonModule,
     DropdownModule,
+    MultiSelectModule,
     ProgressBarModule,
     ScrollPanelModule,
     MenuModule,

@@ -1,7 +1,7 @@
 <div class="header">
   <div style="display: flex;">
     <div style="flex: 1 1 auto;">
-      <admb-app-select [(selectedApp)]="app" (selectedAppChange)="appChange.emit(app)"></admb-app-select>
+      <admb-app-select (selectedAppsChange)="selectApps($event)"></admb-app-select>
     </div>
     <div>
       <admb-timepicker [(range)]="range"></admb-timepicker>
