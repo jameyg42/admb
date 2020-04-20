@@ -1,6 +1,6 @@
 <div class="ui-inputgroup">
   <button pButton icon="pi pi-step-backward-alt" (click)="slideLeft()"></button>
-  <button pButton [label]="rangeLabel" (click)="ranges.toggle($event)"></button>
+  <button pButton [label]="rangeLabel | range" (click)="ranges.toggle($event)"></button>
   <button pButton icon="pi pi-search-plus" (click)="zoomIn()"></button>
   <button pButton icon="pi pi-search-minus" (click)="zoomOut()"></button>
   <button pButton icon="pi pi-step-forward-alt" (click)="slideRight()"></button>

@@ -19,11 +19,15 @@ export class RangePipe implements PipeTransform {
       const d = moment.duration(value.durationInMinutes, 'minutes');
       return d.humanize();
     }
-
+    const today = moment();
     const start = moment(value.startTime);
     const end   = moment(value.endTime);
     if (start.isSame(end, 'day')) {
-      return `${start.format('L LT')} to ${end.format('LT')}`;
+      if (start.isSame(today, 'day')) {
+        return `${start.format('LT')} to ${end.format('LT')}`;
+      } else {
+        return `${start.format('L LT')} to ${end.format('LT')}`;
+      }
     } else {
       return `${start.format('L LT')} to ${end.format('L LT')}`;
     }

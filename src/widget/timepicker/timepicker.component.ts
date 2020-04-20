@@ -21,7 +21,7 @@ export class TimepickerComponent implements OnInit {
   @ViewChild(OverlayPanel)
   rangesPanel: OverlayPanel;
 
-  rangeLabel: string;
+  rangeLabel: string|Range;
 
   presets = PRESETS;
   beforeNowOptions = [
@@ -46,7 +46,7 @@ export class TimepickerComponent implements OnInit {
     this.range = range;
     this.fixedRange = fix(range); // this just simplifies keeping the absolute controls in sync
     this.rangeChange.emit(range);
-    this.rangeLabel = label || formatRange(range);
+    this.rangeLabel = label || range;
 
     this.absoluteStart = new Date(this.fixedRange.startTime);
     this.absoluteEnd = new Date(this.fixedRange.endTime);
@@ -93,13 +93,5 @@ export class TimepickerComponent implements OnInit {
     this.setRange(zoom(this.range, m));
   }
 
-}
-
-function formatRange(r: Range) {
-  if (r.type === 'BEFORE_NOW') {
-    const d = moment.duration(r.durationInMinutes, 'minutes');
-    return d.humanize();
-  }
-  return `${moment(r.startTime).format('L LT')} to ${moment(r.endTime).format('L LT')}`;
 }
 
