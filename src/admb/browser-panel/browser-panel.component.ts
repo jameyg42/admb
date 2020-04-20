@@ -23,14 +23,7 @@ export class BrowserPanelComponent implements OnInit {
   @ViewChild(ProgressBar)
   progress: ProgressBar;
 
-  constructor(private admbSvc: AdmbService, private historyService: HistoryService) {
-    historyService.historySelect$.subscribe(evt => {
-      if (evt.range) {
-        this.range = evt.range;
-      }
-      this.editor.expr = evt.expr;
-      this.editor._onModelChange(evt.expr);
-    });
+  constructor(private admbSvc: AdmbService) {
   }
   selectApps(apps) {
     this.variables.apps = `{${apps.map(a => a.name).join(',')}}`;

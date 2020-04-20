@@ -35,6 +35,11 @@ export class ExprEditorComponent implements AfterViewInit {
 
   constructor(private ngZone: NgZone) { }
 
+  setExpr(expr: string) {
+    this.expr = expr;
+
+  }
+
   ngAfterViewInit() {
     const self = this;
     this.cm.options = {
