@@ -4,11 +4,13 @@
 main -> _ s_expr _ {% ([,expr]) => expr %}
 
 s_expr -> 
-	search {% id %}  |
-	ctx __ search {% ([ctx,,search]) => {
-		search.ctx = ctx.reduce((a,c) => {a[c.name]=c.value; return a;}, {});
+	appArg __ search {% ([app,,search]) => {
+		search.ctx = app;
 		return search;
 	} %}
+appArg ->
+	"app" _ "=" _ value {% ([name,,,,value]) => ({app:value}) %}
+
 search ->
 	paths {% ([paths]) => ({op:'search', paths: paths, pipes:[]}) %} |
 	paths _ pipeline {% ([paths,,pipes]) => ({op:'search', paths: paths, pipes:pipes}) %}
@@ -19,13 +21,6 @@ path ->
 	string |
 	[^\s"] [^=;>\n]:* [^\s="] {% d => [d[0] + d[1].join('') + d[2]] %}
 
-ctx ->
-	ctxArgs {% id %}
-ctxArgs ->
-	ctxArg {% id %} |
-	ctxArg __ ctxArgs {% ([arg,,args]) => arg.concat(args) %}
-ctxArg ->
-	namedArg {% ([arg]) => [arg] %}
 
 
 pipeline -> 
