@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { MetricTimeseries } from '../svc/model';
+import { flatten } from 'lodash';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,7 +21,7 @@ export class TsPlotComponent implements OnInit {
   @Input()
   set timeseriesGroup(ts: MetricTimeseries[]) {
     this._timeseriesGroup = ts;
-    this.plotData = ts.map(timeseriesToPlot);
+    this.plotData = flatten(ts.map(timeseriesToPlots));
     if (this.plotData.some(s => s.type === 'bar' && s.stackgroup)) {
       this.layout.barmode = 'stack';
     } else {
@@ -73,45 +74,50 @@ export class TsPlotComponent implements OnInit {
 }
 
 
-function timeseriesToPlot(ts: MetricTimeseries) {
+function timeseriesToPlots(ts: MetricTimeseries) {
   const so: any = ts.plotLayout || defaultSeriesOptions;
+  const vals = so.vals || ['value'];
 
-  const series: any = {
-    name: ts.metricFullName,
-    x: ts.data.map(dp => dp.start),
-    y: ts.data.map(dp => dp[so.value || 'value']),
-    yaxis: `y${so.yaxis}`
-  };
-  if (so.type === 'bar' || so.type === 'stacked-bar') {
-    Object.assign(series, {
-      type: 'bar'
-    });
-  } else if (so.type === 'area') {
-    Object.assign(series, {
-      type: 'statter',
-      mode: 'lines',
-      fill: 'tonexty',
-      line: {
-        shape: 'spline'
-      }
-    });
-  } else {
-    Object.assign(series, {
-      type: 'scatter',
-      mode: 'lines',
-      line: {
-        shape: 'spline'
-      }
-    });
-  }
-  if (/^stacked/.test(so.type)) {
-    series.stackgroup = so.stackgroup || 1;
-  }
+  const all = vals.map(val => {
+    const series: any = {
+      name: val == 'value' ? ts.metricFullName : `${ts.metricFullName} - ${val}`,
+      x: ts.data.map(dp => dp.start),
+      y: ts.data.map(dp => dp[val]),
+      yaxis: `y${so.yaxis}`
+    };
+    if (so.type === 'bar' || so.type === 'stacked-bar') {
+      Object.assign(series, {
+        type: 'bar'
+      });
+    } else if (so.type === 'area') {
+      Object.assign(series, {
+        type: 'statter',
+        mode: 'lines',
+        fill: 'tonexty',
+        line: {
+          shape: 'spline'
+        }
+      });
+    } else {
+      Object.assign(series, {
+        type: 'scatter',
+        mode: 'lines',
+        line: {
+          shape: 'spline'
+        }
+      });
+    }
+    if (/^stacked/.test(so.type)) {
+      series.stackgroup = so.stackgroup || 1;
+    }
 
-  return series;
+    return series;
+  });
+  return all;
 }
 
 const defaultSeriesOptions = {
   type: 'line',
-  yaxis: '1'
+  yaxis: '1',
+  vals: ['value']
 };
