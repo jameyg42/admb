@@ -11,7 +11,7 @@
   },
   "license": "UNLICENSED",
   "dependencies": {
-    "@metlife/appd-client-js": "git+https://devtools.metlife.com/bitbucket/scm/~jgraham/appd-client-js.git#rel-1.1.0",
+    "@metlife/appd-client-js": "git+https://devtools.metlife.com/bitbucket/scm/~jgraham/appd-client-js.git#rel-1.3.0",
     "@metlife/lib-stats": "git+https://devtools.metlife.com/bitbucket/scm/~jgraham/libstats-js.git#rel-1.0.1",
     "lodash": "4.17.15",
     "moment": "2.24.0",
