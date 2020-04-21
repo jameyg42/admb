@@ -1,0 +1,12 @@
+{
+  "name": "appd-browser-web-server",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@metlife/appd-client-js": "git+https://devtools.metlife.com/bitbucket/scm/~jgraham/appd-client-js.git#rel-1.3.0",
+    "@metlife/appd-services-js": "git+https://jgraham@devtools.metlife.com/bitbucket/scm/~jgraham/appd-services-js.git",
+    "cookie-parser": "1.4.5",
+    "cors": "2.8.5",
+    "express": "4.17.1"
+  }
+}
