@@ -30,11 +30,10 @@ export class BrowserPanelComponent implements OnInit {
   }
 
   runExpression() {
-    const apps = this.variables.apps || '';
-    const expr = eval('`' + this.parseResult.expr + '`');
+    const expr =this.parseResult.expr;
     if (this.isValid()) {
       this.progress.mode = 'indeterminate';
-      this.admbSvc.execPipelineExpression(expr, this.range)
+      this.admbSvc.execPipelineExpression(expr, this.range, this.variables)
       .subscribe(ts => {
         console.log('got results', ts);
         this.plotGroups = ts;

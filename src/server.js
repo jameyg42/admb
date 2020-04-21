@@ -45,7 +45,7 @@ app.post('/api/pipeline/exec', (req,rsp,next) => {
   const expr = req.body;
   const appdSession = appd.open(req.cookies);
   pipeline(appdSession)
-    .exec(expr.expr, expr.range)
+    .exec(expr.expr, expr.range, expr.vars)
     .then(r => rsp.json(r))
     .catch(next);
 });

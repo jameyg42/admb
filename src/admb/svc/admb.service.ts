@@ -24,9 +24,9 @@ export class AdmbService {
       );
   }
 
-  public execPipelineExpression(expr: string, range: Range): Observable<any[]> {
+  public execPipelineExpression(expr: string, range: Range, vars: any): Observable<any[]> {
     this.historyService.push(expr, range);
-    return this.http.post<any[]>('/api/pipeline/exec', {expr, range})
+    return this.http.post<any[]>('/api/pipeline/exec', {expr, range, vars})
       .pipe(
         catchError((e, c) => {
           this.messageService.add({severity: 'error', detail: e.message, life: 5000});
