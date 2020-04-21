@@ -35,7 +35,6 @@ export class BrowserPanelComponent implements OnInit {
       this.progress.mode = 'indeterminate';
       this.admbSvc.execPipelineExpression(expr, this.range, this.variables)
       .subscribe(ts => {
-        console.log('got results', ts);
         this.plotGroups = ts;
         this.progress.mode = 'determinate';
       });

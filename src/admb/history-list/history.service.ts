@@ -50,7 +50,6 @@ export class HistoryService {
     this.historyChange.next(this.history);
   }
   select(entry, exprOnly=false) {
-    console.log(entry);
     this.historySelect.next(exprOnly ? {expr: entry.expr} : {expr: entry.expr, range: entry.range});
   }
 }
