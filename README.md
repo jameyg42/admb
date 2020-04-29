@@ -1,7 +1,7 @@
 # AppDynamics Metrics Browser (ADMB) - WebUI Version
 
 ## Overview
-Syntax Version ALPHA3
+Syntax Version BETA0
 
 ADMB is an alternative way to browse the AppDynamics metrics tree.  The system consists of a search expression
 syntax used to query the metrics tree, and a transformation pipeline syntax that can be used to perform various
@@ -13,7 +13,7 @@ referred to as "pipeline expressions".
        <search-expr> |> <pipeline-cmds> |
        <pipeline-expr> |> [ <pipeline-expr> ]    # subsearch
     <search-expr>
-       <metric-path> |
+       app=<app> <metric-path> |
        <metric-path>;<metric-paths>
     <pipeline-cmds>
        <command> <arguments> |
@@ -21,7 +21,7 @@ referred to as "pipeline expressions".
 
 for example
 
-    Overall Application Performance|*|Individual Nodes|*|Calls per Minute
+    app=8911* Overall Application Performance|*|Individual Nodes|*|Calls per Minute
     |> groupBy segment=2 |> groupBy segment=4
     |> reduce fn=avg
 
@@ -48,17 +48,21 @@ values matches the current point in the path. For example,
 It's functionally equivalent to the regex `(?:(?:opt1)|(?:opt2))`.
 
 ### Application Specifier
-language stability: low (likely to change in the future)
+The application(s) a search expression executes in the context of are specified using the following syntax:
 
-The application(s) a search expression executes in the context of can be optionally specified using the following syntax:
+    app=<app-expression>[@<baseline>] <metric-path>
 
-    app=<app-expression> <metric-path>
+where `app-expression` is an application name, optionally with wildcards and the optional `@<baseline>` is used to specify
+a baseline to pull the baseline metric values `baseline` and `sigma` in the the series.  
 
-where `app-expression` is an application name, optionally with wildcards.  The `app-expression` must proceed the `metric-path`,
+NOTE that baseline metrics need to be pulled from a separate service call.  Because the baseline metric values are not
+needed for all searches, this additional service call is *only* made if a `@<baseline>` is specified.
+
+The `app-expression` must proceed the `metric-path`,
 otherwise it will be considered part of the metric path itself.
 
 ### A Note on Quoting
-Metric paths and argument values can optionall be quoted either as 'single quoted' or "double quoted" strings.  The grammar
+Metric paths and argument values can optionally be quoted either as 'single quoted' or "double quoted" strings.  The grammar
 tries to minimize the need for using quotes, but occasionally such needs arise.  It's always safe to use quotes for paths and
 values, but it's generally preferred to use them only when required.
 
@@ -72,11 +76,11 @@ A subsearch takes the form
 
 that is, you pipe the current search results to a `[ <subexpression> ]` (square brackets included).  For example,
 
-    Overall Application Performance|*|Average Response Time (ms)
-    |> label ${s[2]}-RT
+    app=8911* Overall Application Performance|*|Average Response Time (ms)
+    |> label %s[2]-RT
     |> [
-      Overall Application Performance|*|Calls per Minute 
-      |> label ${s[2]}-CPM
+      app=8911* Overall Application Performance|*|Calls per Minute 
+      |> label %s[2]-CPM
       |> plot yaxis=2 type=bar
     ] 
     |> groupBy segment=2
@@ -87,9 +91,48 @@ there's a formal way to handle mixing named and positional arguments, a) it's be
 parameters *unless* a command only takes a single argument.  NOTE that argument values may need to be quoted, especially if the 
 value contains spaces in it - if left unquoted, the grammar will treat spaces as a delimiter between a named and unnamed parameter.
 
+## Metrics Series
+Metric searches return zero or more metric series.  The Series type is similar to but ultimately different than the 
+Series type returned by the respective AppDynamics services.  It consists of a timeseries - a set of time-dimensioned data
+points with the following values: value, min, max, baseline*, sigma* - along with a metadata
+  * - only if the `@<baseline>` is specified
+
+See the `metrics/ts/normalize.js` module for more information on the timeseries type.
+
+## Understanding Groups and the "flatten -> (re)group" Pattern
+Individual metric series exist in series groups.  Groups are formed either by each `metric-path` in a `search-expression` 
+(including subsearches) or via the `groupBy` operator. Grouping is useful both because operators such as `reduce` operate 
+on all the series in the group and the WebUI plots each group in a separate timeseries chart.
+
+The `flatten` operator is used to collapse all the individual groups for the current search into a single group that holds all 
+series.  
+
+It's a common pattern to create a bunch of groups, operate on them (either via `reduce` or via subsearches), flatten the
+groups, then re-group under some different dimension.  For example...
+
+    app=8911* Overall*|*|Individual Nodes|*|Calls per Minute
+    |> [ 
+       app=8911*@WEEKLY Overall*|*|Individual Nodes|*|Calls per Minute
+       |> groupBy segment=2
+       |> groupBy rex=(SISC|RISC)
+       |> reduce avg
+       |> plot vals=baseline type=dashed
+    ]
+    |> flatten
+    |> groupBy segment=2
+    |> groupBy rex=(SISC|RISC)
+
+Our first search just pulls all the CPM metrics for each individual node into a group.  Our subsearch then pulls the 
+individual nodes CPMs (again) including the baseline metrics, groups by tier, then groups by datacenter name (using a 
+regular expression).  We then average all values in each subsearch group giving us per-tier/per-datacenter average CPMs 
+and set the series in the subsearch groups to plot the baseline as a dashed line.  Since we want to display the per-datacenter
+averages against the individual node actuals, we first need to flatten the results into a single group so we can subsequently
+re-group then per-tier/per-datacenter.
+
+This group->operate->flatten->regroup sequence is common when building more complex queries.
+
 ### groupBy
-Groups individual metric series together.  Grouping is useful step before a subsequent operator that operates on groups, such as `reduce`.
-It's also useful in the WebUI since groups are plotted individually.
+Groups individual metric series together. 
 
 Syntax:
 
@@ -122,8 +165,12 @@ Syntax:
   * product - multiplies the values together
   * diff - subtracts each subsequent series value from the first series
   * quotient - divides each subsequent series value from the first series
+  * min - picks the min value
+  * max - picks the max value
 
-NOTE that for `diff` and `quotient`, the "first series" is currently and often difficult to control.  See `sort` for more information.
+NOTE that for `diff` and `quotient`, the "first series" is currently and often difficult to control.  One method is to use a search to
+pick the first series, and a subsearch to pick all subsequent series, then flatten the results (flattening will preserve series order).
+Alternatively `sort` may be able to be used.
 
 ### scale
 Scales each value in each series by a specified factor.
@@ -135,15 +182,12 @@ Syntax:
  - factor - the numeric factor to scale by
 
 ### percentOf
-Takes the percentage of each subsequent series relative to the first series in each group.  See `sort` for more information.
+Takes the percentage of each subsequent series relative to the first series in each group.  See `reduce` for more information.
 Syntax:
     percentOf
 
 ### sort
-language stability: very low (almost certain to change in future release)
-
-Sorts the series in each group.  NOTE that sort is currently inconsistent with similar commands, such as `label` which take
-javascript expressions.
+Sorts the series in each group. 
 
 Syntax:
 
@@ -190,13 +234,14 @@ Syntax:
 
     label expr=<label-expr>
 
-- expr - a javascript template literal that will set the series metricName and metricFullName.  Variables available to the template expression are:
+- expr - a string expression that will set the series metricName and metricFullName.  Variables available to the template expression are:
     * s - an array of path segments (shorcut to ts.node.metricPath) - NOTE that operators that function on groups creating new series do not currently 
           set the metric path (such as `reduce`).  
-    * name/fullName - the metric name / full name - NOTE that since the expression is a javascript template literal, the template can contain
-          regular expressions that extract a portion of the name (i.e. `${/some(pattern)/.exec(fullName)[1]}`)
+    * name/fullName - the metric name / full name 
+    * app - the app name
+    * args - the label command's argument (not useful)
     * ts - advanced - the full timeseries object
-    * ctx - advanced - the pipeline execution context (NOTE that `${ctx.app.name}` may be especially useful)
+    * ctx - advanced - the pipeline execution context (NOTE that `%{ctx.app.name}` may be especially useful)
 
 ### derivative
 Calculates the difference between each subsequent data point. 
@@ -206,15 +251,59 @@ Syntax:
     derivative
 
 ### plot
-language stability: enhancements coming soon
-
 Sets metadata that is used by the WebUI's plot component.
 
 Syntax:
 
-    plot [type=line|bar|stacked-bar] [yaxis=1|2] 
+    plot [type=line|bar|stacked-bar] [yaxis=1|2] [vals=value|min|max|baseline|stddev]
 
 - type - the type of plot - defaults to line
 - yaxis - the yaxis to plot the series on - defaults to 1
+- vals - the metric values to plot as a comma-separated list.  NOTE that the baseline and stddev values are only
+  available if a `@baseline` qualifier is included in the app expression.
 
+### abs
+Sets the absolute value for each value in the series.  Useful when combined with `derivative` to show the change regardless
+of sign.
+
+Syntax:
+
+   abs
+
+### ceil
+Sets a ceiling for the metric value.  Any value exceeding the specified ceiling value is set to the ceiling value.
+
+Symtax:
+
+    ceil value=<ceiling>
+
+- ceiling - the maximum value
+
+
+### floor
+Sets the floor for the metrics value.  Any value less than the specified floor value is set to the floor value.
+
+Syntax:
+
+    floor value=<floor>
+
+- floor - the minimum value
+
+#### normalize
+Applies min/max normalizion for each value in the series.  Normalizing is useful when comparing multiple series that are scaled
+differently (i.e. calls per minute vs. response time) to show how a change in one value impacts a change in another value since
+all values are automatically scaled to a value between 0 and 1.
+
+Syntax:
+
+    normalize
+
+### smooth
+Smooths a jaggedy timeseries, currently using moving average across a specified window.
+
+Syntax
+
+    normalize [window=<datapoints>]
+
+- window - the size of the window in # of datapoints to use in the moving average
 

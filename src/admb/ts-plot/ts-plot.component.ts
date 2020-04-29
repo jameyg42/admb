@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ViewChild, OnDestroy } from '@angular/core';
 import { MetricTimeseries } from '../svc/model';
 import { flatten } from 'lodash';
+import { PlotComponent } from 'angular-plotly.js';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -8,8 +9,11 @@ import { flatten } from 'lodash';
   templateUrl: './ts-plot.component.html',
   styleUrls: ['./ts-plot.component.scss']
 })
-export class TsPlotComponent implements OnInit {
+export class TsPlotComponent implements OnInit, OnDestroy {
   _timeseriesGroup: MetricTimeseries[];
+
+  @ViewChild(PlotComponent)
+  plot: PlotComponent;
 
   plotData: any;
   config: any;
@@ -68,9 +72,21 @@ export class TsPlotComponent implements OnInit {
     };
   }
 
+  mediaChangeHandler = (print) => {
+    console.log('updating for print', this.plot)
+    this.plot.plotly.resize(this.plot.plotlyInstance);
+  };
   ngOnInit() {
+    // handle print resizing
+    if (window && window.matchMedia) {
+      window.matchMedia('print').addEventListener('change', this.mediaChangeHandler);
+    }
   }
-
+  ngOnDestroy() {
+    if (window && window.matchMedia) {
+      window.matchMedia('print').removeEventListener('change', this.mediaChangeHandler);
+    }
+  }
 }
 
 
