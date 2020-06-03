@@ -39,7 +39,7 @@ export class BrowserPanelComponent implements OnInit {
   }
 
   runExpression() {
-    const expr =this.expr;
+    const expr = this.expr;
     if (this.isValid()) {
       this.progress.mode = 'indeterminate';
       this.admbSvc.execPipelineExpression(expr, this.range, this.variables)
@@ -57,7 +57,6 @@ export class BrowserPanelComponent implements OnInit {
   }
 
   isValid() {
-
     return this.range && this.parseResult && this.parseResult.valid;
   }
 
