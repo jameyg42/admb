@@ -107,7 +107,7 @@ function timeseriesToPlots(ts: MetricTimeseries) {
       });
     } else if (so.type === 'area') {
       Object.assign(series, {
-        type: 'statter',
+        type: 'scatter',
         mode: 'lines',
         fill: 'tonexty',
         line: {
@@ -119,6 +119,7 @@ function timeseriesToPlots(ts: MetricTimeseries) {
         type: 'scatter',
         mode: 'lines',
         line: {
+          dash: so.type === 'dashed' ? 'dash' : 'solid',
           shape: 'spline'
         }
       });
