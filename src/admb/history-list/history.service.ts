@@ -28,6 +28,11 @@ export class HistoryService {
       e.useCount = ee.useCount + 1;
     }
     this.history.splice(0, 0, e);
+
+    if (this.history.length > 500) {
+      this.history = this.history.slice(0, 500);
+    }
+
     this.handleChange();
   }
   _delete(expr) {

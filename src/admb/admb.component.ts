@@ -24,13 +24,13 @@ export class AdmbPanelComponent implements OnInit {
   constructor(private historyService: HistoryService) {
     historyService.historySelect$.subscribe(evt => {
       const activeEditor = this.getActiveEditor();
-      console.log('history', evt);
       if (activeEditor) {
         if (evt.range) {
           activeEditor.range = evt.range;
         }
         activeEditor.expr = evt.expr;
       }
+      this.palettebarExpanded = false;
     });
   }
   getActiveEditor(): BrowserPanelComponent {
