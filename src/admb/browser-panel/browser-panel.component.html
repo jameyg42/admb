@@ -9,7 +9,7 @@
       <p-button label="Execute" (onClick)="runExpression()" [disabled]="!isValid()" icon="pi pi-cog"></p-button>
     </div>
   </div>
-  <admb-expr-editor (parseResultChange)="this.parseResult = $event" (exprExecute)="onExprExecute($event)"></admb-expr-editor>
+  <admb-expr-editor [(expr)]="expr" (exprExecute)="onExprExecute($event)"></admb-expr-editor>
   <p-progressBar #progress mode="determinate" [class.valid]="isValid()"></p-progressBar>
 </div>
 <div class="results">

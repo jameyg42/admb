@@ -28,8 +28,7 @@ export class AdmbPanelComponent implements OnInit {
         if (evt.range) {
           activeEditor.range = evt.range;
         }
-        activeEditor.editor.expr = evt.expr;
-        activeEditor.editor._onModelChange(evt.expr);
+        activeEditor.expr = evt.expr;
       }
     });
   }
