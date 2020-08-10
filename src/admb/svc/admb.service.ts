@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Application, MetricTimeseries, Range } from './model';
+import { Application, Range } from './model';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
-import {HistoryService} from '../history-list/history.service';
-
+import { HistoryService } from '../history-list/history.service';
 
 @Injectable({
   providedIn: 'root'

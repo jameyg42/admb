@@ -23,7 +23,6 @@ export class BrowserPanelComponent implements OnInit {
     this._expr = expr;
     this.parseResult = this.parserSvc.parse(expr);
     this.isValid = this.range && this.parseResult && this.parseResult.valid;
-    console.log(this.range, this.parseResult, this.isValid);
   }
   parseResult: ParseResult;
 

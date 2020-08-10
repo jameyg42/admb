@@ -37,8 +37,10 @@ export class LoginComponent implements OnInit {
     const con = this.loginForm.value;
     this.loginService
       .login(con.url, con.uid, con.pwd)
+      .then(() => this.loginError = null)
       .catch(err => {
-
+        console.log(err);
+        this.loginError = `Invalid Login`;
       });
   }
 }

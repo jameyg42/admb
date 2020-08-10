@@ -26,12 +26,10 @@ app.post('/api/login', (req,rsp,next) => {
   .catch(next)
 })
 app.post('/api/logout', (req,rsp,next) => {
-  const t = appdSession;
-  appdSession = null;
+  // FIXME shouldn't know the cookie name here
+  rsp.clearCookie('APPDSESSION');
   rsp.json({
-    loggedOff: true,
-    from: t == null ? null : t.url,
-    with: t == null ? null : t.uid
+    loggedOff: true
   })
 });
 app.get('/api/user', (req,rsp,next) => {
