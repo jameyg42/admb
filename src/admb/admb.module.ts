@@ -17,9 +17,6 @@ import { TabViewModule } from 'primeng/tabview';
 import { TimepickerModule } from '../widget/timepicker/timepicker.module';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
-import * as PlotlyJS from 'plotly.js/dist/plotly.js';
-import { PlotlyModule } from 'angular-plotly.js';
-
 import { AppSelectComponent } from './app-select/app-select.component';
 import { BrowserPanelComponent } from './browser-panel/browser-panel.component';
 import { ExprEditorComponent } from './expr-editor/expr-editor.component';
@@ -32,7 +29,11 @@ import { Router } from '@angular/router';
 import { HistoryListItemComponent } from './history-list/history-list-item/history-list-item.component';
 import { AdmbPanelComponent } from './admb.component';
 
-PlotlyModule.plotlyjs = PlotlyJS;
+import { PlotlyViaCDNModule } from 'angular-plotly.js';
+
+
+PlotlyViaCDNModule.plotlyVersion = '1.54.7'; // can be `latest` or any version number (i.e.: '1.40.0')
+PlotlyViaCDNModule.plotlyBundle = 'basic'; // optional: can be null (for full) or 'basic', 'cartesian', 'geo', 'gl3d', 'gl2d', 'mapbox' or 'finance'
 
 
 @NgModule({
@@ -65,8 +66,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     TimepickerModule,
 
     CodemirrorModule,
-
-    PlotlyModule,
+    PlotlyViaCDNModule
   ],
   exports: [
     AdmbPanelComponent
