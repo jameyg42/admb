@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Range } from '../svc/model';
+import { beforeNow } from '../../widget/timepicker/range';
 import { AdmbService } from '../svc/admb.service';
 import { ProgressBar } from 'primeng/progressbar';
 import { AdmbParserService, ParseResult } from '../admb-parser.service';
@@ -11,7 +12,7 @@ import { AdmbParserService, ParseResult } from '../admb-parser.service';
 })
 export class BrowserPanelComponent implements OnInit {
   @Input()
-  range: Range;
+  range = beforeNow(4 * 60);
 
   _expr: string;
   get expr(): string {
@@ -21,12 +22,15 @@ export class BrowserPanelComponent implements OnInit {
   set expr(expr: string) {
     this._expr = expr;
     this.parseResult = this.parserSvc.parse(expr);
-    console.log(this.parseResult);
+    this.isValid = this.range && this.parseResult && this.parseResult.valid;
+    console.log(this.range, this.parseResult, this.isValid);
   }
   parseResult: ParseResult;
 
   variables = {} as any;
   plotGroups: any;
+
+  isValid = false;
 
   @ViewChild(ProgressBar)
   progress: ProgressBar;
@@ -40,7 +44,7 @@ export class BrowserPanelComponent implements OnInit {
 
   runExpression() {
     const expr = this.expr;
-    if (this.isValid()) {
+    if (this.isValid) {
       this.progress.mode = 'indeterminate';
       this.admbSvc.execPipelineExpression(expr, this.range, this.variables)
       .subscribe(ts => {
@@ -54,10 +58,6 @@ export class BrowserPanelComponent implements OnInit {
 
   onExprExecute(expr) {
     this.runExpression();
-  }
-
-  isValid() {
-    return this.range && this.parseResult && this.parseResult.valid;
   }
 
   ngOnInit() {

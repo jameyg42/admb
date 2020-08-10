@@ -6,11 +6,11 @@
     <div>
       <admb-timepicker [(range)]="range"></admb-timepicker>
       <span style="display: inline-block; width: 2px;"></span>
-      <p-button label="Execute" (onClick)="runExpression()" [disabled]="!isValid()" icon="pi pi-cog"></p-button>
+      <p-button label="Execute" (onClick)="runExpression()" [disabled]="!isValid" icon="pi pi-cog"></p-button>
     </div>
   </div>
   <admb-expr-editor [(expr)]="expr" (exprExecute)="onExprExecute($event)"></admb-expr-editor>
-  <p-progressBar #progress mode="determinate" [class.valid]="isValid()"></p-progressBar>
+  <p-progressBar #progress mode="determinate" [class.valid]="isValid"></p-progressBar>
 </div>
 <div class="results">
   <div *ngIf="plotGroups">
