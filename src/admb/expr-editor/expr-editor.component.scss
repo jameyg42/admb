@@ -5,12 +5,15 @@
 }
 :host ::ng-deep .CodeMirror {
   height: auto;
-  width: 100%;
-  border: none !important;
-  padding: 0px !important;
 }
 :host ::ng-deep .CodeMirror-scroll {
   max-height: 12em;
+  max-width: 100%;
+}
+:host ::ng-deep .CodeMirror-wrap pre.CodeMirror-line,
+:host ::ng-deep .CodeMirror-wrap pre.CodeMirror-line-like
+{
+  word-break: break-word;
 }
 :host ::ng-deep .cm-operator {
   font-weight: bold;
