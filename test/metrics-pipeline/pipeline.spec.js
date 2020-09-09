@@ -1,5 +1,5 @@
-const client = require('../../it-client');
-const pipeline = require('../../../lib/metrics/pipeline/pipeline')(client);
+const client = require('../it-client');
+const pipeline = require('../../../lib/metrics-pipeline')(client);
 
 
 const itApp = {

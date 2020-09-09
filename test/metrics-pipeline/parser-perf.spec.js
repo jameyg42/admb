@@ -1,4 +1,4 @@
-const parser = require('../../../lib/metrics/pipeline/parser');
+const parser = require('../../lib/metrics-pipeline/parser');
 const moment = require('moment');
 
 const start = moment();

@@ -1,5 +1,5 @@
 const client = require('../it-client');
-const metrics = require('../../lib/metrics/metricsEx')(client);
+const metrics = require('../../lib/metrics-ex')(client);
 const range = require('../../lib/range');
 
 const itApp = {
