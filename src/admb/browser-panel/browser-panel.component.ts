@@ -31,8 +31,7 @@ export class BrowserPanelComponent implements OnInit {
 
   isValid = false;
 
-  @ViewChild(ProgressBar)
-  progress: ProgressBar;
+  isRunning = false;
 
   constructor(private admbSvc: AdmbService, private parserSvc: AdmbParserService) {
   }
@@ -44,11 +43,15 @@ export class BrowserPanelComponent implements OnInit {
   runExpression() {
     const expr = this.expr;
     if (this.isValid) {
-      this.progress.mode = 'indeterminate';
+      this.isRunning = true;
       this.admbSvc.execPipelineExpression(expr, this.range, this.variables)
-      .subscribe(ts => {
-        this.plotGroups = ts;
-        this.progress.mode = 'determinate';
+      .subscribe({
+        next: ts => {
+          this.plotGroups = ts;
+        },
+        complete : () => {
+          this.isRunning = false;
+        }
       });
     } else {
       console.log('not valid', this.range, this.parseResult.expr);

@@ -10,7 +10,7 @@
     </div>
   </div>
   <admb-expr-editor [(expr)]="expr" (exprExecute)="onExprExecute($event)"></admb-expr-editor>
-  <p-progressBar #progress mode="determinate" [class.valid]="isValid"></p-progressBar>
+  <p-progressBar #progress [mode]="isRunning ? 'indeterminate' : 'determinate'" [class.valid]="isValid"></p-progressBar>
 </div>
 <div class="results">
   <div *ngIf="plotGroups">

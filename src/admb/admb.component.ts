@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChildren, QueryList, ViewChild } from '@angular/core';
 import { BrowserPanelComponent } from './browser-panel/browser-panel.component';
 import { HistoryService } from './history-list/history.service';
-import { TabPanel } from 'primeng/tabview';
+import { TabPanel, TabView } from 'primeng/tabview';
 
 @Component({
   selector: 'admb-panel',
@@ -20,6 +20,9 @@ export class AdmbPanelComponent implements OnInit {
 
   @ViewChildren(TabPanel)
   tabs: QueryList<TabPanel>;
+
+  @ViewChild(TabView)
+  tabView: TabView;
 
   constructor(private historyService: HistoryService) {
     historyService.historySelect$.subscribe(evt => {
@@ -42,9 +45,14 @@ export class AdmbPanelComponent implements OnInit {
     });
     return selected >= 0 ? this.browsers.toArray()[selected ] : null;
   }
-
+  tc = 1;
   newItem() {
-    this.items.push({header: 'new'});
+    this.items.push({header: `Tab ${this.tc++}`});
+    if (this.tabView) {
+      setTimeout(() => {
+        this.tabView.cd.detectChanges();
+      }, 5);
+    }
   }
   removeItem(item: number) {
     this.items.splice(item, 1);

@@ -1,19 +1,19 @@
 :host .admb-view {
   height: 100%;
 }
-:host ::ng-deep .ui-tabview {
+:host ::ng-deep .p-tabview {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
-:host ::ng-deep .ui-tabview-nav {
+:host ::ng-deep .p-tabview-nav {
   margin-left: 40px;
 }
-:host ::ng-deep .ui-tabview-panels {
+:host ::ng-deep .p-tabview-panels {
   flex: 1 1 auto;
   min-height: 0px;
 }
-:host ::ng-deep .ui-tabview-panel
+:host ::ng-deep .p-tabview-panel
 {
   height: 100%;
 }

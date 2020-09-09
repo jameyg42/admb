@@ -28,11 +28,11 @@
 .loginOverlay .login-form-control {
   padding-bottom: 4px;
 }
-.loginOverlay ::ng-deep .ui-dropdown ,
-.loginOverlay ::ng-deep .ui-button ,
+.loginOverlay ::ng-deep .p-dropdown ,
+.loginOverlay ::ng-deep .p-button
 {
   width: 320px;
 }
-.loginOverlay ::ng-deep .ui-inputtext {
+.loginOverlay ::ng-deep .p-inputtext {
   width: 295px;
 }

@@ -13,13 +13,13 @@
   overflow: overlay;
   position: relative;
 }
-:host ::ng-deep .ui-progressbar {
+:host ::ng-deep .p-progressbar {
    height: 5px;
    background-color: red;
  }
- :host ::ng-deep .valid .ui-progressbar {
+ :host ::ng-deep .valid .p-progressbar {
   background-color: green;
-  .ui-progressbar-value {
+  .p-progressbar-value {
     background-color: white;
   }
  }
