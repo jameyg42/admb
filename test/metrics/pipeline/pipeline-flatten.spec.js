@@ -1,4 +1,4 @@
-const client = require('@metlife/appd-client-js').open({
+const client = require('../../../lib/client/client').open({
     url: 'https://appd.metlife.com',
     uid : 'AQ813306',
     pwd : 'gad8babU'

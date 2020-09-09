@@ -1,4 +1,4 @@
-const client = require('@metlife/appd-client-js')
+const client = require('../lib/client/client')
 
 module.exports = client.open({
     url: 'https://qa.appd.metlife.com',
