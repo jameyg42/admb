@@ -6,8 +6,8 @@ const cookies = require('cookie-parser');
 const xor = require('./xor');
 
 const appdServices = require('@metlife/appd-services-js');
-const pipeline = require('@metlife/appd-services-js/lib/metrics/pipeline/pipeline');
-const appd = require('@metlife/appd-client-js/lib/proxy-client');
+const pipeline = require('@metlife/appd-services-js/lib/metrics-pipeline');
+const appd = require('@metlife/appd-services-js/lib/client/proxy-client');
 
 const app = express();
 app.use(express.static(__dirname +'/../dist/appd-browser-webui'));
