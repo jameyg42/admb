@@ -1,6 +1,6 @@
 {
   "name": "appd-browser-webui",
-  "version": "0.0.0",
+  "version": "1.9.0-TRANSITIONAL",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -21,21 +21,21 @@
     "@angular/platform-browser-dynamic": "~10.1.0",
     "@angular/router": "~10.1.0",
     "@ctrl/ngx-codemirror": "2.2.1",
-    "@metlife/appd-services-js": "git+https://jgraham@devtools.metlife.com/bitbucket/scm/~jgraham/appd-services-js.git",
-    "@types/lodash": "4.14.149",
     "angular-plotly.js": "2.0.0",
     "codemirror": "5.54.0",
-    "cookie-parser": "1.4.5",
-    "cors": "2.8.5",
-    "express": "4.17.1",
     "moment": "2.24.0",
-    "nearley": "2.19.0",
     "primeflex": "1.0.0",
     "primeicons": "4.0.0",
     "primeng": "10.0.0",
     "rxjs": "~6.6.3",
     "tslib": "^2.0.0",
-    "zone.js": "~0.10.3"
+    "zone.js": "~0.10.3",
+
+    "@metlife/appd-services-js": "git+https://jgraham@devtools.metlife.com/bitbucket/scm/~jgraham/appd-services-js.git",
+
+    "cookie-parser": "1.4.5",
+    "cors": "2.8.5",
+    "express": "4.17.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1001.0",
@@ -45,6 +45,7 @@
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
+    "@types/lodash": "4.14.149",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~5.0.0",
