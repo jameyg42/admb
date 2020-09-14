@@ -25,5 +25,5 @@ const itApp = {
 // metrics.fetchBaselineMetrics(itApp, 'Overall Application Performance|Calls per Minute', range.beforeNow(60), 'DEFAULT')
 // .then(ms => console.log(ms[0].data, ms[0].data.length));
 
-metrics.fetchMetrics(itApp, 'Overall Application Performance|Calls per Minute', range.beforeNow(60))
+metrics.fetchMetrics(itApp, 'Overall Application Performance|IBSE*|Calls per Minute')
 .then(ms => console.log(ms[0].data, ms[0].data.length));

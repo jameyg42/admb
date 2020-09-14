@@ -2,8 +2,8 @@ const client = require('../it-client');
 const metrics = require('../../lib/metrics')(client);
 
 const itApp = {
-    id: 577,
-    name: '0000-SANDBOX_HEALTHRULE_TEST'
+    id: 130,
+    name: '2942-IBSE_QA'
 }
 
 metrics.browseTree(itApp, 'Overall Application Performance')

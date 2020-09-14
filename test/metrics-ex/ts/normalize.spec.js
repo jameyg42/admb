@@ -1,4 +1,4 @@
-const normalize = require('../../../lib/metrics/ts/normalize');
+const normalize = require('../../../lib/metrics-ex/normalize');
 
 
 const n1 = normalize( require('./mocks/tc1_normal'));
