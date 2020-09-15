@@ -1,16 +1,31 @@
 const client = require('../it-client');
-const pipeline = require('../../../lib/metrics-pipeline')(client);
+const pipeline = require('../../lib/metrics-pipeline')(client);
+const stats = require('../../lib/stats/reducers');
+const _ = require('lodash');
 
+const searches = [
+    // '*IBSE_QA:|Overall*|Average Res*',
+    // '*IBSE_QA:|Overall*|Average Res*[max]',
+    // '*IBSE_QA:|Overall*|{Calls*,Average Re*}',
+    // '*IBSE_QA:|Overall*|Average Res*[value, max] |> [ 8911*QA:|Overall*|Calls* ]',
+    '*IBSE_QA:|Overall*|Average Res*[baseline@WEEKLY]',
+]
 
-const itApp = {
-    id: 577,
-    name: '0000-SANDBOX_HEALTHRULE_TEST'
+function debug(tss) {
+    return _.flattenDeep(tss)
+        .map(ts => ({
+            name: ts.name,
+            size: ts.data.length,
+            starts: new Date(ts.data[0].start),
+            ends: new Date(ts.data[ts.data.length - 1].start),
+            avg: ts.data.map(d => d.value).reduce(stats.avg)
+        }))
+        .map(s => `${s.name}[${s.size}] = ${s.avg} (${s.starts} -> ${s.ends})`)
 }
-
-// const e1 = 'Overall*|Calls*';
-// pipeline.exec(e1, itApp)
-// .then(console.log);
-
+searches.forEach(async (s) => {
+    const r = await pipeline.exec(s);
+    console.log(s, debug(r));
+});
 
 
 // const e2 = 'Overall*|{Calls*,Errors*};Application Infrastructure Performance|*|Hardware Resources|CPU|%Busy';
@@ -26,6 +41,6 @@ const itApp = {
 // pipeline.exec(e4, itApp)
 // .then(x => console.log('done', x));
 
-const e5 = 'app=0000* Over*|*|Average Res* |> scale .001';
-pipeline.exec(e5, itApp)
-.then(x => console.log('done', x));
+// const e5 = 'app=0000* Over*|*|Average Res* |> scale .001';
+// pipeline.exec(e5, itApp)
+// .then(x => console.log('done', x));
