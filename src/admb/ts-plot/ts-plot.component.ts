@@ -92,45 +92,40 @@ export class TsPlotComponent implements OnInit, OnDestroy {
 
 function timeseriesToPlots(ts: MetricTimeseries) {
   const so: any = ts.plotLayout || defaultSeriesOptions;
-  const vals = so.vals || ['value'];
+  const series: any = {
+    name: ts.name,
+    x: ts.data.map(dp => dp.start),
+    y: ts.data.map(dp => dp.value),
+    yaxis: `y${so.yaxis}`
+  };
+  if (so.type === 'bar' || so.type === 'stacked-bar') {
+    Object.assign(series, {
+      type: 'bar'
+    });
+  } else if (so.type === 'area') {
+    Object.assign(series, {
+      type: 'scatter',
+      mode: 'lines',
+      fill: 'tonexty',
+      line: {
+        shape: 'spline'
+      }
+    });
+  } else {
+    Object.assign(series, {
+      type: 'scatter',
+      mode: 'lines',
+      line: {
+        dash: so.type === 'dashed' ? 'dash' : 'solid',
+        shape: 'spline'
+      }
+    });
+  }
+  if (/^stacked/.test(so.type)) {
+    series.stackgroup = so.stackgroup || 1;
+  }
 
-  const all = vals.map(val => {
-    const series: any = {
-      name: val == 'value' ? ts.metricFullName : `${ts.metricFullName} - ${val}`,
-      x: ts.data.map(dp => dp.start),
-      y: ts.data.map(dp => dp[val]),
-      yaxis: `y${so.yaxis}`
-    };
-    if (so.type === 'bar' || so.type === 'stacked-bar') {
-      Object.assign(series, {
-        type: 'bar'
-      });
-    } else if (so.type === 'area') {
-      Object.assign(series, {
-        type: 'scatter',
-        mode: 'lines',
-        fill: 'tonexty',
-        line: {
-          shape: 'spline'
-        }
-      });
-    } else {
-      Object.assign(series, {
-        type: 'scatter',
-        mode: 'lines',
-        line: {
-          dash: so.type === 'dashed' ? 'dash' : 'solid',
-          shape: 'spline'
-        }
-      });
-    }
-    if (/^stacked/.test(so.type)) {
-      series.stackgroup = so.stackgroup || 1;
-    }
-
-    return series;
-  });
-  return all;
+  return series;
 }
 
 const defaultSeriesOptions = {

@@ -97,7 +97,7 @@ Series type returned by the respective AppDynamics services.  It consists of a t
 points with the following values: value, min, max, baseline*, sigma* - along with a metadata
   * - only if the `@<baseline>` is specified
 
-See the `metrics/ts/normalize.js` module for more information on the timeseries type.
+See the `metrics-ex/normalize.js` module for more information on the timeseries type.
 
 ## Understanding Groups and the "flatten -> (re)group" Pattern
 Individual metric series exist in series groups.  Groups are formed either by each `metric-path` in a `search-expression` 

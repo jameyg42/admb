@@ -6,22 +6,13 @@ export interface Application {
 
 
 export interface MetricTimeseries {
-  metricId: number;
-  metricName: string;
-  metricFullName: string;
-  precision: number;
-  node?: any;
-  values?: string[];
+  name: string;
   plotLayout?: PlotLayout;
   data: TimeseriesPoint[];
 }
 export interface TimeseriesPoint {
   start: number;
   value: number;
-  current: number;
-  min: number;
-  max: number;
-  sigma: number;
 }
 export interface PlotLayout {
   type: string;
