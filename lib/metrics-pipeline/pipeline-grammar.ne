@@ -4,12 +4,7 @@
 main -> _ s_expr _ {% ([,expr]) => expr %}
 
 s_expr -> 
-	appArg __ search {% ([app,,search]) => {
-		search.ctx = app;
-		return search;
-	} %}
-appArg ->
-	"app" _ "=" _ value {% ([name,,,,value]) => ({app:value}) %}
+	search {% id %}
 
 search ->
 	paths {% ([paths]) => ({op:'search', paths: paths, pipes:[]}) %} |
@@ -17,10 +12,15 @@ search ->
 paths ->
 	path {% id %}|
 	path _ ";" _ paths {% ([path,,,,paths]) => path.concat(paths) %}
-path ->
-	string |
-	[^\s"] [^=;>\n]:* [^\s="] {% d => [d[0] + d[1].join('') + d[2]] %}
 
+path ->
+	app ":|" mp vals:? {% ([app,,mp,vals])  => ({app: app, path: mp, values: vals}) %} 
+app ->
+	[^\s] [^|]:+ {% d => d[0] + d[1].join('') %}
+mp ->
+	[^=;>\[\]\n]:+ [^\s]  {% d => d[0].join('') +d[1] %}
+vals ->
+	"[" [^\]]:+ "]" {% d => d[1].join('') %}
 
 
 pipeline -> 
@@ -50,7 +50,6 @@ positionalArg ->
 	value {% ([value]) => ({name:null,value:value}) %}
 namedArg ->
 	identifier _ "=" _ value {% ([name,,,,value]) => ({name:name,value:value}) %}
-
 
 
 string ->
