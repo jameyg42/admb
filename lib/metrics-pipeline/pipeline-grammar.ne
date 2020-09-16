@@ -14,14 +14,15 @@ paths ->
 	path _ ";" _ paths {% ([path,,,,paths]) => path.concat(paths) %}
 
 path ->
-	app ":|" mp vals:? {% ([app,,mp,vals])  => ({app: app, path: mp, values: vals}) %} 
+	app app_delim mp vals:? {% ([app,,mp,vals])  => ({app: app, path: mp, values: vals}) %} 
 app ->
 	[^\s] [^|]:+ {% d => d[0] + d[1].join('') %}
 mp ->
 	[^=;>\[\]\n]:+ [^\s]  {% d => d[0].join('') +d[1] %}
 vals ->
 	"[" [^\]]:+ "]" {% d => d[1].join('') %}
-
+app_delim ->
+	":|" | ":/"
 
 pipeline -> 
 	pipe {% id %} |
@@ -57,7 +58,7 @@ string ->
 	sqstring {% id %}
 
 pipeOp ->
-	"|>" {% id %}
+	"|>" | "/>" | ">>" {% id %}
 
 value -> 
 	string {% id %} |
