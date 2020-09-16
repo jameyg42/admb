@@ -8,7 +8,12 @@ const searches = [
     // '*IBSE_QA:|Overall*|Average Res*[max]',
     // '*IBSE_QA:|Overall*|{Calls*,Average Re*}',
     // '*IBSE_QA:|Overall*|Average Res*[value, max] |> [ 8911*QA:|Overall*|Calls* ]',
-    '*IBSE_QA:|Overall*|Average Res*[baseline@WEEKLY]',
+    // '*IBSE_QA:|Overall*|Average Res*[baseline@WEEKLY]',
+    // '*IBSE_QA:|Overall*|{Calls*,Average Re*} |> groupBy 2',
+    // '*IBSE_QA:|Overall*|Calls* |> label "%s[2]"',
+    // '*IBSE_QA:|Overall*|{Calls*,Average Res*} |> filter "name == \'Calls per Minute\'"',
+    // '*IBSE_QA:|Overall*|{Calls*,Average Res*} |> sort avg',
+    '*IBSE_QA:|Overall*|{Average Res*, Calls*} |> reduce avg'
 ]
 
 function debug(tss) {
