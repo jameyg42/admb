@@ -16,13 +16,13 @@ paths ->
 path ->
 	app app_delim mp vals:? {% ([app,delim,mp,vals])  => ({app: app, delim: delim, path: mp, values: vals}) %} 
 app ->
-	[^\s] [^|]:+ {% d => d[0] + d[1].join('') %}
+	[^\s] [^:]:+ {% d => d[0] + d[1].join('') %}
 mp ->
 	[^=;>\[\]\n]:+ [^\s]  {% d => d[0].join('') +d[1] %}
 vals ->
 	"[" [^\]]:+ "]" {% d => d[1].join('') %}
 app_delim ->
-	":" [|/>:~!#$^] {% d => d[1] %}
+	":" [|/>:~!#^.-_=+] {% d => d[1] %}
 
 pipeline -> 
 	pipe {% id %} |
