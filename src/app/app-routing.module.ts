@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router'; // CLI imports router
+import { Routes, RouterModule } from '@angular/router';
 import { AdmbPanelComponent } from 'src/admb/admb.component';
-import { LoginComponent } from './login/login.component';
-
 
 const routes: Routes = [
   { path: 'admb', component: AdmbPanelComponent },

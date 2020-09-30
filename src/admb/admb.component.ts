@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChildren, QueryList, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 import { BrowserPanelComponent } from './browser-panel/browser-panel.component';
 import { HistoryService } from './history-list/history.service';
 
@@ -17,8 +19,8 @@ export class AdmbPanelComponent implements OnInit {
   @ViewChild(BrowserPanelComponent)
   activeEditor: BrowserPanelComponent;
 
-  constructor(private historyService: HistoryService) {
-    historyService.historySelect$.subscribe(evt => {
+  constructor(private historyService: HistoryService, private router: Router, private route: ActivatedRoute) {
+    this.historyService.historySelect$.subscribe(evt => {
       const activeEditor = this.activeEditor;
       if (activeEditor) {
         if (evt.range) {
@@ -28,7 +30,11 @@ export class AdmbPanelComponent implements OnInit {
       }
       this.palettebarExpanded = false;
     });
+
+
   }
+
+
 
   ngOnInit() {
   }

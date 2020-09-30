@@ -4,6 +4,7 @@ import { beforeNow } from '../../widget/timepicker/range';
 import { AdmbService } from '../svc/admb.service';
 import { ProgressBar } from 'primeng/progressbar';
 import { AdmbParserService, ParseResult } from '../admb-parser.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'admb-browser-panel',
@@ -33,7 +34,12 @@ export class BrowserPanelComponent implements OnInit {
 
   isRunning = false;
 
-  constructor(private admbSvc: AdmbService, private parserSvc: AdmbParserService) {
+  constructor(private admbSvc: AdmbService, private parserSvc: AdmbParserService, private router: Router, private route: ActivatedRoute) {
+    const state = this.route.snapshot.queryParams;
+    this.expr = state.ex || '';
+    if (state.r) {
+      this.range = JSON.parse(state.r);
+    }
   }
 
   selectApps(apps) {
@@ -43,6 +49,13 @@ export class BrowserPanelComponent implements OnInit {
   runExpression() {
     const expr = this.expr;
     if (this.isValid) {
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {
+          ex: expr,
+          r: JSON.stringify(this.range)
+        }
+      });
       this.isRunning = true;
       this.admbSvc.execPipelineExpression(expr, this.range, this.variables)
       .subscribe({
