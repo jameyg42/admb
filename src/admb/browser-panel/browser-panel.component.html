@@ -3,7 +3,7 @@
     <div style="flex: 1 1 auto;">
       <admb-app-select (selectedAppsChange)="selectApps($event)"></admb-app-select>
     </div>
-    <div>
+    <div style="margin-right: 50px;">
       <admb-timepicker [(range)]="range"></admb-timepicker>
       <span style="display: inline-block; width: 2px;"></span>
       <p-button label="Execute" (onClick)="runExpression()" [disabled]="!isValid" icon="pi pi-cog"></p-button>

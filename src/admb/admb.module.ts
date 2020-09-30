@@ -72,8 +72,6 @@ PlotlyViaCDNModule.plotlyBundle = 'basic'; // optional: can be null (for full) o
     AdmbPanelComponent
   ],
   providers: [
-    // SplitButton hack
-    {provide: Router, useValue: {}}
   ]
 })
 export class AdmbModule { }

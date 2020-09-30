@@ -1,38 +1,6 @@
 :host .admb-view {
   height: 100%;
 }
-:host ::ng-deep .p-tabview {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-:host ::ng-deep .p-tabview-nav {
-  margin-left: 40px;
-}
-:host ::ng-deep .p-tabview-panels {
-  flex: 1 1 auto;
-  min-height: 0px;
-}
-:host ::ng-deep .p-tabview-panel
-{
-  height: 100%;
-}
-
-
-:host .ui-newtab-button {
-  position: absolute;
-  top: 5px;
-  z-index: 200;
-
-  ::ng-deep .ui-button {
-    background: transparent;
-    border: none;
-    color: #13AA52;
-  }
-  ::ng-deep .ui-button:enabled:focus {
-    box-shadow: none;
-  }
-}
 
 :host .palettebar {
   position: absolute;
@@ -57,9 +25,9 @@
     position: absolute;
     z-index: 199;
     width: 36px;
-    height: 36px;
+    height: 38px;
     left: -36px;
-    top: 3px;
+    top: 4px;
 
     display: flex;
     align-items: center;
@@ -77,15 +45,6 @@
 
 @media print {
   :host .admb-view {
-    display: contents;
-  }
-  :host .admb-view .ui-newtab-button {
-    display: none;
-  }
-  :host .admb-view ::ng-deep .ui-tabview,
-  :host .admb-view ::ng-deep .ui-tabview-panels,
-  :host .admb-view ::ng-deep .ui-tabview-panel
-    {
     display: contents;
   }
 }

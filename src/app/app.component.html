@@ -9,10 +9,16 @@
         </ul>
       </nav>
   </section>
-  <section class="content">
-    <admb-panel *ngIf="user != null"></admb-panel>
-    <admb-profile *ngIf="user != null" [user]="user" class="noprint"></admb-profile>
-  </section>
+  <div class="main-wrapper" *ngIf="user != null">
+    <section class="header noprint">
+      <admb-profile [user]="user"></admb-profile>
+    </section>
+    <section class="content">
+      <div class="content-wrapper">
+        <router-outlet></router-outlet>
+      </div>
+    </section>
+  </div>
 </div>
 
 <admb-login *ngIf="user == null && !userLoading" class="noprint"></admb-login>
