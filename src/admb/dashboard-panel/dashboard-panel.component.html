@@ -1,0 +1,25 @@
+<div class="dashboard-editor">
+  <p-button label="Edit" (onClick)="editMode = true"></p-button>
+  <p-button label="Done" (onClick)="doneEditing()" *ngIf="editMode == true"></p-button>
+  <ngx-codemirror
+  *ngIf="editMode == true"
+  [(ngModel)]="dashboardJson"
+  [options]="{
+    lineNumbers: true,
+    lineWrapping: true,
+    theme: 'default',
+    mode: {name: 'javascript', json: true}
+  }"
+  ></ngx-codemirror>
+</div>
+<div class="ui-dashboard">
+  <div class="dashboard-canvas" *ngIf="dashboardModel">
+    <div class="dashboard-widget db-cols-{{widget.cols}}" *ngFor="let widget of dashboardModel.widgets">
+      <div class="db-wrapper">
+        <admb-ts-widget  [model]="widget"></admb-ts-widget>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="dashboardError">{{dashboardError}}</div>
+</div>
+

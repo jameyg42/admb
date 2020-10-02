@@ -1,0 +1,29 @@
+.dashboard-canvas {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .dashboard-widget {
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    padding: 4px;
+  }
+  .dashboard-widget .db-wrapper {
+    border-radius: 4px;
+    box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+    margin: 4px;
+  }
+
+  .dashboard-widget.db-cols-1 {
+    width: 25%;
+  }
+  .dashboard-widget.db-cols-2 {
+    width: 50%;
+  }
+  .dashboard-widget.db-cols-3 {
+    width: 75%;
+  }
+  .dashboard-widget.db-cols-4 {
+    width: 100%;
+  }
+}

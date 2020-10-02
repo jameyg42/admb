@@ -51,6 +51,14 @@ section.menubar {
   transition: flex-basis 400ms ease;
   background-color: $slate1;
 
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  a:not(.active) {
+    opacity: .4;
+  }
+
   .icon {
     padding: 7px 6px 7px 6px;
   }

@@ -12,7 +12,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { MenuModule } from 'primeng/menu';
-import { TabViewModule } from 'primeng/tabview';
+import { DialogModule } from 'primeng/dialog';
 
 import { TimepickerModule } from '../widget/timepicker/timepicker.module';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
@@ -24,12 +24,12 @@ import { TsPlotComponent } from './ts-plot/ts-plot.component';
 import { TsGroupsComponent } from './ts-groups/ts-groups.component';
 import { HistoryListComponent } from './history-list/history-list.component';
 
-// SplitButton hack
-import { Router } from '@angular/router';
 import { HistoryListItemComponent } from './history-list/history-list-item/history-list-item.component';
 import { AdmbPanelComponent } from './admb.component';
 
 import { PlotlyViaCDNModule } from 'angular-plotly.js';
+import { DashboardPanelComponent } from './dashboard-panel/dashboard-panel.component';
+import { TsWidgetComponent } from './dashboard-panel/ts-widget/ts-widget.component';
 
 
 PlotlyViaCDNModule.plotlyVersion = '1.54.7'; // can be `latest` or any version number (i.e.: '1.40.0')
@@ -46,6 +46,8 @@ PlotlyViaCDNModule.plotlyBundle = 'basic'; // optional: can be null (for full) o
     HistoryListComponent,
     HistoryListItemComponent,
     AdmbPanelComponent,
+    DashboardPanelComponent,
+    TsWidgetComponent,
   ],
   imports: [
     CommonModule,
@@ -61,7 +63,7 @@ PlotlyViaCDNModule.plotlyBundle = 'basic'; // optional: can be null (for full) o
     ProgressBarModule,
     ScrollPanelModule,
     MenuModule,
-    TabViewModule,
+    DialogModule,
 
     TimepickerModule,
 
