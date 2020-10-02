@@ -1,5 +1,6 @@
 <div class="dashboard-editor">
   <p-button label="Edit" (onClick)="editMode = true"></p-button>
+  <p-button label="Fixup" (onClick)="fixup()" *ngIf="editMode == true"></p-button>
   <p-button label="Done" (onClick)="doneEditing()" *ngIf="editMode == true"></p-button>
   <ngx-codemirror
   *ngIf="editMode == true"

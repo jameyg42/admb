@@ -52,6 +52,17 @@ export class DashboardPanelComponent implements OnInit {
       this.dashboardModel = null;
     }
   }
+  fixup() {
+    try {
+      var t;
+      eval('t = ' + this.dashboardJson);
+      this.dashboardJson = JSON.stringify(t, null, 2);
+      this.dashboardError = null;
+    }
+    catch (e) {
+      this.dashboardError = `Invalid report JSON: ${e}`;
+    }
+  }
 
 
   ngOnInit(): void {
