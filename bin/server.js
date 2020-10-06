@@ -1,9 +1,10 @@
+#!/usr/bin/env node
 const express = require('express');
 const http = require('http')
 const cors = require('cors');
 const cookies = require('cookie-parser');
 
-const xor = require('./xor');
+const xor = require('../src/xor');
 
 const appdServices = require('@metlife/appd-services-js');
 const pipeline = require('@metlife/appd-services-js/lib/metrics-pipeline');

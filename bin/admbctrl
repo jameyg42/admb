@@ -1,0 +1,120 @@
+#!/bin/sh
+# adapted from Spring Boot Startup script
+APP_DIR=$(dirname "$0")/..
+APP_NAME=admb
+
+PID_FOLDER=${APP_DIR}/var
+LOG_FOLDER=${APP_DIR}/logs
+LOG_FILENAME=${APP_NAME}-sysout.log
+
+mkdir -p $PID_FOLDER $LOG_FOLDER
+
+PATH=${PATH}:${APP_DIR}/bin
+WORKING_DIR="$(pwd)"
+
+# Build the pid and log filenames
+pid_file="$PID_FOLDER/${APP_NAME}.pid"
+log_file="$LOG_FOLDER/$LOG_FILENAME"
+
+# ANSI Colors
+cecho() {
+  COLOR=$1
+  shift
+  echo -e "${COLOR}$*\e[0m";
+}
+echoRed()    { cecho "\e[31;1m" $*; }
+echoGreen()  { cecho "\e[32;1m" $*; }
+echoYellow() { cecho "\e[33;1m" $*; }
+
+# Utility functions
+checkPermissions() {
+  touch "$pid_file" &> /dev/null || { echoRed "Operation not permitted (cannot access pid file)"; return 4; }
+  touch "$log_file" &> /dev/null || { echoRed "Operation not permitted (cannot access log file)"; return 4; }
+}
+isRunning() {
+  ps -p "${1:-999999999}" > /dev/null
+}
+
+
+# Action functions
+_start() {
+	if [[ -f "$pid_file" ]]; then
+		pid=$(cat "$pid_file")
+		isRunning "$pid" && { echoYellow "Already running [$pid]"; return 0; }
+	fi
+	do_start "$@"
+}
+
+
+do_start() {
+	[[ -e "$PID_FOLDER" ]] || { mkdir -p "$PID_FOLDER" &> /dev/null; }
+	checkPermissions || return $?
+	nohup node ${APP_DIR}/bin/server.js "$@" >> "$log_file" 2>&1 &
+	pid=$!
+	echo "$pid" > "$pid_file"
+	[[ -z $pid ]] && { echoRed "Failed to start"; return 1; }
+	echoGreen "Started [$pid] - output to ${log_file}"
+}
+
+_stop() {
+  [[ -f $pid_file ]] || { echoYellow "Not running (pidfile not found)"; return 0; }
+  pid=$(cat "$pid_file")
+  isRunning "$pid" || { echoYellow "Not running (process ${pid}). Removing stale pid file."; rm -f "$pid_file"; return 0; }
+  do_stop "$pid" "$pid_file"
+}
+
+do_stop() {
+  kill "$1" &> /dev/null || { echoRed "Unable to kill process $1"; return 1; }
+  for i in $(seq 1 60); do
+    isRunning "$1" || { echoGreen "Stopped [$1]"; rm -f "$2"; return 0; }
+    [[ $i -eq 30 ]] && kill "$1" &> /dev/null
+    sleep 1
+  done
+  echoRed "Unable to kill process $1";
+  return 1;
+}
+
+_restart() {
+  _stop && _start
+}
+
+_force_reload() {
+  [[ -f $pid_file ]] || { echoRed "Not running (pidfile not found)"; return 7; }
+  pid=$(cat "$pid_file")
+  rm -f "$pid_file"
+  isRunning "$pid" || { echoRed "Not running (process ${pid} not found)"; return 7; }
+  do_stop "$pid" "$pid_file"
+  do_start
+}
+
+_status() {
+  [[ -f "$pid_file" ]] || { echoRed "Not running"; return 3; }
+  pid=$(cat "$pid_file")
+  isRunning "$pid" || { echoRed "Not running (process ${pid} not found)"; return 1; }
+  echoGreen "Running [$pid]"
+  return 0
+}
+
+
+# Call the appropriate action function
+if [ "$#" -gt 0 ] ; then
+	action=$1
+	shift
+fi
+
+case "$action" in
+start)
+  _start "$@"; exit $?;;
+stop)
+  _stop "$@"; exit $?;;
+restart)
+  _restart "$@"; exit $?;;
+force-reload)
+  _force_reload "$@"; exit $?;;
+status)
+  _status "$@"; exit $?;;
+*)
+  echoYellow "Usage: $0 {start|stop|restart|force-reload|status} [args]"; exit 1;
+esac
+
+exit 0
