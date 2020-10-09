@@ -1,7 +1,7 @@
 # AppDynamics Metrics Browser (ADMB) - WebUI Version
 
 ## Overview
-Syntax Version BETA0
+Syntax Version 1.9.0-TRANSITIONAL (experimental)
 
 ADMB is an alternative way to browse the AppDynamics metrics tree.  The system consists of a search expression
 syntax used to query the metrics tree, and a transformation pipeline syntax that can be used to perform various
@@ -9,31 +9,61 @@ transforms on the discovered metrics - collectively, the search expressions and 
 referred to as "pipeline expressions".
 
 ## General Syntax
+    <search-expression> |> <pipeline-operator>
+
+    <search-expression>
+       <app-with-globs>:|<metric-path-with-globs>
+
+    <glob>
+       * wildcard - match multiple any char
+       ? match single any char
+       {option1, opti*n2}
+    
+example: 
+    
+    8911*:|Overall*|*|{Calls per*, Errors per*} |> groupBy 2 |> percentOf
+
+
+## Semi-Formal Syntax
     <pipeline-expr>:
-       <search-expr> |> <pipeline-cmds> |
-       <pipeline-expr> |> [ <pipeline-expr> ]    # subsearch
+       <search-expr> <pipeline-op> <pipeline-cmds> |
+       <pipeline-expr> <pipeline-op> [ <pipeline-expr> ]    # subsearch
     <search-expr>
-       app=<app> <metric-path> |
+       <metric-path> |
        <metric-path>;<metric-paths>
+    <metric-path>
+       <app-selector>:<path-delim><nodes>[<value-selector>(opt)]
+    <app-selector>
+       <glob>
+    <path-delim>
+       one-of |, /, ~, !, $, %, ^
+    <nodes>
+       <glob> |
+       <glob><path-delim><nodes>
+    <value-selector>  - optional - default is [value]
+       one of value, min, max, sum, count |
+       one of baseline@<baseline>, stddev@<baseline>
     <pipeline-cmds>
        <command> <arguments> |
-       <command> <arguments> |> <pipeline-cmds | subsearch>
+       <command> <arguments> <pipline-op> <pipeline-cmds | subsearch>
+    <pipeline-op>
+       one of |>, />, >>
+
 
 for example
 
-    app=8911* Overall Application Performance|*|Individual Nodes|*|Calls per Minute
+    8911*:/Overall*/*/Individual Nodes/*/Calls per Minute
     |> groupBy segment=2 |> groupBy segment=4
-    |> reduce fn=avg
+    >> reduce fn=avg
 
-NOTE that a formal grammar can be found in `appd-services-js/lib/metrics/pipeline/pipeline-grammar.ne`.
+NOTE that a formal grammar can be found in `appd-services-js/lib/metrics-pipeline/pipeline-grammar.ne`.
 
 ## Search Expressions - Paths and Wildcards
-A search expression is an AppDynamics metrics path containing zero or more wildcard expressions.  As defined by
-AppDynamics itself, a metric path is a pipe delimited (`|`) series of node names from the root of the metric
-tree to the metric being searched for.  These are the paths that can be copied from the AppDynamics metrics browser
-by right clicking on the metric and selecting "Copy Full Path".  Path segments can be either a node name, or a
-wildcard expression.  The following wildcards are supported (note that wildcards only match individual node segments - 
-they will never match beyond a pipe):
+A search expression is an AppDynamics app followed by a metrics path containing zero or more wildcard expressions.  
+A metric path is a delimited  series of node names from the root of the metric tree to the metric being searched for.  
+These are the paths that can be copied from the AppDynamics metrics browser by right clicking on the metric and 
+selecting "Copy Full Path".  Path segments can be either a node name, or a wildcard expression.  The following wildcards 
+are supported (note that wildcards only match individual node segments - they will never match beyond a pipe):
 ### Asterix
 An asterix (`*`) matches zero or more characters.  It's a non-greedy match, so you can have more than one asterix wildcard
 in a single path segment.  It's functionally equivalent to the regex `.*?`
@@ -43,28 +73,10 @@ A question mark (`?`) matches exactly one character.  It's functionally equivale
 Comma-separated values within curly braces ({foo,bar,...}) are treated as alternative value lists, and match if any of the 
 values matches the current point in the path. For example, 
 
-    `Overall Application Performance|{app_tier,web_tier}|Calls per Minute`.
+    Overall Application Performance|{app_tier,web_tier}|Calls per Minute
 
-It's functionally equivalent to the regex `(?:(?:opt1)|(?:opt2))`.
+It's functionally equivalent to the regex `(?:(?:app_tier)|(?:web_tier))`.
 
-### Application Specifier
-The application(s) a search expression executes in the context of are specified using the following syntax:
-
-    app=<app-expression>[@<baseline>] <metric-path>
-
-where `app-expression` is an application name, optionally with wildcards and the optional `@<baseline>` is used to specify
-a baseline to pull the baseline metric values `baseline` and `sigma` in the the series.  
-
-NOTE that baseline metrics need to be pulled from a separate service call.  Because the baseline metric values are not
-needed for all searches, this additional service call is *only* made if a `@<baseline>` is specified.
-
-The `app-expression` must proceed the `metric-path`,
-otherwise it will be considered part of the metric path itself.
-
-### A Note on Quoting
-Metric paths and argument values can optionally be quoted either as 'single quoted' or "double quoted" strings.  The grammar
-tries to minimize the need for using quotes, but occasionally such needs arise.  It's always safe to use quotes for paths and
-values, but it's generally preferred to use them only when required.
 
 ## Subsearches
 A subsearch is a special form of pipeline command that takes a complete pipeline-expression as an argument.  The results of
@@ -76,10 +88,10 @@ A subsearch takes the form
 
 that is, you pipe the current search results to a `[ <subexpression> ]` (square brackets included).  For example,
 
-    app=8911* Overall Application Performance|*|Average Response Time (ms)
+    8911*:|Overall Application Performance|*|Average Response Time (ms)
     |> label %s[2]-RT
     |> [
-      app=8911* Overall Application Performance|*|Calls per Minute 
+      8911*:|Overall Application Performance|*|Calls per Minute 
       |> label %s[2]-CPM
       |> plot yaxis=2 type=bar
     ] 
@@ -92,12 +104,9 @@ parameters *unless* a command only takes a single argument.  NOTE that argument 
 value contains spaces in it - if left unquoted, the grammar will treat spaces as a delimiter between a named and unnamed parameter.
 
 ## Metrics Series
-Metric searches return zero or more metric series.  The Series type is similar to but ultimately different than the 
-Series type returned by the respective AppDynamics services.  It consists of a timeseries - a set of time-dimensioned data
-points with the following values: value, min, max, baseline*, sigma* - along with a metadata
-  * - only if the `@<baseline>` is specified
-
-See the `metrics-ex/normalize.js` module for more information on the timeseries type.
+Metric searches return zero or more metric series.  Unlike AppDynamics' MetricSeries where each timeseries data point contains
+multiple values (value, min, max, etc), ADMB data points only contain the single value specified by the <value-selector> in the
+search expression.  If multiple values are specified in the value selector, multiple series are returned.
 
 ## Understanding Groups and the "flatten -> (re)group" Pattern
 Individual metric series exist in series groups.  Groups are formed either by each `metric-path` in a `search-expression` 
@@ -110,9 +119,9 @@ series.
 It's a common pattern to create a bunch of groups, operate on them (either via `reduce` or via subsearches), flatten the
 groups, then re-group under some different dimension.  For example...
 
-    app=8911* Overall*|*|Individual Nodes|*|Calls per Minute
+    8911*:|Overall*|*|Individual Nodes|*|Calls per Minute
     |> [ 
-       app=8911*@WEEKLY Overall*|*|Individual Nodes|*|Calls per Minute
+       8911*:|Overall*|*|Individual Nodes|*|Calls per Minute[baseline@WEEKLY]
        |> groupBy segment=2
        |> groupBy rex=(SISC|RISC)
        |> reduce avg
@@ -186,6 +195,50 @@ Takes the percentage of each subsequent series relative to the first series in e
 Syntax:
     percentOf
 
+### invert
+Invert (1 / x) every value in the series.
+
+Syntax:
+
+     invert
+
+### log
+Take the natural log of each value in the series
+
+Syntax:
+
+    log
+
+### e
+Raises each value in the series to 'e' (the base for natural logarithms)
+
+Syntax:
+
+    e
+
+### sqrt
+Takes the square root of each value in the series.
+
+Syntax:
+
+    sqrt
+
+### offset
+Adds a given value to each value in the series.
+
+Syntax:
+
+    offset <n>
+
+- n - the offset distance added to each series value
+
+### toZero
+Offsets each value in a series by the minimum value in the series, "flooring" the minimum value in the series at zero.
+
+Syntax:
+
+    toZero
+
 ### sort
 Sorts the series in each group. 
 
@@ -201,6 +254,16 @@ Syntax:
        an argument (i.e. `by=name[(RISC|SISC)])`)  
      * segment - the path segment specified by the index argument (i.e. `by=segment[7]`)
 - dir - the sort direction, defaulting to asc(ending) for name and segment operators, and desc(ending) for the avg operator
+
+### fill
+Fill in gaps of missing data, currently using simple linear interpolation between gap edges.  NOTE that AppDynamics doesn't
+always differentiate between a gap and a zero, so all gaps are currently represented as zeros.  This could skew aggregator
+functions (see `filter` and `sort`).  Zero vs. gap handling will be improved in the future, but for now you may need to
+`fill` in the gaps for sorting/filtering to work correctly.
+
+Syntax:
+
+    fill
 
 ### filter / filterGroup
 Filters (removes non-matching) series or entire groups from the results.
@@ -218,6 +281,41 @@ Syntax:
     * ctx - advanced - the pipeline execution context (see appd-services-js/lib/metrics/pipeline/pipeline.js for more information)
 - matching - for `filterGroup`, whether all series need to evaluate to true for the group to be included (`every`), at least one series (`some`),
   or all the series matching the specified name expression (the metricFullName with optional wildcards)
+
+### limit
+Limits the number of series in the current group by including only the first N series in the group and removing the rest.  
+Useful when combined with `filter`.
+
+Syntax:
+
+    limit <n>
+
+  - n - the number of series to keep in the group
+
+### top
+Picks the top N series ordered by the specified aggregator function (default is `avg`).  This is essentially short-hand for
+
+    sort <fn> dir=desc|> limit <n>
+
+Syntax:
+
+   top <n> by=<avg,sum,min,max>
+
+- n - the number of series to keep
+- by - the sorting function (see `sort`)
+
+### bottom
+Picks the bottom N series ordered by the aggregator function.  This is essentially short-hand for
+
+    sort <fn> dir=asc |> limit <n>
+
+Syntax:
+
+   bottom <n> by=<avg,sum,min,max>
+
+- n - the number of series to keep
+- by - the sorting function (see `sort`)
+
 
 ### outlier
 Elimates outlier values in each individual timeseries by fencing the set of values withing the inter-quartile range. NOTE that currently both the
@@ -243,12 +341,6 @@ Syntax:
     * ts - advanced - the full timeseries object
     * ctx - advanced - the pipeline execution context (NOTE that `%{ctx.app.name}` may be especially useful)
 
-### derivative
-Calculates the difference between each subsequent data point. 
-
-Syntax:
-
-    derivative
 
 ### plot
 Sets metadata that is used by the WebUI's plot component.
@@ -259,16 +351,31 @@ Syntax:
 
 - type - the type of plot - defaults to line
 - yaxis - the yaxis to plot the series on - defaults to 1
-- vals - the metric values to plot as a comma-separated list.  NOTE that the baseline and stddev values are only
-  available if a `@baseline` qualifier is included in the app expression.
 
-### abs
-Sets the absolute value for each value in the series.  Useful when combined with `derivative` to show the change regardless
-of sign.
+### threshold
+Creates a new series equal in length to the largest series in the group with a given fixed value (e.g. draws a 
+horizontal line).  NOTE that the series created using threshold is a true series included in the group and will
+be affected by any additional tranforms conducted on the series in the group.
 
 Syntax:
 
-   abs
+    threshold <n>
+
+- n - the value of the threshold line
+
+### derivative
+Calculates the difference between each subsequent data point.   Inverse of `integral`.
+
+Syntax:
+
+    derivative
+
+### intergral
+Continually sums each subsequent data point.  Inverse of `derivative`.
+
+Syntax:
+
+    integral
 
 ### ceil
 Sets a ceiling for the metric value.  Any value exceeding the specified ceiling value is set to the ceiling value.
@@ -289,6 +396,21 @@ Syntax:
 
 - floor - the minimum value
 
+### abs
+Sets the absolute value for each value in the series.  Useful when combined with `derivative` to show the change regardless
+of sign.
+
+Syntax:
+
+   abs
+
+## binary
+0 if the value is 0; otherwise 1.
+
+Syntax:
+
+   binary
+
 #### normalize
 Applies min/max normalizion for each value in the series.  Normalizing is useful when comparing multiple series that are scaled
 differently (i.e. calls per minute vs. response time) to show how a change in one value impacts a change in another value since
@@ -306,4 +428,18 @@ Syntax
     normalize [window=<datapoints>]
 
 - window - the size of the window in # of datapoints to use in the moving average
+
+### shift
+Shifts the time of each data point by a given value.  Durations are expressed in a human readable form
+as defined by https://github.com/jkroso/parse-duration.  Positive durations shift to the future; negative
+to the past.  NOTE that shifting does not change the range of data fetched from AppDynamics - shifting
+instead just adds/subtracts a value from the timestamps of the series leaving a gap at the start/end of 
+the series compared to the range the data was fetch with depending on the direction data is shifted.  
+
+For example:
+    shift "-2m"
+
+Syntax:
+
+    shift <duration>
 
