@@ -108,7 +108,7 @@ function timeseriesToPlots(ts: MetricTimeseries) {
       mode: 'lines',
       fill: 'tonexty',
       line: {
-        shape: 'spline'
+        shape: so.shape || 'spline'
       }
     });
   } else {
@@ -117,7 +117,7 @@ function timeseriesToPlots(ts: MetricTimeseries) {
       mode: 'lines',
       line: {
         dash: so.type === 'dashed' ? 'dash' : 'solid',
-        shape: 'spline'
+        shape: so.shape || 'spline'
       }
     });
   }
