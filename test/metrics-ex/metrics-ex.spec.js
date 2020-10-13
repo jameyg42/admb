@@ -8,7 +8,8 @@ const itApp = {
 }
 
 //metrics.browse(itApp, '').then(console.log)
-metrics.browse(itApp, 'Databases|ESEQ.METLIFE.COM-Oracle DB-USCKU1METE0183L.metnet.net-Oracle*').then(console.log)
+metrics.browse(itApp, 'Servers|ustry1base0088l|CPU').then(console.log);
+//metrics.browse(itApp, 'Databases|ESEQ.METLIFE.COM-Oracle DB-USCKU1METE0183L.metnet.net-Oracle*').then(console.log)
 //metrics.browse(itApp, 'Overall Application Performance').then(console.log)
 
 //metrics.browse(itApp, 'Overall Application Performance|*|Individua? Nodes').then(console.log)
