@@ -27,13 +27,12 @@ import { HistoryListComponent } from './history-list/history-list.component';
 import { HistoryListItemComponent } from './history-list/history-list-item/history-list-item.component';
 import { AdmbPanelComponent } from './admb.component';
 
-import { PlotlyViaCDNModule } from 'angular-plotly.js';
 import { DashboardPanelComponent } from './dashboard-panel/dashboard-panel.component';
 import { TsWidgetComponent } from './dashboard-panel/ts-widget/ts-widget.component';
 
-
-PlotlyViaCDNModule.plotlyVersion = '1.54.7'; // can be `latest` or any version number (i.e.: '1.40.0')
-PlotlyViaCDNModule.plotlyBundle = 'basic'; // optional: can be null (for full) or 'basic', 'cartesian', 'geo', 'gl3d', 'gl2d', 'mapbox' or 'finance'
+import { PlotlyViaCDNModule } from 'angular-plotly.js';
+PlotlyViaCDNModule.setPlotlyVersion('latest'); // can be `latest` or any version number (i.e.: '1.40.0')
+PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full) or 'basic', 'cartesian', 'geo', 'gl3d', 'gl2d', 'mapbox' or 'finance'
 
 
 @NgModule({

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ViewChild, OnDestroy } from '@angular/core';
 import { MetricTimeseries } from '../svc/model';
 import { flatten } from 'lodash';
-import { PlotComponent } from 'angular-plotly.js';
+import { PlotlyComponent } from 'angular-plotly.js';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -12,8 +12,8 @@ import { PlotComponent } from 'angular-plotly.js';
 export class TsPlotComponent implements OnInit, OnDestroy {
   _timeseriesGroup: MetricTimeseries[];
 
-  @ViewChild(PlotComponent)
-  plot: PlotComponent;
+  @ViewChild(PlotlyComponent)
+  plot: PlotlyComponent;
 
   plotData: any;
   config: any;
