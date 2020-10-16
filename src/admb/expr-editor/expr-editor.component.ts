@@ -1,13 +1,14 @@
 import { Component, Input, Output, EventEmitter, ViewChild, AfterViewInit, NgZone } from '@angular/core';
-import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
 import './cm-pipeline-mode';
+import 'codemirror/addon/edit/closebrackets';
+import 'codemirror/addon/edit/matchbrackets';
 
 @Component({
   selector: 'admb-expr-editor',
   templateUrl: './expr-editor.component.html',
   styleUrls: ['./expr-editor.component.scss']
 })
-export class ExprEditorComponent implements AfterViewInit {
+export class ExprEditorComponent {
   @Input()
   expr: string;
 
@@ -17,24 +18,20 @@ export class ExprEditorComponent implements AfterViewInit {
   @Output()
   exprExecute = new EventEmitter<string>();
 
-  @ViewChild(CodemirrorComponent)
-  cm: CodemirrorComponent;
+  options: any;
 
-  constructor(private ngZone: NgZone) { }
-
-  ngAfterViewInit() {
-    const self = this;
-    this.cm.options = {
+  constructor(private ngZone: NgZone) {
+    this.options = {
       lineNumbers: true,
       lineWrapping: true,
+      matchBrackets: true,
+      autoCloseBrackets: true,
       theme: 'default',
       mode: 'pipeline',
       extraKeys: {
-        'Ctrl-Enter': () => {
-          self.ngZone.run(() => {
-            self.exprExecute.emit(self.expr);
-          });
-        }
+        'Ctrl-Enter': () => ngZone.run(() => {
+          this.exprExecute.emit(this.expr);
+        })
       }
     };
   }

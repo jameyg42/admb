@@ -18,11 +18,18 @@
    background-color: red;
  }
  :host ::ng-deep .valid .p-progressbar {
-  background-color: green;
+  background-color: #4CAF50;
   .p-progressbar-value {
-    background-color: white;
+    background-color: #f7f7f7;
   }
- }
+}
+:host ::ng-deep .p-button,
+:host ::ng-deep .p-button-icon-only,
+:host ::ng-deep .p-multiselect .p-multiselect-label {
+  padding-top: .3rem;
+  padding-bottom: .3rem;
+}
+
 
  @media print {
   :host {
