@@ -33,6 +33,15 @@ export class TsPlotComponent implements OnInit, OnDestroy {
     }
   }
 
+  set interactive(interactive) {
+    console.log('interactive', interactive);
+    this.plot.config.staticPlot = !interactive;
+    this.plot.updatePlot();
+  }
+  get interactive() {
+    return !this.plot?.config.staticPlot || false;
+  }
+
   constructor() {
     this.config = {
       staticPlot: true,

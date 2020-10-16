@@ -1,5 +1,6 @@
 <div class="nobreak">
-<plotly-plot *ngIf="plotData"
+  <div><p-checkbox [(ngModel)]="interactive" [binary]="true"></p-checkbox> Interactive</div>
+  <plotly-plot *ngIf="plotData"
   [config]="config"
   [layout]="layout"
   [data]="plotData"
