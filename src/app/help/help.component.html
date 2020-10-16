@@ -1,0 +1,7 @@
+<div>
+  <span (click)="visible=!visible" class="material-icons icon">help</span>
+</div>
+<p-dialog #help [(visible)]="visible" position="right" [style]="{'width': '25%'}" header="Function Help">
+  <markdown [src]="'/assets/help.md'"></markdown>
+</p-dialog>
+

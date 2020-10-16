@@ -12,11 +12,16 @@
   </section>
   <div class="main-wrapper" *ngIf="user != null">
     <section class="header noprint">
-      <span style="display: inline-block; padding-top: 3px; padding-left: 4px;">
-        <img src="../assets/appd_logo.png" height="25">
-        Metrics Browser
-      </span>
-      <admb-profile [user]="user"></admb-profile>
+      <ul class="left">
+        <li>
+          <img src="../assets/appd_logo.png" height="25">
+          Metrics Browser
+        </li>
+      </ul>
+      <ul class="right">
+        <li><admb-help></admb-help></li>
+        <li><admb-profile [user]="user"></admb-profile></li>
+      </ul>
     </section>
     <section class="content">
       <div class="content-wrapper">

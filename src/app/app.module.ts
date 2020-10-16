@@ -18,13 +18,17 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { AdmbModule } from 'src/admb/admb.module';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
+import { HelpComponent } from './help/help.component';
+import { MarkdownModule } from 'ngx-markdown';
+import { DialogModule } from 'primeng/dialog';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    ProfileComponent
+    ProfileComponent,
+    HelpComponent
   ],
   imports: [
     FormsModule,
@@ -40,6 +44,9 @@ import { ProfileComponent } from './profile/profile.component';
     OverlayPanelModule,
     DropdownModule,
     ScrollPanelModule,
+    DialogModule,
+
+    MarkdownModule.forRoot(),
 
     AdmbModule,
   ],
