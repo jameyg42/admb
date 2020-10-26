@@ -7,16 +7,19 @@ const cookies = require('cookie-parser');
 const xor = require('../src/xor');
 
 const appdServices = require('@metlife/appd-services-js');
-const pipeline = require('@metlife/appd-services-js/lib/metrics-pipeline');
 const appd = require('@metlife/appd-services-js/lib/client/proxy-client');
+
+const createProviders = require('@metlife/appd-services-js/lib/metrics-pipeline/providers');
+const appdProvider = require('@metlife/appd-services-js/lib/metrics-pipeline/providers/metrics-ex-provider');
+const prometheusProvider = require('@metlife/appd-services-js/lib/metrics-pipeline/providers/prometheus-provider');
+const pipeline = require('@metlife/appd-services-js/lib/metrics-pipeline');
+
 
 const app = express();
 app.use(express.static(__dirname +'/../dist/appd-browser-webui'));
 app.use(express.json())
 app.use(cookies());
 app.use(cors());
-
-let appdSession = null;
 
 app.post('/api/login', (req,rsp,next) => {
   const cred = req.body;
@@ -43,7 +46,10 @@ app.get('/api/user', (req,rsp,next) => {
 app.post('/api/pipeline/exec', (req,rsp,next) => {
   const expr = req.body;
   const appdSession = appd.open(req.cookies);
-  pipeline(appdSession)
+  const providers = createProviders();
+  providers.register('appd', appdProvider(appdSession))
+  providers.register('prometheus-risc', prometheusProvider('@prometheus-risc', 'http://risc.prometheus.metlife.com'));
+  pipeline(providers)
     .exec(expr.expr, expr.range, expr.vars)
     .then(r => rsp.json(r))
     .catch(next);
