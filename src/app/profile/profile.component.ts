@@ -29,7 +29,7 @@ export class ProfileComponent implements OnInit {
       this.beatInterval = null;
     }
     if (enabled) {
-      this.beatInterval = setInterval(() => this.loginService.currentUser(), 1 * 60 * 1000);
+      this.beatInterval = setInterval(() => this.loginService.currentUser(), 10 * 60 * 1000);
     }
     storage.put('sessionBeatEnabled', enabled);
   }
