@@ -1,7 +1,6 @@
 import { Component, Input, Output, EventEmitter, ViewChild, AfterViewInit, NgZone } from '@angular/core';
-import './cm-pipeline-mode';
-import 'codemirror/addon/edit/closebrackets';
-import 'codemirror/addon/edit/matchbrackets';
+import { Extension } from '@codemirror/state';
+import { Command, KeyBinding, keymap } from '@codemirror/view';
 
 @Component({
   selector: 'admb-expr-editor',
@@ -18,22 +17,17 @@ export class ExprEditorComponent {
   @Output()
   exprExecute = new EventEmitter<string>();
 
-  options: any;
+  extensions: Extension[];
 
   constructor(private ngZone: NgZone) {
-    this.options = {
-      lineNumbers: true,
-      lineWrapping: true,
-      matchBrackets: true,
-      autoCloseBrackets: true,
-      theme: 'default',
-      mode: 'pipeline',
-      extraKeys: {
-        'Ctrl-Enter': () => ngZone.run(() => {
-          this.exprExecute.emit(this.expr);
-        })
-      }
+    const execExpr: Command = view => {
+      this.exprExecute.emit(this.expr);
+      return false;
     };
+    const exprKeymap: readonly KeyBinding[] = ([
+      {key: "Ctrl-Enter",  run: execExpr}
+    ]);
+    this.extensions = [keymap.of(exprKeymap)];
   }
 }
 

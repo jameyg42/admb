@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Range } from 'src/widget/timepicker/range';
 import { DashboardModel, DashboardWidget } from './dashboard-model';
 import { isArray } from 'lodash';
-import 'codemirror/mode/javascript/javascript.js';
 
 @Component({
   selector: 'admb-dashboard-panel',
