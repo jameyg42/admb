@@ -1,0 +1,22 @@
+{
+  "op": "search",
+  "ctx": { "app": "8911" },
+  "paths": ["Over*|*|Individual*|*|Average Res*"],
+  "pipes": [
+    {
+      "op": "groupBy",
+      "args": [
+        { "name": "segment", "value": "4" },
+        { "name": "rex", "value": "([RS]ISC)" }
+      ]
+    },
+    { "op": "groupBy", "args": [{ "name": "segment", "value": "2" }] },
+    {
+      "op": "search",
+      "paths": ["Overall"],
+      "pipes": [{ "op": "flatten", "args": [] }]
+    },
+    { "op": "reduce", "args": [{ "name": "fn", "value": "avg" }] },
+    { "op": "flatten", "args": [] }
+  ]
+}

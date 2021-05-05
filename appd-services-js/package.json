@@ -1,0 +1,23 @@
+{
+  "name": "@metlife/appd-services-js",
+  "version": "1.9.0-TRANSITIONAL",
+  "description": "Various services / service-extensions for AppDynamics",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Jamey Graham <jgraham@metlife.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://devtools.metlife.com/bitbucket/scm/~jgraham/appd-services-js.git"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "axios": "0.19.0",
+    "lodash": "4.17.15",
+    "moment": "2.24.0",
+    "nearley": "2.19.6",
+    "node-cache": "5.1.0",
+    "parse-duration": "0.4.4",
+    "rxjs": "6.5.3",
+    "tough-cookie": "3.0.1"
+  }
+}
