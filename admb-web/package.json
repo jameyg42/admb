@@ -1,6 +1,12 @@
 {
   "name": "appd-browser-webui",
   "version": "1.9.0-TRANSITIONAL",
+  "author": "Jamey Graham <jgraham@metlife.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://devtools.metlife.com/bitbucket/scm/~jgraham/appd-js.git"
+  },
+  "license": "UNLICENSED",
   "scripts": {
     "ng": "ng",
     "build": "ng build",
@@ -22,7 +28,7 @@
     "@angular/platform-browser-dynamic": "~11.2.12",
     "@angular/router": "~11.2.12",
     "@ctrl/ngx-codemirror": "^4.1.1",
-    "@metlife/appd-services-js": "git+https://jgraham@devtools.metlife.com/bitbucket/scm/~jgraham/appd-services-js.git",
+    "@metlife/appd-services-js": "../appd-services-js",
     "angular-plotly.js": "^4.0.0",
     "codemirror": "^5.61.0",
     "cookie-parser": "^1.4.5",

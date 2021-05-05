@@ -7,7 +7,7 @@
   "author": "Jamey Graham <jgraham@metlife.com>",
   "repository": {
     "type": "git",
-    "url": "https://devtools.metlife.com/bitbucket/scm/~jgraham/appd-services-js.git"
+    "url": "https://devtools.metlife.com/bitbucket/scm/~jgraham/appd-js.git"
   },
   "license": "UNLICENSED",
   "dependencies": {
