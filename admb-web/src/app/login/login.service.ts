@@ -48,7 +48,7 @@ export class LoginService {
         .subscribe(
           ok => {
             this.userChange.next(null);
-            resolve();
+            resolve("logged-out");
           },
           err => reject(err),
           undefined
