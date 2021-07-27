@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
     this.controllers =  [
       {label: 'Production', value: 'https://appd.metlife.com'},
       {label: 'QA', value: 'https://qa.appd.metlife.com'},
+      {label: 'AppD-on-AppD', value: 'http://ustry1basv00edl.met_intnet.net:8090'},
       {label: 'Dev/Lab', value: 'https://dev.appd.metlife.com'}
     ];
     this.loginForm = new FormGroup({
@@ -40,7 +41,7 @@ export class LoginComponent implements OnInit {
       .then(() => this.loginError = null)
       .catch(err => {
         console.log(err);
-        this.loginError = `Invalid Login`;
+        this.loginError = `Invalid Login :` + err;
       });
   }
 }

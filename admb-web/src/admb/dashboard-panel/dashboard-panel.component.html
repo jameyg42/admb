@@ -2,16 +2,9 @@
   <p-button label="Edit" (onClick)="editMode = true"></p-button>
   <p-button label="Fixup" (onClick)="fixup()" *ngIf="editMode == true"></p-button>
   <p-button label="Done" (onClick)="doneEditing()" *ngIf="editMode == true"></p-button>
-  <ngx-codemirror
-  *ngIf="editMode == true"
-  [(ngModel)]="dashboardJson"
-  [options]="{
-    lineNumbers: true,
-    lineWrapping: true,
-    theme: 'default',
-    mode: {name: 'javascript', json: true}
-  }"
-  ></ngx-codemirror>
+
+  <admb-code-editor></admb-code-editor>
+
 </div>
 <div class="ui-dashboard">
   <div class="dashboard-canvas" *ngIf="dashboardModel">
