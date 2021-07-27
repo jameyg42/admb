@@ -5,7 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { TimepickerComponent } from './timepicker.component';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { TabViewModule } from 'primeng/tabview';
-import { SpinnerModule } from 'primeng/spinner';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { RangePipe } from './range.pipe';
@@ -24,7 +24,7 @@ import { RangePipe } from './range.pipe';
     CommonModule,
     FormsModule,
     ButtonModule,
-    SpinnerModule,
+    InputNumberModule,
     DropdownModule,
     CalendarModule,
     OverlayPanelModule,

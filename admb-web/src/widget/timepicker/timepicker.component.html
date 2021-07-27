@@ -1,15 +1,15 @@
-<div class="ui-inputgroup">
+<div class="p-inputgroup">
   <button pButton icon="pi pi-step-backward-alt" (click)="slideLeft()"></button>
-  <button pButton [label]="rangeLabel | range" (click)="ranges.toggle($event)"></button>
+  <button pButton icon="p-hidden" [label]="rangeLabel | range" (click)="ranges.toggle($event)"></button>
   <button pButton icon="pi pi-search-plus" (click)="zoomIn()"></button>
   <button pButton icon="pi pi-search-minus" (click)="zoomOut()"></button>
   <button pButton icon="pi pi-step-forward-alt" (click)="slideRight()"></button>
 </div>
 <p-overlayPanel #ranges appendTo="body">
-  <p-tabView orientation="left">
+  <p-tabView>
     <p-tabPanel header="Presets">
-      <div class="p-grid">
-        <div class="p-col" *ngFor="let psg of presets">
+      <div class="grid">
+        <div class="col" *ngFor="let psg of presets">
           <h5>{{psg.section}}</h5>
           <div *ngFor="let preset of psg.sets">
               <a *ngIf="preset !== '-'" (click)="selectPreset(preset)">{{preset.label}}</a>
@@ -22,7 +22,7 @@
       <div>
         <div>Earliest:</div>
         <div>
-          <p-spinner [(ngModel)]="relativeDuration" size="5"></p-spinner>
+          <p-inputNumber [(ngModel)]="relativeDuration" [showButtons]="true" size="5"></p-inputNumber>
           <p-dropdown [(ngModel)]="relativeUnits" [options]="beforeNowOptions"></p-dropdown>
           <button pButton (click)="setRelative()" label="Apply"></button>
         </div>

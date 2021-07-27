@@ -7,13 +7,13 @@ h5 {
 }
 
 :host ::ng-deep {
-  .ui-overlaypanel-content {
+  .p-tabview-panels {
     width: 475px;
 
-    .ui-tabview .ui-tabview-panels {
+    .p-tabview .p-tabview-panels {
       border: none;
     }
-    .ui-tabview-left ul.ui-tabview-nav  {
+    .p-tabview-left ul.p-tabview-nav  {
       width: 100px;
       border-right: solid 1px #bfbfbe;
     }
