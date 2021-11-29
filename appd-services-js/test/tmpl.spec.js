@@ -20,8 +20,8 @@ const model = {
 
 };
 
-console.log(tmpl.eval('hello #{name.first} #{name.last}', model));
-console.log(tmpl.eval("you're #age years old but act like a #{mentalAge} year old", model));
+console.log(tmpl.eval('hello %{name.first} %{name.last}', model));
+console.log(tmpl.eval("you're %age years old but act like a %{mentalAge} year old", model));
 
-console.log(tmpl.with(model).eval('you live at #{addr.street.addr1} but have mail delivered to #{addr.mail.addr1}'));
-console.log(tmpl.eval('also known as #nicknames', model));
+console.log(tmpl.with(model).eval('you live at %{addr.street.addr1} but have mail delivered to %{addr.mail.addr1}'));
+console.log(tmpl.eval('also known as %nicknames', model));
