@@ -14,14 +14,14 @@ export class RangePipe implements PipeTransform {
     if (isString(value)) {
       return value as string;
     }
-
-    if (value.type === 'BEFORE_NOW') {
-      const d = moment.duration(value.durationInMinutes, 'minutes');
+    const range = value as Range;
+    if (range.type === 'BEFORE_NOW') {
+      const d = moment.duration(range.durationInMinutes, 'minutes');
       return d.humanize();
     }
     const today = moment();
-    const start = moment(value.startTime);
-    const end   = moment(value.endTime);
+    const start = moment(range.startTime);
+    const end   = moment(range.endTime);
     if (start.isSame(end, 'day')) {
       if (start.isSame(today, 'day')) {
         return `${start.format('LT')} to ${end.format('LT')}`;
