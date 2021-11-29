@@ -43,10 +43,13 @@ export class CodeEditorComponent implements AfterViewInit  {
         this.docChange.emit(this._doc);
       }
     })
-
+    const viewExtensions = this.extensions.slice();
+    viewExtensions.push(basicSetup);
+    viewExtensions.push(onUpdate);
+    
     const state = EditorState.create({
       doc: this.doc,
-      extensions: [onUpdate, basicSetup, ...this.extensions]
+      extensions: viewExtensions
     });
     this.editorView = new EditorView({
       state: state,
@@ -54,4 +57,3 @@ export class CodeEditorComponent implements AfterViewInit  {
     });
   }
 }
-

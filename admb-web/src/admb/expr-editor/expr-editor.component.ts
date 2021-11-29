@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild, AfterViewInit, NgZone } from '@angular/core';
+import { Component, Input, Output, EventEmitter, NgZone } from '@angular/core';
 import { Extension } from '@codemirror/state';
 import { Command, KeyBinding, keymap } from '@codemirror/view';
 
@@ -21,13 +21,13 @@ export class ExprEditorComponent {
 
   constructor(private ngZone: NgZone) {
     const execExpr: Command = view => {
+      console.log('ctrl+enter command')
       this.exprExecute.emit(this.expr);
-      return false;
+      return true;
     };
     const exprKeymap: readonly KeyBinding[] = ([
-      {key: "Ctrl-Enter",  run: execExpr}
+      {key: "Ctrl-Enter",  run: execExpr, preventDefault: true}
     ]);
     this.extensions = [keymap.of(exprKeymap)];
   }
 }
-
