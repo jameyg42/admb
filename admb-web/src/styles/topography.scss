@@ -1,8 +1,7 @@
 @import 'colors';
-@import 'fonts';
 
 html, body {
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   color: $gray1;
   -webkit-font-smoothing: antialiased;
 }
