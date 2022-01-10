@@ -1,18 +1,17 @@
 const reducers = require('./reducers')
-const round = require('./round').round;
+const mean = require('./stats').mean;
 
-function variance(data) {
-    if (data.length == 0) return 0;
-    const avg = round(data.reduce(reducers.avg), 3);
-    const variance = data
-        .map(d => d - avg)
-        .map(d => round(d, 3))
+function variance(x) {
+    if (x.length == 0) return 0;
+    const mx = mean(x);
+    const variance = x
+        .map(d => d - mx)
         .map(d => d*d)
         .reduce(reducers.avg)
-    return round(variance, 3);
+    return variance;
 }
 
 module.exports = {
     variance: variance,
-    stddev: d => Math.sqrt(variance(d))
+    stddev: x => Math.sqrt(variance(x))
 }

@@ -19,5 +19,8 @@
     "parse-duration": "^1.0.2",
     "rxjs": "^6.6.7",
     "tough-cookie": "^4.0.0"
+  },
+  "devDependencies": {
+    "jest": "^27.4.7"
   }
 }

@@ -1,12 +1,19 @@
-const reducers = require('./reducers')
-const round = require('./round').round
-const groupBy = require('lodash').groupBy
-
+const reducers = require('./reducers');
+const groupBy = require('lodash').groupBy;
 
 function sort(d, desc) {
     // default javascript sort is alphabetic and mutates the original array
     const clone = d.slice();
     return clone.sort((a,b) => desc ? b-a : a-b)
+}
+function rank(d) {
+    const ranks = sort(d)
+                  .filter((v, i, a) => i == 0 || a[i-1] != v) // dedupe
+                  .reduce((r, v, i) => {
+                      r[v] = i+1;
+                      return r;
+                  }, {});
+    return d.map(v => ranks[v]);
 }
 
 function median(d) {
@@ -15,9 +22,6 @@ function median(d) {
         return (parseFloat(d[i]) + parseFloat(d[i - 1])) / 2;
     }
     return d[Math.floor(d.length / 2)];
-}
-function mean(d) {
-    return round(d.reduce(reducers.avg), 3);
 }
 function mode(d) {
     const grouped = groupBy(d, String.valueOf(d))
@@ -47,11 +51,17 @@ function iqr(d) {
 
 module.exports = {
     sort: sort,
-    mean: mean,
+    rank: rank,
+    mean: d => d.reduce(reducers.avg),
     mode: mode,
     median: median,
     percentile: percentile,
     quartiles: quartiles,
     iqr: iqr,
 
+    sum: d => d.reduce(reducers.sum),
+    product: d => d.reduce(reducers.product),
+    diff: d => d.reduce(reducers.diff),
+    min: Math.min,
+    max: Math.max
 }

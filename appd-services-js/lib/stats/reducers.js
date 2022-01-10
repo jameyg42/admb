@@ -20,5 +20,5 @@ module.exports = {
     quotient: (a,c) => a/(safe(c) == 0 ? 1 : safe(c)),
     avg: reduceFrom(0, (a,c,i,f) => a + (parseFloat(safe(c)) / f.length)),
     min: (a,c) => Math.min(a,safe(c)),
-    max: (a,c) => Math.max(a,safe(c))
+    max: (a,c) => Math.max(a,safe(c)),
 }
