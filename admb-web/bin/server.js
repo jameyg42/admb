@@ -6,13 +6,13 @@ const cookies = require('cookie-parser');
 
 const xor = require('../src/xor');
 
-const appdServices = require('@metlife/appd-services-js');
-const appd = require('@metlife/appd-services-js/lib/client/proxy-client');
+const appdServices = require('@metlife/appd-services');
+const appd = require('@metlife/appd-services/lib/client/proxy-client');
 
-const createProviders = require('@metlife/appd-services-js/lib/metrics-pipeline/providers');
-const appdProvider = require('@metlife/appd-services-js/lib/metrics-pipeline/providers/metrics-ex-provider');
-const prometheusProvider = require('@metlife/appd-services-js/lib/metrics-pipeline/providers/prometheus-provider');
-const pipeline = require('@metlife/appd-services-js/lib/metrics-pipeline');
+const createProviders = require('@metlife/appd-services/lib/metrics-pipeline/providers');
+const appdProvider = require('@metlife/appd-services/lib/metrics-pipeline/providers/metrics-ex-provider');
+const prometheusProvider = require('@metlife/appd-services/lib/metrics-pipeline/providers/prometheus-provider');
+const pipeline = require('@metlife/appd-services/lib/metrics-pipeline');
 
 
 const app = express();
@@ -71,4 +71,3 @@ server.listen(8070, () => {
 process.on('SIGINT', function() {
   process.exit();
 });
-

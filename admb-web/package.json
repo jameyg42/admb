@@ -1,11 +1,8 @@
 {
-  "name": "appd-browser-webui",
-  "version": "1.9.0-TRANSITIONAL",
+  "name": "@metlife/admb-web",
+  "version": "2.0.0",
+  "private": true,
   "author": "Jamey Graham <jgraham@metlife.com>",
-  "repository": {
-    "type": "git",
-    "url": "https://devtools.metlife.com/bitbucket/scm/~jgraham/appd-js.git"
-  },
   "license": "UNLICENSED",
   "scripts": {
     "ng": "ng",
@@ -16,7 +13,6 @@
     "start": "bin/admbctrl start",
     "stop": "bin/admbctrl stop"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "~13.1.1",
     "@angular/cdk": "^13.1.1",
@@ -32,7 +28,6 @@
     "@codemirror/state": "^0.19.0",
     "@codemirror/text": "^0.19.0",
     "@codemirror/view": "^0.19.37",
-    "@metlife/appd-services-js": "../appd-services-js",
     "angular-plotly.js": "^4.0.4",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

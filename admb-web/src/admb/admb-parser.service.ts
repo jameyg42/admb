@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as parser from '@metlife/appd-services-js/lib/metrics-pipeline/parser';
+import * as parser from '@metlife/appd-services/lib/metrics-pipeline/parser';
 
 @Injectable({
   providedIn: 'root'
@@ -31,4 +31,3 @@ export interface ParseResult {
   ast?: any;
   error?: any;
 }
-
