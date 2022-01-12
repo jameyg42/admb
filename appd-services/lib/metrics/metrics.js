@@ -35,7 +35,7 @@ module.exports = (client) => {
         }
         return client.post('/restui/metricBrowser/async/metric-tree/root', {
             applicationId: app.id || app,
-            pathData: path || [],
+            pathData: path ? path.map((e,i) => i == 3 && e == 'All Other Traffic' ? '_APPDYNAMICS_DEFAULT_TX_' : e) : [],
             timeRangeSpecifier: range || defaultRange
         }).then(nodes => {
             nodes.forEach(n => {
