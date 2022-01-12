@@ -1,6 +1,7 @@
-const base = require('./_base');
 
+const base = require('./_base');
+const abs = require('@metlife/appd-libmetrics/out/ops/abs').default;
 module.exports = {
-    compile: base.compileForValues('abs', (ctx, args) => Math.abs),
+    compile: base.compileForSeries(abs),
     params: []
 }
