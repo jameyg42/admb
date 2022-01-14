@@ -1,7 +1,7 @@
 import { MetricDataPoint, MetricTimeseries } from "./api"
 import { clone } from "./clone";
 
-export type DataPointMapperFn = (dp:MetricDataPoint, i:number) => MetricDataPoint;
+export type DataPointMapperFn = (dp:MetricDataPoint, i:number, a:MetricDataPoint[]) => MetricDataPoint;
 /**
  * Maps the MetricDataPoints of the given MetricTimeseries with the provided mapper.
  * The original Timeseries is preserved and a new Timeseries is returned.
@@ -39,7 +39,7 @@ export const mapWithValues = (ts:MetricTimeseries, values:number[], named?:strin
     }, named);
 }
 
-export type DataValueMapperFn = (v:number, i:number) => number;
+export type DataValueMapperFn = (v:number, i:number, a:number[]) => number;
 /**
  * Maps the MetricDataPoint values of the given MetricTimeseries with the provided mapper.
  * The original Timeseries is preserved and a new Timeseries is returned.
@@ -51,6 +51,8 @@ export type DataValueMapperFn = (v:number, i:number) => number;
  * @returns 
  */
 export const mapValues = (ts:MetricTimeseries, fn:DataValueMapperFn, named?:string) => {
-    const values = ts.data.map(dp => dp.value).map(fn);
+    const values = extractValues(ts).map(fn);
     return mapWithValues(ts, values, named);
 }
+
+export const extractValues = (ts:MetricTimeseries) => ts.data.map(dp => dp.value);

@@ -111,3 +111,7 @@ export const zip = (...arrays:Array<any[]>) => {
     }
     return zipped;
 }
+
+
+export const removeGapsFilterFn = (v:any) => v === null || v === undefined;
+export const removeGaps = (a:any[]) => a.filter(removeGapsFilterFn);
