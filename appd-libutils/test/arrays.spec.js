@@ -43,6 +43,10 @@ describe('array zip', () => {
         const a1 = ['a','b','c'];
         const a2 = [1,2,3,4,5];
         expect(arrays.zip(a1, a2)).toStrictEqual([['a',1], ['b',2], ['c',3], [undefined,4], [undefined,5]]);
-
     });
+    test('called as reducer', () => {
+        const a1 = ['a','b','c'];
+        const a2 = [1,2,3,4,5];
+        expect([a1,a2].reduce(arrays.zipReduce)).toStrictEqual([['a',1], ['b',2], ['c',3], [undefined,4], [undefined,5]]);
+    })
 });
