@@ -1,0 +1,68 @@
+@top Pipeline { expression }
+
+@skip { spaces | LineComment }
+
+@tokens {
+  identifierChar { std.asciiLetter | $[_$] }
+  globChar { $[{,}*?] }
+  sepChar { $[\\\/|] }
+  space { " " }
+  spaces { $[ \n\r\t] }
+
+  LineComment { "//" ![\n]* }
+
+  word { (identifierChar | std.digit)+ }
+  identifier { identifierChar word? }  
+  @precedence { identifier, word }
+
+  string {
+    '"' (![\\\n"] | "\\" _)* '"'? |
+    "'" (![\\\n'] | "\\" _)* "'"?
+  }
+
+  appTerm { (std.asciiLetter | std.digit | space | globChar | $[_\-])+ }
+  searchChar { std.asciiLetter | std.digit | space | globChar | sepChar | $[_\-%^&()+.:] }
+  searchTerm { searchChar+ }
+  @precedence { appTerm, spaces }
+  @precedence { searchTerm, spaces }
+  @precedence { LineComment, searchTerm }
+
+  pipeOp { "|>" | ">>" | "/>" }
+  @precedence { pipeOp, searchTerm }
+}
+
+expression { SearchExpression }
+
+SearchExpression {
+  AppExpression ':' PathExpression ( pipes )?
+}
+AppExpression { appTerm }
+PathExpression { Path valueTypeExpression? }
+Path { searchTerm }
+
+valueTypeExpression {
+  "[" ValueType baselineExpression? "]"
+}
+baselineExpression {
+  "@" Baseline
+}
+ValueType { identifier }
+Baseline { identifier }
+
+pipes { Pipe pipes? }
+Pipe {
+  pipeOp ( subSearch | commandExpr  )
+}
+// not sure why this fixes incorrect subsearch matching
+@precedence { commandExpr, subSearch }
+
+subSearch { "[" SearchExpression "]" }
+
+commandExpr {
+  Command Arg*
+}
+Command { identifier }
+Arg { (Name "=")? Value}
+Name { identifier }
+Value { string | word }
+// FIXME i don't want the quotes included in the string token here
