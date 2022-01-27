@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
 import { HistoryService } from '../history-list/history.service';
+import { fix } from '../../widget/timepicker/range';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,7 @@ export class AdmbService {
 
   public execPipelineExpression(expr: string, range: Range, vars: any): Observable<any[]> {
     this.historyService.push(expr, range);
-    return this.http.post<any[]>('/api/pipeline/exec', {expr, range, vars})
+    return this.http.post<any[]>('/api/pipeline/exec', {expr, range:fix(range), vars})
       .pipe(
         catchError((e, c) => {
           this.messageService.add({severity: 'error', detail: e.message, life: 5000});

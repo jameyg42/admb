@@ -12,6 +12,7 @@ export enum PrecisionUnit {
     Minutes = 'm',
     Hours = 'h'
 }
+export type KVP = ({[key:string]:any});
 export interface MetricTimeseries {
     app: string;
     name: string;
@@ -20,7 +21,8 @@ export interface MetricTimeseries {
     value: string;
     dimensions: KVs;
     precision: Precision;
-    data: MetricDataPoint[]
+    data: MetricDataPoint[];
+    metadata: KVP;
 }
 export interface MetricDataPoint {
     start: number,

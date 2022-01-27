@@ -1,8 +1,6 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { Range } from '../svc/model';
 import { beforeNow } from '../../widget/timepicker/range';
 import { AdmbService } from '../svc/admb.service';
-import { ProgressBar } from 'primeng/progressbar';
 import { AdmbParserService, ParseResult } from '../admb-parser.service';
 import { ActivatedRoute, Router } from '@angular/router';
 

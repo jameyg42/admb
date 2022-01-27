@@ -1,6 +1,5 @@
 import { MetricTimeseries } from "./api"
 import clone from "./clone";
-import { zipReduce } from "@metlife/appd-libutils/out/arrays";
 
 export type DataValueReducerFn = (r:number, c:number, i:number) => number;
 export type SeriesReducerFn = (r:number, c:number[], i:number) => number;
@@ -19,9 +18,9 @@ export const reduceSeries = (tss:MetricTimeseries[], reducer:DataValueReducerFn,
         result.name = `${named}(${result.name})`;
     }
 
-    result.data = tss
-        .map(ts => ts.data.map(d => d.value))
-        .map(zv => zv.reduce(reducer))
+    // result.data = tss
+    //     .map(ts => ts.data.map(d => d.value))
+    //     .map(zv => zv.reduce(reducer))
 
 }
 
@@ -29,4 +28,9 @@ export const reduceSeries = (tss:MetricTimeseries[], reducer:DataValueReducerFn,
  * reduces the values of a single MetricTimeseries to a single value.  This
  * is just a utility for series.data.map(value).reduce(fn)
  */
-export const reduceValues(ts:MetricTimeseries, reducer:DataValueReducerFn)
+export const reduceValues = (ts:MetricTimeseries, reducer:DataValueReducerFn):MetricTimeseries => {
+    const value = ts.data.map(d => d.value).reduce(reducer);
+    const c = clone(ts);
+    c.data.map(d => d.value = value);
+    return c;
+}

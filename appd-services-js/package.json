@@ -1,0 +1,23 @@
+{
+  "name": "@metlife/appd-services",
+  "version": "2.0.0",
+  "description": "Various services / service-extensions for AppDynamics",
+  "private": true,
+  "author": "Jamey Graham <jgraham@metlife.com>",
+  "license": "UNLICENSED",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.2",
+    "nearley": "^2.20.1",
+    "node-cache": "^5.1.2",
+    "node-html-parser": "^5.3.3",
+    "parse-duration": "^1.0.2",
+    "rxjs": "^7.4.0",
+    "tough-cookie": "^4.0.0"
+  },
+  "devDependencies": {
+    "jest": "^27.4.7"
+  }
+}

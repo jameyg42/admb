@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as parser from '@metlife/appd-services/lib/metrics-pipeline/parser';
+import { compile } from '@metlife/appd-pipeline/out/lang/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -8,18 +8,12 @@ export class AdmbParserService {
   constructor() { }
 
   parse(expr: string): ParseResult {
-    let parseResult = {expr, ast: null, valid: false} as ParseResult;
+    let parseResult = {expr, valid: true} as ParseResult;
     try {
-      const p = parser.streaming();
-      p.feed(expr);
-      const ast = p.results.length === 1 ? p.results[0] : null;
-      if (ast) {
-        parseResult = {expr, ast, valid: true };
-      } else {
-        parseResult = {expr, ast, valid: false};
-      }
+      parseResult.ast = compile(expr);
     } catch (e) {
-      parseResult = {expr, valid: false, error: e};
+      parseResult.valid = false;
+      parseResult.error = e;
     }
     return parseResult;
   }

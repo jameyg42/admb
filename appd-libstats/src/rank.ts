@@ -6,7 +6,7 @@ export const rank = (a:number[]) => {
                   .reduce((r, v, i) => {
                       r[v] = i+1;
                       return r;
-                  }, {});
+                  }, {} as any);
     return a.map(v => ranks[v]);
 }
 

@@ -5,13 +5,8 @@ const cookies = require('cookie-parser');
 
 const xor = require('../src/xor');
 
-const appdServices = require('@metlife/appd-services');
-const appdClient = require('@metlife/appd-services/lib/client/client');
-const appdLogin = require('@metlife/appd-services/lib/client/login');
-
-const createProviders = require('@metlife/appd-services/lib/metrics-pipeline/providers');
-const appdProvider = require('@metlife/appd-services/lib/metrics-pipeline/providers/metrics-ex-provider');
-const pipeline = require('@metlife/appd-services/lib/metrics-pipeline');
+const appd = require('@metlife/appd-services');
+const pipeline = require('@metlife/appd-pipeline');
 
 const app = express();
 app.use(express.static(__dirname +'/../dist/appd-browser-webui'));
@@ -25,10 +20,10 @@ app.post('/api/login', (req,rsp,next) => {
   cred.account = cred.account || 'customer1';
   cred.pwd = xor(cred.pwd);
 
-  appdLogin(cred.url, cred.account, cred.uid, cred.pwd)
-  .then(session => {
-    serialize(session, rsp.cookie.bind(rsp));
-    return getUser(session);
+  appd.Client.open(cred.url, cred.account, cred.uid, cred.pwd)
+  .then(client => {
+    persistSession(client.session.serialize(), rsp.cookie.bind(rsp));
+    return getUser(client);
   })
   .then(user => rsp.json(user))
   .catch(next);
@@ -40,52 +35,47 @@ app.post('/api/logout', (req,rsp,next) => {
   })
 });
 app.get('/api/user', (req,rsp,next) => {
-  getUser(deserialize(req.cookies))
+  const client = appd.Client.reopen(retrieveSession(req.cookies));
+  getUser(client)
   .then(user => rsp.json(user))
   .catch(next);
 })
 
 app.post('/api/pipeline/exec', (req,rsp,next) => {
   const expr = req.body;
-  appdClient.open(deserialize(req.cookies))
-  .then (con => {
-    const providers = createProviders();
-    providers.register('appd', appdProvider(con));
-    pipeline(providers)
-      .exec(expr.expr, expr.range, expr.vars)
-      .then(r => rsp.json(r));
+  const client = appd.Client.reopen(retrieveSession(req.cookies));
+  const appdProvider = new pipeline.AppDynamicsMetricsProvider(client);
+  pipeline.exec(expr.expr, [appdProvider], expr.range, expr.vars)
+  .then (results => {
+    rsp.json(results);
   })
-  .catch(next);
+  .catch(e => {
+    rsp.status(500).json(e);
+  });
 });
 app.get('/api/apps', (req,rsp,next) => {
-  appdClient.open(deserialize(req.cookies))
-  .then(con => {
-    appdServices(con).app.fetchAllApps()
-    .then(r => rsp.json(r));
-  })
-  .catch(next);
+  const client = appd.Client.reopen(retrieveSession(req.cookies));
+  const appSvc = new appd.AppServices(client);
+  return appSvc.fetchAllApps().then(apps => rsp.json(apps)).catch(next);
 });
 
-function getUser(session) {
-  return appdClient.open(session)
-  .then(con => con.get('/restui/user/getUser'))
+function getUser(client) {
+  return client.get('/restui/user/getUser')
   .then(user => {
     return {
-      controller: session.baseURL,
+      controller: client.session.url,
       account: user
     };
   });
 }
 
 const STORAGE_KEY = "APPDSESSION";
-function serialize(session, storage) {
-  const b64 = Buffer.from(JSON.stringify(session)).toString('base64');
-  storage(STORAGE_KEY, b64);
+function persistSession(session, storage) {
+  storage(STORAGE_KEY, session);
 }
-function deserialize(storage) {
+function retrieveSession(storage) {
   if (storage[STORAGE_KEY]) {
-    const b64 = Buffer.from(storage[STORAGE_KEY], 'base64');
-    return JSON.parse(b64.toString('ascii'));
+    return storage[STORAGE_KEY];
   }
   throw {status:401, message: 'Not signed in'};
 }
