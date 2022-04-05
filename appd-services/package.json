@@ -12,6 +12,7 @@
     "moment": "^2.29.1",
     "nearley": "^2.20.1",
     "node-cache": "^5.1.2",
+    "node-html-parser": "^5.3.3",
     "parse-duration": "^1.0.2",
     "rxjs": "^6.6.7",
     "tough-cookie": "^4.0.0"

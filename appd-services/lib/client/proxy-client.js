@@ -1,54 +1,24 @@
 const axios = require("axios");
-const tough = require("tough-cookie");
-const cookie = tough.Cookie;
+const _login = require("./login");
+const merge = require('lodash').merge;
 
 
+function login(baseUrl, account, uid, pwd, storage) {
+    return _login.openSession(baseUrl, account, uid, pwd)
+        .then((session) => serialize(session, storage));
+}
 const STORAGE_KEY = "APPDSESSION";
-
-function login(baseUrl, uid, pwd, storage) {
-    return axios
-        .get("/auth?action=login", {
-            baseURL: baseUrl,
-            auth: {
-                username: uid.endsWith("@customer1") ? uid : `${uid}@customer1`,
-                password: pwd,
-            },
-        })
-        .then((loginResponse) => {
-            const cookies = loginResponse.headers["set-cookie"].map(cookie.parse);
-            const csrfToken = cookies.find((c) => c.key == "X-CSRF-TOKEN").value;
-            const jSession = cookies.find((c) => c.key == "JSESSIONID").value;
-
-            const session = Buffer.from(
-                JSON.stringify({
-                    baseUrl,
-                    jSession,
-                    csrfToken,
-                })
-            ).toString("base64");
-            storage(STORAGE_KEY, session);
-
-            return {
-                baseUrl,
-                jSession,
-                csrfToken,
-                session,
-            };
-        });
+function serialize(session, storage) {
+    storage(STORAGE_KEY, Buffer.from(JSON.stringify(session)).toString('base4'));
+}
+function deserialize(storage) {
+    return JSON.parse(Buffer.from(storage(STORAGE_KEY), 'base64').toString('ascii'));
 }
 
 function open(storageOrSession) {
-    const session = storageOrSession[STORAGE_KEY] || storageOrSession;
-    const r = JSON.parse(Buffer.from(session, 'base64').toString('ascii'));
-    const req = axios.create({
-        baseURL: r.baseUrl,
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': r.csrfToken,
-            'Cookie': `JSESSIONID=${r.jSession}`
-        }
-    });
+    const session = storageOrSession.baseURL ? storageOrSession : deserialize(storageOrSession);
+    const req = _login.createRequestForSession(session);
+
     const get = function (url, params) {
         return req.get(url, { params: params || {} }).then(rsp => rsp.data);
     }
