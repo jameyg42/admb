@@ -3,6 +3,13 @@ const url = require('url');
 const html = require('node-html-parser');
 const cookie = require('tough-cookie').Cookie;
 
+Object.fromEntries = Object.fromEntries || ((entries) => {
+    return [...entries].reduce((obj, [key, val]) => {
+        obj[key] = val
+        return obj
+      }, {})
+});
+
 function createAuthnSAMLRequest(baseURL, account) {
     // the get-saml-auth-request action will generate a URL to the MetLife SAML endpoint, but
     // that URL cannot be directly GET or POSTed.  Instead, we need to "move" the SAMLRequest
@@ -65,13 +72,15 @@ function postUnauthorizedAuthnSAMLRequestRedirectToSMLogin(authnRequest) {
     .then(rsp => {
         const location = rsp.headers['location'];
         const cookies = (rsp.headers['set-cookie'] || []).map(cookie.parse);
+        // HACK NodeJS 10 supports very little....
+        const sm = new url.URL(location);
         return axios.get(location)
         .then(rsp => ({
             html: rsp.data,
-            baseURL: `${rsp.request.protocol}//${rsp.request.host}${rsp.request.path}`,
+            baseURL: `${sm.protocol}//${sm.host}${rsp.request.path}`,
             ssoGuid: cookies.find(c => c.key == 'GUID')
         }));
-    });
+    })
 }
 function smLoginAndRedirectBackToAuthnSAMLRequest(uid, pwd) {
     return (loginRedirect) => {

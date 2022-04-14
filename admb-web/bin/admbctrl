@@ -17,6 +17,7 @@ pid_file="$PID_FOLDER/${APP_NAME}.pid"
 log_file="$LOG_FOLDER/$LOG_FILENAME"
 
 NODE_OPTIONS=
+export NODE_TLS_REJECT_UNAUTHORIZED='0'
 
 # ANSI Colors
 cecho() {
