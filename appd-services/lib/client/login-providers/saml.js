@@ -7,12 +7,13 @@ function createAuthnSAMLRequest(baseURL, account) {
     // the get-saml-auth-request action will generate a URL to the MetLife SAML endpoint, but
     // that URL cannot be directly GET or POSTed.  Instead, we need to "move" the SAMLRequest
     // and RelayState from the QueryString to the POST body.
+    const requestedUrl = new url.URL(`/controller/?accountName=${account}#/location=HOME_FREQUENTLY_VISITED`, baseURL);
     return axios.get('/saml-auth', {
         baseURL,
         params: {
             'action':'get-saml-auth-request-info',
             'account-name' : account,
-            'requested-url' : 'aHR0cHM6Ly9tbC1ub25wcm9kLnNhYXMuYXBwZHluYW1pY3MuY29tL2NvbnRyb2xsZXIvP2FjY291bnROYW1lPW1sLW5vbnByb2QjL2xvY2F0aW9uPUFQUFNfQUxMX0RBU0hCT0FSRCZ0aW1lUmFuZ2U9bGFzdF8xX2hvdXIuQkVGT1JFX05PVy4tMS4tMS42MA=='
+            'requested-url' : Buffer.from(requestedUrl.toString()).toString('base64')
         }
     })
     .then(rsp => {
@@ -28,6 +29,10 @@ function createAuthnSAMLRequest(baseURL, account) {
                 SPID: getRequest.searchParams.get('SPID')
             }
         }
+    })
+    .catch(e => {
+        console.log(e);
+        throw e;
     });
 }
 function postUnauthorizedAuthnSAMLRequestRedirectToSMLogin(authnRequest) {

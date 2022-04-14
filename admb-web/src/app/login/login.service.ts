@@ -24,10 +24,11 @@ export class LoginService {
     });
   }
 
-  login(url, uid, pwd) {
+  login(url, account, uid, pwd) {
     return new Promise((resolve, reject) => {
       this.http.post('/api/login', {
         url,
+        account,
         uid,
         pwd: xor(pwd)
       }).subscribe(

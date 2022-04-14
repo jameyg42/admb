@@ -1,6 +1,4 @@
 const axios = require("axios");
-const cookie = require("tough-cookie").Cookie;
-const merge = require('lodash').merge;
 
 function getLoginMethod(baseURL, account) {
     return axios
@@ -12,7 +10,7 @@ function login(baseURL, account, username, password) {
     return getLoginMethod(baseURL, account)
     .then(method => {
         try {
-            const provider = require(`./${method.toLowerCase()}`);
+            const provider = require(`./login-providers/${method.toLowerCase()}`);
             return provider;
         } catch (e) {
             throw new Error(`no provider found for method ${method}`)
@@ -30,19 +28,4 @@ function login(baseURL, account, username, password) {
     });
 }
 
-function createRequestForSession(session) {
-    const headers = merge(session.headers, {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Cookie': Object.entries(session.cookies).map(([k,v]) => `${k}=${v}`).join(';')
-    });
-    const req = axios.create({
-        baseURL: session.baseUrl,
-        headers
-    });
-    return req;
-}
-
-module.exports = {
-    login,
-}
+module.exports = login;

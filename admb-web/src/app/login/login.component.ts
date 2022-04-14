@@ -19,13 +19,14 @@ export class LoginComponent implements OnInit {
 
   constructor(private loginService: LoginService) {
     this.controllers =  [
-      {label: 'Production', value: 'https://appd.metlife.com'},
-      {label: 'QA', value: 'https://qa.appd.metlife.com'},
-      {label: 'AppD-on-AppD', value: 'http://ustry1basv00edl.met_intnet.net:8090'},
-      {label: 'Dev/Lab', value: 'https://dev.appd.metlife.com'}
+      {label: 'Production (OnPrem)', value: {url:'https://appd.metlife.com/controller', account: 'customer1'}},
+      {label: 'Production (SaaS)', value: {url:'https://ml-prod.saas.appdynamics.com/controller', account: 'ml-prod'}},
+      {label: 'QA (OnPrem)', value: {url:'https://qa.appd.metlife.com/controller', account:'customer1'}},
+      {label: 'QA (SaaS)', value: {url:'https://ml-nonprod.saas.appdynamics.com/controller', account:'ml-nonprod'}},
+      {label: 'AppD-on-AppD', value: {url:'http://ustry1basv00edl.met_intnet.net:8090/controller', account: 'customer'}},
     ];
     this.loginForm = new FormGroup({
-      url: new FormControl(this.controllers[0].value),
+      controller: new FormControl(this.controllers[0].value),
       uid: new FormControl(''),
       pwd: new FormControl('')
     });
@@ -37,7 +38,7 @@ export class LoginComponent implements OnInit {
   doLogin() {
     const con = this.loginForm.value;
     this.loginService
-      .login(con.url, con.uid, con.pwd)
+      .login(con.controller.url, con.controller.account, con.uid, con.pwd)
       .then(() => this.loginError = null)
       .catch(err => {
         console.log(err);

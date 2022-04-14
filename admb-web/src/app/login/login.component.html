@@ -3,7 +3,7 @@
     <h2>Controller Login</h2>
     <form [formGroup]="loginForm" (ngSubmit)="doLogin()">
     <div class="login-form-control">
-      <p-dropdown [options]="controllers" formControlName="url"></p-dropdown>
+      <p-dropdown [options]="controllers" formControlName="controller"></p-dropdown>
     </div>
     <div class="p-inputgroup login-form-control">
       <input type="text" pInputText formControlName="uid" placeholder="username">

@@ -28,7 +28,7 @@ module.exports = (client) => {
         if (!_.isArray(path)) {
             path = path === '' ? [] : path.split("|");
         }
-        const cacheKey = key(client.con.url, app, path);
+        const cacheKey = key(client.session.baseURL, app, path);
         const cached = metricTreeCache.get(cacheKey);
         if (cached) {
             return Promise.resolve(_.cloneDeep(cached));
@@ -78,7 +78,7 @@ module.exports = (client) => {
             args.metricBaseline = baseline.id ? baseline.id : baseline;
         }
 
-        const cacheKey = key(client.con.url, args);
+        const cacheKey = key(client.session.baseURL, args);
         const cached = cacheFor(range).get(cacheKey);
         if (cached) {
             return Promise.resolve(_.cloneDeep(cached));
