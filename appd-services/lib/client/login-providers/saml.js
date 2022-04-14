@@ -18,25 +18,41 @@ function createAuthnSAMLRequest(baseURL, account) {
     })
     .then(rsp => {
         const getRequest = new url.URL(rsp.data);
-        return {
-            method: 'post',
-            url: new url.URL(getRequest.pathname, getRequest).toString(),
-            data: new url.URLSearchParams({
-                SAMLRequest: getRequest.searchParams.get('SAMLRequest'),
-                RelayState: getRequest.searchParams.get('RelayState')
-            }).toString(),
+        // need to figure out if this is GET or POST
+        return axios.get('/public-info', {
+            baseURL,
             params: {
-                SPID: getRequest.searchParams.get('SPID')
+                action: 'query-saml-http-method',
+                'account-name': account
             }
-        }
+        })
+        .then(methodRsp => methodRsp.data.trim())
+        .then(method => {
+            if (method == 'post') {
+                return {
+                    method,
+                    url: new url.URL(getRequest.pathname, getRequest).toString(),
+                    data: new url.URLSearchParams({
+                        SAMLRequest: getRequest.searchParams.get('SAMLRequest'),
+                        RelayState: getRequest.searchParams.get('RelayState')
+                    }).toString(),
+                    params: {
+                        SPID: getRequest.searchParams.get('SPID')
+                    }
+                }
+            } else if (method == 'get') {
+                return {
+                    method,
+                    url: getRequest.toString()
+                }
+            } else {
+                throw {status: 500, message: `unknown SAML method ${method}`};
+            }
+        })
     })
-    .catch(e => {
-        console.log(e);
-        throw e;
-    });
 }
 function postUnauthorizedAuthnSAMLRequestRedirectToSMLogin(authnRequest) {
-    // the initial POST to the MetLife SAML entry point won't have an SMSESSION meaning
+    // the initial GET|POST to the MetLife SAML entry point won't have an SMSESSION meaning
     // we'll be redirected to a Login page.  But we can't let Axios follow those redirects
     // automatically because we need to capture the GUID cookie the initial hit to the 
     // entry point generates
@@ -48,7 +64,7 @@ function postUnauthorizedAuthnSAMLRequestRedirectToSMLogin(authnRequest) {
     }, authnRequest))
     .then(rsp => {
         const location = rsp.headers['location'];
-        const cookies = rsp.headers['set-cookie'].map(cookie.parse);
+        const cookies = (rsp.headers['set-cookie'] || []).map(cookie.parse);
         return axios.get(location)
         .then(rsp => ({
             html: rsp.data,
@@ -86,7 +102,9 @@ function smLoginAndRedirectBackToAuthnSAMLRequest(uid, pwd) {
             // we also need to add the GUID cookie back
             const location = rsp.headers['location'];
             const cookies = rsp.headers['set-cookie'].map(cookie.parse);
-            cookies.push(loginRedirect.ssoGuid);
+            if (loginRedirect.ssoGuid) {
+                cookies.push(loginRedirect.ssoGuid);
+            }
 
             return axios.get(location, {
                 headers: {
