@@ -19,6 +19,9 @@ function login(baseURL, account, username, password) {
                 jsessionid: cookies.find(c => c.key == 'JSESSIONID'),
                 csrf: cookies.find(c => c.key == 'X-CSRF-TOKEN')
             };
+        })
+        .catch(err => {
+            throw {status: err.response.status, message: err.message};
         });
 }
 

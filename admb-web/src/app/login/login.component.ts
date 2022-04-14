@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
       .then(() => this.loginError = null)
       .catch(err => {
         console.log(err);
-        this.loginError = `Invalid Login :` + err;
+        this.loginError = 'Invalid Login';
       });
   }
 }

@@ -19,6 +19,7 @@ app.use(express.json())
 app.use(cookies());
 app.use(cors());
 
+
 app.post('/api/login', (req,rsp,next) => {
   const cred = req.body;
   cred.account = cred.account || 'customer1';
@@ -86,8 +87,20 @@ function deserialize(storage) {
     const b64 = Buffer.from(storage[STORAGE_KEY], 'base64');
     return JSON.parse(b64.toString('ascii'));
   }
-  throw new Error("not signed in");
+  throw {status:401, message: 'Not signed in'};
 }
+
+
+app.use((err, req, rsp, next) => {
+  if (err.message) {
+    rsp.status(err.status || 500)
+      .send(err.message);
+  } else {
+    rsp.sendStatus(err.status || 500);
+  }
+  console.error(`[${new Date().toISOString()}] ${req.originalUrl} ${rsp.statusCode} - ${err.message}`);
+  next();
+});
 
 
 const port = 8070;

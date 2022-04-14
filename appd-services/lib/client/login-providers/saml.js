@@ -94,7 +94,14 @@ function smLoginAndRedirectBackToAuthnSAMLRequest(uid, pwd) {
                 }
             })
             .then(rsp => rsp.data);
-        });
+        })
+        .catch(err => {
+            if (err.response.status == 200) {
+                throw {status: 499, message: 'invalid login'};
+            } else {
+                throw {status: err.response.status, message: err.message};
+            }
+        })
     };
 }
 function handleAuthnSAMLResponseAutoSubmit(samlRedirectPage) {
