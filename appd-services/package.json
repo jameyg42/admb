@@ -7,9 +7,9 @@
   "license": "UNLICENSED",
   "main": "index.js",
   "dependencies": {
-    "axios": "^0.24.0",
+    "axios": "^0.26.1",
     "lodash": "^4.17.21",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "nearley": "^2.20.1",
     "node-cache": "^5.1.2",
     "node-html-parser": "^5.3.3",

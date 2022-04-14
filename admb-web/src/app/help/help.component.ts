@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import 'marked/lib/marked';
 
 @Component({
   selector: 'admb-help',
