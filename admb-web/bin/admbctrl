@@ -19,6 +19,9 @@ log_file="$LOG_FOLDER/$LOG_FILENAME"
 NODE_OPTIONS=
 export NODE_TLS_REJECT_UNAUTHORIZED='0'
 
+. ~/.nvm/nvm.sh
+nvm use 10
+
 # ANSI Colors
 cecho() {
   COLOR=$1
