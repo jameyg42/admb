@@ -13,8 +13,9 @@
       <input type="password" pPassword [feedback]="false" formControlName="pwd" placeholder="password">
       <span class="p-inputgroup-addon"><i class="pi pi-lock"></i></span>
     </div>
-    <button pButton type="submit" label="Login"></button>
+    <button pButton type="submit" label="Login" [loading]="blocked"></button>
     </form>
     <div *ngIf="loginError" style="color: red;">{{loginError}}</div>
   </div>
 </div>
+<p-blockUI [blocked]="blocked"></p-blockUI>

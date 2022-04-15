@@ -12,6 +12,7 @@ import { LoginService } from './login.service';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   controllers: SelectItem[];
+  blocked = false;
 
   @ViewChild('login')
   loginOverlay: OverlayPanel;
@@ -37,11 +38,16 @@ export class LoginComponent implements OnInit {
 
   doLogin() {
     const con = this.loginForm.value;
+    this.blocked = true;
     this.loginService
       .login(con.controller.url, con.controller.account, con.uid, con.pwd)
-      .then(() => this.loginError = null)
+      .then(() => {
+        this.loginError = null;
+        this.blocked = false;
+      })
       .catch(err => {
         console.log(err);
+        this.blocked = false;
         this.loginError = 'Invalid Login';
       });
   }

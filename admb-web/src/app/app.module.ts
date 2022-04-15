@@ -14,6 +14,7 @@ import { PasswordModule } from 'primeng/password';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { DropdownModule } from 'primeng/dropdown';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { BlockUIModule } from 'primeng/blockui';
 
 import { AdmbModule } from 'src/admb/admb.module';
 import { LoginComponent } from './login/login.component';
@@ -47,6 +48,7 @@ import { CheckboxModule } from 'primeng/checkbox';
     DropdownModule,
     ScrollPanelModule,
     DialogModule,
+    BlockUIModule,
 
     MarkdownModule.forRoot(),
 
