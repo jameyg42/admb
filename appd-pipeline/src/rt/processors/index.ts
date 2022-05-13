@@ -1,11 +1,10 @@
 import { CommandProcessor } from "./api";
 
-
 export class ProcessorRegistry {
     processorMap: ({[key:string]:CommandProcessor}) = {};
 
-    registerProcessor(processor:CommandProcessor) {
-        this.processorMap[processor.description.name] = processor;
+    registerProcessor(name:string, processor:CommandProcessor) {
+        this.processorMap[name] = processor;
     }
 
     getProcessor(name:string):CommandProcessor {
@@ -18,14 +17,16 @@ export function findProcessor(name:string) {
 
 // REMINDER that processors should delegate much of their work to an "op" in the appd-libmetrics/ops package
 import { SearchProcessor } from "./search";
-import { ScaleProcessor } from "./scale";
-import { ReduceProcessor } from "./reduce";
 import { AbsProcessor } from "./abs";
 import { BinaryProcessor } from "./binary";
+import { BottomProcessor } from "./bottom";
+import { ReduceProcessor } from "./reduce";
+import { ScaleProcessor } from "./scale";
 
 export const registry = new ProcessorRegistry();
-registry.registerProcessor(new SearchProcessor());
-registry.registerProcessor(new ScaleProcessor());
-registry.registerProcessor(new ReduceProcessor());
-registry.registerProcessor(new AbsProcessor());
-registry.registerProcessor(new BinaryProcessor());
+registry.registerProcessor('search', new SearchProcessor());
+registry.registerProcessor('abs', new AbsProcessor());
+registry.registerProcessor('binary', new BinaryProcessor());
+registry.registerProcessor('bottom', new BottomProcessor());
+registry.registerProcessor('reduce', new ReduceProcessor());
+registry.registerProcessor('scale', new ScaleProcessor());

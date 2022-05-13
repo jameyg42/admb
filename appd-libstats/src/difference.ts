@@ -1,4 +1,4 @@
-import { reducerOrFn } from "@metlife/appd-libutils/out/arrays";
+import { reducerOrFn } from "@metlife/appd-libutils";
 
 /**
  * Returns the difference of all elements in an Array. 
@@ -10,5 +10,5 @@ import { reducerOrFn } from "@metlife/appd-libutils/out/arrays";
  * element of the array.  
  * 
  */
-export const difference = reducerOrFn<number>((a,c) => a - c);
+export const difference = reducerOrFn((a:number,c:number) => a - c);
 export default difference;

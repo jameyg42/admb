@@ -1,4 +1,4 @@
-import { reducerOrFn, mockReducer, sort } from "@metlife/appd-libutils/out/arrays";
+import { reducerOrFn, atOnceReducer, sort } from "@metlife/appd-libutils";
 import { median } from "./median";
 
 /**
@@ -18,7 +18,7 @@ export const quartiles = (a:number[]) => { // FIXME fix types to allow reducer u
 };
 export default quartiles;
 
-export const iqr = reducerOrFn(mockReducer<number>((a:number[]) => {
+export const iqr = reducerOrFn(atOnceReducer((a:number[]) => {
     const [q1,q2,q3] = quartiles(a);
     return q3 - q1;
 }));

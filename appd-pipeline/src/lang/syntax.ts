@@ -1,12 +1,12 @@
 import { SyntaxNode } from "@lezer/common";
-import { CommandProcessor } from "./processors/api";
+import { CommandDescription } from "./processor-defs/api";
 
 export interface CommandNode {
     node: SyntaxNode;
     type: string;
 }
 export interface ProcessingNode extends CommandNode {
-    processor: CommandProcessor;
+    command: CommandDescription;
 }
 export class PipelineExpressionNode implements CommandNode {
     readonly type = 'Pipeline';
@@ -14,7 +14,7 @@ export class PipelineExpressionNode implements CommandNode {
 }
 export class SearchExpressionNode implements ProcessingNode {
     readonly type = 'Search';
-    constructor(public app:string, public path:string[], public values:ValueTypeNode[], public node:SyntaxNode, public processor:CommandProcessor){}
+    constructor(public app:string, public path:string[], public values:ValueTypeNode[], public node:SyntaxNode, public command = {name:'search'}) {}
 }
 export class ValueTypeNode {
     constructor(public type:string, public baseline:string|undefined, public node:SyntaxNode) {}
@@ -22,7 +22,7 @@ export class ValueTypeNode {
 
 export class CommandExpressionNode implements ProcessingNode {
     readonly type = 'Command';
-    constructor(public name:string, public args:Arguments, public argNodes: ArgNode[], public node:SyntaxNode, public processor:CommandProcessor) {}
+    constructor(public name:string, public args:Arguments, public argNodes: ArgNode[], public node:SyntaxNode, public command:CommandDescription) {}
 }
 export class ArgNode {
     constructor(public position: number, public name:string|undefined, public value: string, public node:SyntaxNode) {

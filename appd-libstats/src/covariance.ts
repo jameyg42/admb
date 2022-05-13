@@ -1,4 +1,4 @@
-import { zip } from "@metlife/appd-libutils/out/arrays";
+import { zip } from "@metlife/appd-libutils";
 import mean from "./mean";
 import rank from "./rank";
 import stdev from "./stdev";

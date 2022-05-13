@@ -12,6 +12,7 @@
     "appd-libstats",
     "appd-libmetrics",
     "appd-services",
-    "appd-pipeline"
+    "appd-pipeline",
+    "admb-server"
   ]
 }

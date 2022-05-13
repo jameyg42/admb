@@ -7,6 +7,8 @@ import { MetricsProvider } from '../metric-providers/spi';
 import { PipelineExpressionNode, ProcessingNode } from '../lang/syntax';
 import { clone } from 'lodash';
 
+import { findProcessor } from './processors';
+
 // although Search *should* be the only async command, we'll
 // continue to use Rx to deal with 'callback hell'.
 // This means our "interpreter" run will actually be building
@@ -39,7 +41,7 @@ function assemblePipeline(pipeline:PipelineExpressionNode, ctx:Context):Operator
             return assemblePipeline(cmd as PipelineExpressionNode, ctx);
         }
         const pc = cmd as ProcessingNode;
-        return mergeMap(_ => pc.processor.exec(pc, ctx))
+        return mergeMap(_ => findProcessor(pc.command.name).exec(pc, ctx))
     });
 
     // Rx pipe() doesn't work properly w/ spread operator, so ugly workaround

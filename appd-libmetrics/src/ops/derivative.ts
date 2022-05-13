@@ -14,5 +14,4 @@ const safe = (v:number) => v ? v : 0;
  */
 export const derivative = (ts:MetricTimeseries) => 
     mapValues(ts, (v, i, a) => i == 0 ? 0 : safe(v) - safe(a[i-1]), "derivative");
-
 export default derivative;

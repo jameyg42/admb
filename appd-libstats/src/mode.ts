@@ -1,4 +1,4 @@
-import { reducerOrFn, mockReducer } from "@metlife/appd-libutils/out/arrays";
+import { reducerOrFn, atOnceReducer } from "@metlife/appd-libutils/out/arrays";
 
 /**
  * Returns the mode (most common) of all numbers in the provided array
@@ -6,7 +6,7 @@ import { reducerOrFn, mockReducer } from "@metlife/appd-libutils/out/arrays";
  * passed to Array.reduce()
  */
 type kvp = {[s:number] : number};
-export const mode = reducerOrFn(mockReducer<number>(a => {
+export const mode = reducerOrFn(atOnceReducer((a:number[]) => {
     if (a.length == 0) return NaN;
     if (a.length == 1) return a[0];
 

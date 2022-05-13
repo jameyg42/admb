@@ -1,6 +1,6 @@
+import { CommandNode, SearchExpressionNode } from "../../lang/syntax";
 import { Context } from "../../rt/interpreter";
-import { CommandNode, SearchExpressionNode } from "../syntax";
-import { BaseProcessor, CommandDescription } from "./api";
+import { BaseProcessor } from "./api";
 
 export class SearchProcessor extends BaseProcessor {
     exec(node: CommandNode, ctx: Context): Promise<Context> {
@@ -12,9 +12,5 @@ export class SearchProcessor extends BaseProcessor {
             ctx.groups.push(...metrics);
             return ctx;
         })
-    }
-
-    description:CommandDescription = {
-        name: 'search'
     }
 }

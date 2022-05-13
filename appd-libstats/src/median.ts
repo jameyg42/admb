@@ -1,11 +1,11 @@
-import { reducerOrFn, mockReducer, nsort } from "@metlife/appd-libutils/out/arrays";
+import { reducerOrFn, atOnceReducer, nsort } from "@metlife/appd-libutils";
 
 /**
  * Returns the median of all numbers in the provided array
  * This can be called either as standalone function or
  * passed to Array.reduce()
  */
-export const median = reducerOrFn(mockReducer<number>(a => {
+export const median = reducerOrFn(atOnceReducer((a:number[]) => {
     if (a.length < 2) return a[0];
 
     a = nsort(a);

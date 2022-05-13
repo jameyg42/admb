@@ -1,6 +1,6 @@
 import { parse } from "./parser";
 import { SyntaxNode } from '@lezer/common';
-import { findProcessor } from "./processors";
+import * as processorDefs from './processor-defs';
 import { 
     CommandNode, 
     PipelineExpressionNode, 
@@ -11,7 +11,7 @@ import {
     Arguments,
     SyntaxError
 } from "./syntax";
-import { CommandArgument, CommandProcessor } from "./processors/api";
+import { CommandArgument, CommandDescription } from "./processor-defs/api";
 
 export function compile(expr: string) {
     function nodeValue(node:SyntaxNode) {
@@ -76,7 +76,7 @@ export function compile(expr: string) {
             valueTypes.push(new ValueTypeNode(type, baseline, c.node));
             c.parent();
         }
-        return new SearchExpressionNode(app, pathSegments, valueTypes, searchExpression, findProcessor('search'));
+        return new SearchExpressionNode(app, pathSegments, valueTypes, searchExpression);
     }
     // CommandExpression[0..*]
     //   Command
@@ -88,7 +88,7 @@ export function compile(expr: string) {
         c.firstChild();
         const cmd = nodeValue(assertNodeIs(c.node, 'Command'));
 
-        const processor = findProcessor(cmd);
+        const processor = (processorDefs as any)[cmd];
         if (! processor) {
             throw new SyntaxError(`unknown command '${cmd}'`, commandExpression, expr)
         }
@@ -112,12 +112,12 @@ export function compile(expr: string) {
         return new CommandExpressionNode(cmd, args, argNodes, commandExpression, processor);
     }
 
-    function _compileArguments(cmdNode:SyntaxNode, argNodes:ArgNode[], processor:CommandProcessor):Arguments {
+    function _compileArguments(cmdNode:SyntaxNode, argNodes:ArgNode[], processor:CommandDescription):Arguments {
         // arguments can either be called by name or by position, or combinations of the two
         // the expectation around how positioned parameters are handled when mixed with named parameters
         // will likely vary with the individual - since it's easy to implement, we're 
         const args:Arguments = {};
-        const cmdArgs = processor.description.arguments || [];
+        const cmdArgs = processor.arguments || [];
         const cmdArgMap = cmdArgs.reduce((m, a) => {
             m[a.name] = a;
             return m;
@@ -128,7 +128,7 @@ export function compile(expr: string) {
         namedArgs.forEach(arg => {
             const def = cmdArgMap[(arg.name as string)];
             if (!def) {
-                throw new SyntaxError(`unknown argument '${arg.name}' for '${processor.description.name}'`, arg.node, expr);
+                throw new SyntaxError(`unknown argument '${arg.name}' for '${processor.name}'`, arg.node, expr);
             }
             if (args[def.name]) {
                 throw new SyntaxError(`repeated argument '${def.name}'`, arg.node, expr);

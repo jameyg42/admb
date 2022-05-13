@@ -8,9 +8,9 @@
 export function isArray(o:any) {
     return Array.isArray(o);
 }
-export type ReducerOrFn<T> = (p:T|T[], c?:T, i?:number, a?:T[]) => T;
-export type ReducerFn<T> = (p:T, c:T, i:number, a:Array<T>) => T;
-export type MockReducerFn<T> = (a:T[], initialValue?:T) => T;
+//export type ReducerFn<T> = (p:T, c:T, i?:number, a?:T[]) => T;
+export type ReducerFn<R,T> = (p:R, c:T, i?:number, a?:T[]) => R;
+export type ReducerOrFn<R,T> = (p:R|T[], c?:T, i?:number, a?:T[]) => R;
 
 /**
  * Utility for creating a function that can be called either as an Array reducer
@@ -21,44 +21,44 @@ export type MockReducerFn<T> = (a:T[], initialValue?:T) => T;
  * or
  *   sum([1,2,3]);
  */
-export function reducerOrFn<T>(fn:ReducerFn<T>, defaultInitial?:T):ReducerOrFn<T> {
-    return (pOrArray:T|T[], c?:T, i?:number, a?:T[]) => {
-        if (isArray(pOrArray)) {
+export function reducerOrFn<R,T>(fn:ReducerFn<R,T>, defaultInitial?:R):ReducerOrFn<R,T> {
+    return (pOrArray:R|T[], c?:T, i?:number, a?:T[]) => {
+        if (isArray(pOrArray) && c === undefined) {
             const arr = pOrArray as T[];
-            if (defaultInitial) {
-                return arr.reduce(fn, defaultInitial);
-            } else {
-                return arr.reduce(fn);
-            }
+            let r = defaultInitial ? arr.reduce(fn, defaultInitial) : arr.reduce(fn as any);
+            return r as R;
+        } else {
+            return fn(pOrArray as R, c as T, i, a);
         }
-        const p = pOrArray as T;
-        return fn(p, c as T, i as number, a as T[]);
     }
 }
 
 /**
  * a reducer factory that produces a reducer Fn that processes an entire array 
  * at once vs an element at a time.  Array.reduce() has the characteristic that it 
- * produces a single result from the given array - but it does so in the specific 
- * fashion of  processing each array element one at a time relative to an accumulator.
- * Some reductions to a single value cannot be processed in such a way, however.
- * This utilty creates a reducer that will basically process the entire array
- * at index=0 and bubble the result through the rest of the reducer calls.
+ * produces a single result from the given array - but it does so by processing each 
+ * array element one at a time relative to an accumulator.  Some reductions to a single 
+ * value cannot be processed in such a way, however, but we still might want to perform
+ * the reduction in a functional way.
+ * This utilty creates a reducer that will basically process the initial value until the
+ * last array element, and then will process everything at once.
  * @param fn 
  */
-export function mockReducer<T>(fn:MockReducerFn<T>):ReducerFn<T> {
-    return (p:T, c:T, i:number, a:T[]) => {
-        return i == a.length-1 ? fn(a) : p;
+export function atOnceReducer<R,T>(fn:AtOnceReducerFn<R,T>):ReducerFn<R,T> {
+    const x = (p:R, c:T, i:number, a:T[]) => {
+        return i == a.length-1 ? fn(a, p) : p;
     }
+    return x as ReducerFn<R,T>;
 }
+export type AtOnceReducerFn<R,T> = (a:T[], initialValue?:R) => R;
 
 /**
  * a reducer factory that produces a reducer that operates with a specific initial
  * value.  Certain reducers require a specific initial value, but it's not effective
  * to require the caller to provide that initial value when calling reduce() 
  */
-export function reducerWithFixedInitial<T>(initialValue:T, fn:ReducerFn<T>): ReducerFn<T> {
-    return (p:T, c: T, i: number, a:T[]) => {
+export function reducerWithFixedInitial<R,T>(initialValue:R, fn:ReducerFn<R,T>): ReducerFn<R,T> {
+    const x = (p:R, c: T, i: number, a:T[]) => {
         if (i == 0) { // unexpected - a user-supplied initial value was provided, but ignore it
             return initialValue;
         } else if (i == 1) {
@@ -67,7 +67,8 @@ export function reducerWithFixedInitial<T>(initialValue:T, fn:ReducerFn<T>): Red
         } else {
             return fn(p, c, i, a);
         }
-    }
+    } 
+    return x as ReducerFn<R,T>;
 }
 
 
@@ -118,11 +119,11 @@ export const nsort = (a:number[], desc?:boolean): number[] => {
 }
 
 /**
- * zip as a reducer - FIXME need to figure out how to allow reducerOrFn/mockReducer to take
+ * zip as a reducer - FIXME need to figure out how to allow reducerOrFn/atOnceReducer to take
  * varargs instead of an array.
  */
 // @ts-expect-error FIXME 
-export const zipReduce = mockReducer(arrays => zip(...arrays));
+export const zipReduce = atOnceReducer(arrays => zip(...arrays));
 
 export const removeGapsFilterFn = (v:any) => v === null || v === undefined;
 export const removeGaps = (a:any[]) => a.filter(removeGapsFilterFn);

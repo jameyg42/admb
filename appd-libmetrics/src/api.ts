@@ -24,6 +24,7 @@ export interface MetricTimeseries {
     data: MetricDataPoint[];
     metadata: KVP;
 }
+export type MetricTimeseriesGroup = MetricTimeseries[];
 export interface MetricDataPoint {
     start: number,
     value: number

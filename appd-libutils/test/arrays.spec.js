@@ -1,5 +1,11 @@
 const arrays = require('../out/arrays');
 
+// describe = (n, f) => undefined;
+// const s = arrays.reducerOrFn((p, c) => p + c);
+// //const r = s([1,2,3]);
+// const r = [1,2,3].reduce(s);
+// console.log(r);
+
 describe('reducer utilities', () => {
     test('reducer or fn', () => {
         const s = arrays.reducerOrFn((p, c) => p + c);
@@ -7,8 +13,8 @@ describe('reducer utilities', () => {
         expect([1,2,3].reduce(s)).toBe(6);
     });
 
-    test('mock reducer', () => {
-        const m = arrays.mockReducer((a) => {
+    test('atOnce reducer', () => {
+        const m = arrays.atOnceReducer((a) => {
             return a.sort().map(v => v.substring(1)).join(' ');
         });
         expect(['2quick', '1the', '4fox', '3brown'].reduce(m)).toBe('the quick brown fox');

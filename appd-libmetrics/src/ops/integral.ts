@@ -11,5 +11,4 @@ const safe = (v:number) => v ? v : 0;
  */
 export const integral = (ts:MetricTimeseries) => 
     mapValues(ts, (v, i, a) => i == 0 ? 0 : safe(v) + safe(a[i-1]), "integral");
-
 export default integral;

@@ -1,14 +1,17 @@
-import { MetricTimeseries } from "../api";
-import { extractValues } from "../map";
-import { DataValueReducerFn } from "../reduce";
+import { MetricTimeseriesGroup } from "../api";
 import { avg } from "@metlife/appd-libstats";
+import { sort } from "./sort";
+import { limit } from "./limit";
+import { ReducerFn } from "@metlife/appd-libutils";
 
-export const bottom = (tss:MetricTimeseries[], size:number, by:DataValueReducerFn=avg) => {
-    return tss
-        .sort((a,b) => {
-            const av = extractValues(a).reduce(by);
-            const bv = extractValues(b).reduce(by);
-            return av-bv;
-        })
-        .slice(0, size)
-}
+/**
+ * returns the bottom (least by provided reducer) `<size>` results.
+ * This is a shortcut for `limit(sort(asc),size)`.
+ * @param tss 
+ * @param size 
+ * @param by 
+ * @returns 
+ */
+ export const bottom = (tss:MetricTimeseriesGroup, size:number, by:ReducerFn<number,number>=avg) => 
+    limit(sort(tss, by, false), size);
+ export default bottom;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
-import * as xor from '../../xor';
+import { xor } from "@metlife/appd-libutils/out/crypto";
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,7 @@ export class LoginService {
   private userChange = new Subject();
   userChange$ = this.userChange.asObservable();
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   currentUser() {
     return new Promise((resolve, reject) => {

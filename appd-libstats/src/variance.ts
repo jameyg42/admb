@@ -1,7 +1,7 @@
-import { reducerOrFn, mockReducer } from "@metlife/appd-libutils/out/arrays";
+import { reducerOrFn, atOnceReducer } from "@metlife/appd-libutils";
 import mean from "./mean";
 
-export const variance = reducerOrFn(mockReducer<number>((a:number[]) => {
+export const variance = reducerOrFn(atOnceReducer((a:number[]) => {
     if (a.length == 0) return 0;
     const mx = mean(a);
     const variance = a

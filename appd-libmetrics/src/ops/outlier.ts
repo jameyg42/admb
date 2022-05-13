@@ -1,4 +1,4 @@
-import { outlier as _outlier} from  "@metlife/appd-libstats/out/outlier";
+import { outlier as _outlier} from  "@metlife/appd-libstats";
 import { MetricTimeseries } from "../api";
 import { extractValues, mapWithValues } from "../map";
 

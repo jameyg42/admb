@@ -1,13 +1,13 @@
 import { AppArg, BaselineArg, Metric, MetricData, MetricNode, PathArg } from './types';
 import { createHash } from 'crypto';
-import { ReadThroughCache } from '@metlife/appd-libutils/out/cache';
+import { cache } from '@metlife/appd-libutils';
 import { Range, defaultRange } from '../range';
 import { Client } from '../client';
 import { App, AppServices, Baseline } from '../app';
 
-const metricTreeCache = new ReadThroughCache({stdTTL: 10 * 60});
-const fixedRangeMetricCache = new ReadThroughCache({stdTTL: 10 * 60});
-const relativeRangeMetricCache = new ReadThroughCache({stdTTL: 2 * 60});
+const metricTreeCache = new cache.ReadThroughCache({stdTTL: 10 * 60});
+const fixedRangeMetricCache = new cache.ReadThroughCache({stdTTL: 10 * 60});
+const relativeRangeMetricCache = new cache.ReadThroughCache({stdTTL: 2 * 60});
 
 function cacheFor(range:Range) {
     return range.type === 'BEFORE_NOW' ? relativeRangeMetricCache : fixedRangeMetricCache;
@@ -103,7 +103,7 @@ export class MetricsServices {
                         }
                         return d as MetricData;
                     })
-                })
+                }) as Metric
             ))
         );
     }
