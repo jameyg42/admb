@@ -1,5 +1,5 @@
+import { clone } from "@metlife/appd-libutils";
 import { MetricDataPoint, MetricTimeseries } from "./api"
-import { clone } from "./clone";
 
 export type DataPointMapperFn = (dp:MetricDataPoint, i:number, a:MetricDataPoint[]) => MetricDataPoint;
 /**
@@ -12,7 +12,7 @@ export type DataPointMapperFn = (dp:MetricDataPoint, i:number, a:MetricDataPoint
  * @param named 
  * @returns 
  */
-export const map = (ts:MetricTimeseries, fn:DataPointMapperFn, named?:string) => {
+export function map(ts:MetricTimeseries, fn:DataPointMapperFn, named?:string) {
     const cts = clone(ts);
     if (named) {
         cts.name = `${named}(${cts.name})`;
@@ -32,7 +32,7 @@ export const map = (ts:MetricTimeseries, fn:DataPointMapperFn, named?:string) =>
  * @param named 
  * @returns 
  */
-export const mapWithValues = (ts:MetricTimeseries, values:number[], named?:string) => {
+export function mapWithValues(ts:MetricTimeseries, values:number[], named?:string) {
     return map(ts, (dp, i) => {
         dp.value = values[i];
         return dp;
@@ -50,9 +50,10 @@ export type DataValueMapperFn = (v:number, i:number, a:number[]) => number;
  * @param named 
  * @returns 
  */
-export const mapValues = (ts:MetricTimeseries, fn:DataValueMapperFn, named?:string) => {
+export function mapValues(ts:MetricTimeseries, fn:DataValueMapperFn, named?:string) {
     const values = extractValues(ts).map(fn);
     return mapWithValues(ts, values, named);
 }
 
-export const extractValues = (ts:MetricTimeseries) => ts.data.map(dp => dp.value);
+// FIXME gapperFn should be worked in here
+export const extractValues = (ts:MetricTimeseries) => ts.data.map(dp => dp.value || 0);

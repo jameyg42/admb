@@ -29,7 +29,10 @@ export function exec(expr: string, providers:MetricsProvider[], range:Range, var
             complete: () => {
                 resolve(extractTimeseriesFromContext(globalContext));
             },
-            error: (e) => reject(e)
+            error: (e) => {
+                console.error(e);
+                reject(e);
+            }
         })
     })
 }

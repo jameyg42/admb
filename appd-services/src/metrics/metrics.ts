@@ -1,9 +1,9 @@
-import { AppArg, BaselineArg, Metric, MetricData, MetricNode, PathArg } from './types';
+import { Metric, MetricData, MetricNode, PathArg } from './types';
 import { createHash } from 'crypto';
 import { cache } from '@metlife/appd-libutils';
 import { Range, defaultRange } from '../range';
 import { Client } from '../client';
-import { App, AppServices, Baseline } from '../app';
+import { App, Baseline } from '../app';
 
 const metricTreeCache = new cache.ReadThroughCache({stdTTL: 10 * 60});
 const fixedRangeMetricCache = new cache.ReadThroughCache({stdTTL: 10 * 60});
@@ -21,22 +21,20 @@ function key(...args:any[]) {
 // basic service wrappers around the AppDynamics metrics browse/fetch services
 // most people will want to use the metricsEx.js service instead.
 export class MetricsServices {
-    private app:AppServices;
-    constructor(private client:Client) {
-        this.app = new AppServices(client);
-    }
+    constructor(private client:Client) {}
+
     static create(client:Client|Promise<Client>):Promise<MetricsServices> {
         return client instanceof Client
             ? Promise.resolve(new MetricsServices(client))
             : client.then(c => new MetricsServices(c));
     }
 
-    browseTree(app:AppArg, path:PathArg, range:Range = defaultRange):Promise<MetricNode[]> {
+    browseTree(app:App, path:PathArg = [], range:Range = defaultRange):Promise<MetricNode[]> {
         const pathSegments = Array.isArray(path) ? path : path.split('|');
-        const cacheKey = key(this.client.session.url, app, path);
+        const cacheKey = key(this.client.session.url, arguments);
         return metricTreeCache.get(cacheKey, () =>
             this.client.post<MetricNode[]>('/restui/metricBrowser/async/metric-tree/root', {
-                applicationId: (app as App).id || app,
+                applicationId: app.id,
                 pathData: pathSegments.map((e,i) => i == 3 && e == 'All Other Traffic' ? '_APPDYNAMICS_DEFAULT_TX_' : e),
                 timeRangeSpecifier: range
             })
@@ -50,61 +48,73 @@ export class MetricsServices {
         );
     }
 
-    fetchMetricData(metricNodes:MetricNode[], range:Range = defaultRange, baseline?:BaselineArg):Promise<Metric[]> {
-        var url = '/restui/metricBrowser/getMetricData';
-        var metricQueries = metricNodes
+    fetchMetricData(metricNodes:MetricNode[], range:Range = defaultRange):Promise<Metric[]> {
+        if (metricNodes.length == 0) {
+            return Promise.resolve([]);
+        }
+        const query = this.createMetricQuery(metricNodes, range);
+
+        const cacheKey = key(this.client.session.url, query);
+        return cacheFor(range).get(cacheKey, () =>
+            this.client.post<any[]>('/restui/metricBrowser/getMetricData', query)
+            .then(metrics => metrics.map((ts,i) => this.translateResponse(ts, metricNodes[i], range)))
+        );
+    }
+    fetchMetricBaselineData(metricNodes:MetricNode[], range:Range, baseline:Baseline, granularity:number):Promise<Metric[]> {
+        if (metricNodes.length == 0) {
+            return Promise.resolve([]);
+        }
+        const query = this.createMetricQuery(metricNodes, range);
+        query.metricBaseline = baseline.id;
+
+        const cacheKey = key(this.client.session.url, query);
+        return cacheFor(range).get(cacheKey, () =>
+            this.client.post<any[]>(`/restui/metricBrowser/getMetricBaselineData?granularityMinutes=${granularity}`, query)
+            .then(metrics => metrics.map((ts,i) => this.translateResponse(ts, metricNodes[i], range)))
+            .then(metrics => {
+                metrics.forEach(m => m.baseline = baseline);
+                return metrics;
+            })
+        );
+    }
+
+    createMetricQuery(nodes:MetricNode[], range:Range) {
+        const queries = nodes
             .filter(n => n.metricId > 0)
             .map(n => ({
                 entityType: n.type,
                 entityId: n.entityId,
                 metricId: n.metricId
             }));
-        if (metricQueries.length == 0) {
-            return Promise.resolve([]);
-        }
-        const args = {
+        return {
             maxSize: 1088,
-            metricDataQueries: metricQueries,
+            metricDataQueries: queries,
             timeRangeSpecifier: range
         } as any;
-        if (baseline) {
-            // FIXME granularity
-            url = `/restui/metricBrowser/getMetricBaselineData`;
-            args.metricBaseline = (baseline as Baseline).id || baseline;
-        }
-
-        const cacheKey = key(this.client.session.url, args);
-        return cacheFor(range).get(cacheKey, () =>
-            this.client.post<any[]>(url, args)
-            .then(metrics => metrics
-                .map((ts, i) => ({
-                    metricId: ts.metricId,
-                    metricName: ts.metricName,
-                    frequency: ts.frequency,
-                    granularityMinutes: ts.granularityMinutes,
-                    
-                    range: range,
-                    node: metricNodes[i],
-                    baseline: baseline,
-
-                    data: ts.dataTimeslices.map((dts:any) => {
-                        const d = {
-                            startTime: dts.startTime
-                        } as any;
-                        if (baseline) {
-                            d.baseline = dts.metricValue.value;
-                            d.stddev = dts.metricValue.standardDeviation;
-                        }
-                        else {
-                            for (let p in dts.metricValue) {
-                                if (p == 'standardDeviation') continue;
-                                d[p] = dts.metricValue[p];
-                            }
-                        }
-                        return d as MetricData;
-                    })
-                }) as Metric
-            ))
-        );
+    }
+    /**
+     * translates a getMetricData response into a Metric instance.
+     * 
+     * @param ts
+     * @param node 
+     * @param range 
+     * @returns 
+     */
+    translateResponse(ts:any, node:MetricNode, range:Range ):Metric {
+        const metric = {
+            metricId: ts.metricId,
+            metricName: ts.metricName,
+            granularityMinutes: ts.granularityMinutes,
+            range,
+            node,
+            data: ts.dataTimeslices.map((dts:any) => {
+                const d = {
+                    startTime: dts.startTime
+                } as any;
+                Object.assign(d, dts.metricValue);
+                return d as MetricData;
+            })
+        } as Metric;
+        return metric;
     }
 }

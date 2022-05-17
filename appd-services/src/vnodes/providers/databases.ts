@@ -4,6 +4,8 @@ import { MetricNode, Path } from "../../metrics";
 import { fix, Range } from "../../range";
 import { VNodeProvider, VNodeMapping, createVNode, createMapping } from "../vnodes";
 
+const DBMON = {id:1}; // FIXME
+
 function listDatabasesForApp(client:Client, app:App, path:Path, range:Range): Promise<MetricNode[]> {
     range = fix(range);
     
@@ -62,7 +64,7 @@ function findMappedDb(client:Client, app:App, path:Path, range:Range): Promise<V
             .filter(mdb => mdb)
             .map(mdb => {
                 const remainder = path.slice(3);
-                const mapping = createMapping(1, ['Databases', mdb.name].concat(remainder));
+                const mapping = createMapping(DBMON, ['Databases', mdb.name].concat(remainder));
                 return mapping;
             })
         );

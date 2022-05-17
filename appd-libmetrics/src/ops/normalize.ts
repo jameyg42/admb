@@ -1,6 +1,6 @@
 import { max, min } from "@metlife/appd-libstats";
 import { MetricTimeseries } from "../api";
-import { mapValues } from "../map";
+import { extractValues, mapValues } from "../map";
 
 /**
  * maps the MetricDataPoint values to the min/max normalization.
@@ -12,7 +12,7 @@ import { mapValues } from "../map";
  * @returns 
  */
 export const normalize = (ts:MetricTimeseries) => {
-    const values = ts.data.map(dp => dp.value);
+    const values = extractValues(ts);
     const n = min(values);
     const x = max(values);
     return mapValues(ts, v => (v - n) / (x - n), "normalize");

@@ -4,6 +4,7 @@ import { MetricNode, Path } from "../../metrics";
 import { Range, fix } from "../../range";
 import { VNodeProvider, VNodeMapping, createVNode, createMapping } from "../vnodes";
 
+const SERVERS = {id:3}; // FIXME
 
 function listServersForApp(client:Client, app:App, path:Path, range:Range):Promise<MetricNode[]> {
     range = fix(range);
@@ -23,7 +24,7 @@ function listServersForApp(client:Client, app:App, path:Path, range:Range):Promi
 function listMetricsForServer(client:Client, app:App, path:Path, range:Range):Promise<VNodeMapping[]> {
     if (path.length  < 2) return Promise.resolve([]);
     const remainder = path.slice(2);
-    const mapping = createMapping(3, ['Application Infrastructure Performance', 'Root', 'Individual Nodes', path[1]].concat(remainder));
+    const mapping = createMapping(SERVERS, ['Application Infrastructure Performance', 'Root', 'Individual Nodes', path[1]].concat(remainder));
     return Promise.resolve([mapping]);
 }
 

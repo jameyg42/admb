@@ -1,7 +1,5 @@
 import { App, Baseline } from "../app";
 import { Range } from "../range";
-export type AppArg = App | number;
-export type BaselineArg = Baseline | number;
 
 export type Path = string[];
 export type PathArg = Path | string;
@@ -11,30 +9,30 @@ export interface MetricNode {
     hasChildren:boolean;
     metricId: number;
     entityId: number;
+    type: string|null;
 
     // props added by metrics service
     path: Path;
-    app: App|number;
+    app: App;
 
     // mostly useless props
-    type: string|null;
-    children: MetricNode[] | null;
-    metricPath: string|null;
-    iconPath:string|null;
-    metricTreeRootType: string|null // OVERALL_APP_PERF; BT_PERF; etc - only on root nodes
+    children?: MetricNode[] | null;
+    metricPath?: string|null;
+    iconPath?:string|null;
+    metricTreeRootType?: string|null // OVERALL_APP_PERF; BT_PERF; etc - only on root nodes
 }
 
 export interface Metric {
    metricId: number;
    metricName: string;
-   frequency: string;
    granularityMinutes: number;
+
    data: MetricData[];
 
    // enhancements
    node: MetricNode;
    range: Range;
-   baseline?: Baseline
+   baseline?: Baseline;
 }
 export interface MetricData {
     startTime: number;
@@ -47,7 +45,6 @@ export interface MetricData {
     useRange?: boolean;
     groupCount?: MetricValue;
     occurances?: MetricValue;
-    baseline?: MetricValue;
-    stddev?: MetricValue;
+    standardDeviation?: MetricValue;
 }
-export type MetricValue = number|null;
+export type MetricValue = number|null|undefined;

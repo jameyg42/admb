@@ -1,13 +1,13 @@
-import { App } from "../app";
 import { Client } from "../client";
 import { Range, defaultRange } from "../range";
 
-import { MetricsServices, Path, MetricNode, AppArg, PathArg } from "../metrics";
+import { MetricsServices, Path, MetricNode, PathArg } from "../metrics";
 
 import { DatabaseVnodeProvider } from "./providers/databases";
 import { ServersVnodeProvider } from "./providers/servers";
 import { ContainerVnodeProvider } from "./providers/containers";
 import { flattenDeep } from "lodash";
+import { App } from "../app";
 
 export interface VNodeMapping {
     app: App;
@@ -18,9 +18,9 @@ export interface VNodeProvider {
     resolveVirtualNodes(client:Client, app:App, path:Path, range:Range): Promise<(MetricNode|VNodeMapping)[]>
 }
 
-// FIXME we can't assume appIds for SaaS - we'll need to look them up
-export function createMapping(appId: number, mappedTo:Path):VNodeMapping {
-     return {app:{id:appId}, mappedTo} as VNodeMapping;
+// FIXME providers are currently using hardcoded appIds which won't work for SaaS
+export function createMapping(app: App, mappedTo:Path):VNodeMapping {
+     return {app, mappedTo} as VNodeMapping;
 }
 export function createVNode(name:string, app:App, path:Path, metricId = 0, entityType:string|null = null, entityId = 0):MetricNode {
     return {
@@ -54,8 +54,7 @@ export class VNodeServices {
             ? Promise.resolve(new VNodeServices(client))
             : client.then(c => new VNodeServices(c));
     }
-    browseTree(appArg:AppArg, pathArg:PathArg, range:Range = defaultRange):Promise<MetricNode[]> {
-        const app:App = (appArg as App).id ? appArg as App : {id:(appArg as number)};
+    browseTree(app:App, pathArg:PathArg, range:Range = defaultRange):Promise<MetricNode[]> {
         const path:Path = Array.isArray(pathArg) ? pathArg : pathArg.split('|');
         if (path.length == 0) { // root nodes
             return Promise.resolve(providers.map(p => createVNode(p.name, app, [])));
@@ -95,7 +94,7 @@ export class VNodeServices {
         // w/out having to make it public
         const mbt = metrics.browseTree;
         const vbt = VNodeServices.prototype.browseTree;
-        metrics.browseTree = (app:AppArg, path:PathArg, range:Range = defaultRange) => {
+        metrics.browseTree = (app:App, path:PathArg, range:Range = defaultRange) => {
             return Promise.all([
                 mbt.apply(metrics, [app, path, range]),
                 vbt.apply(metrics, [app, path, range])

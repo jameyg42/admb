@@ -19,8 +19,11 @@
 
   identifier { lower (lower | upper | digit)*  }
   term { (lower | upper | digit | "_" )+ }
+  number { '-'? int frac? }
+  int  { '0' | $[1-9] digit* }
+  frac { '.' digit+ }
   string { '"' (![\\\n"] | "\\" _)* '"'? }
-  @precedence { identifier, term }
+  @precedence { identifier, term, number, symbols }
 }
 @skip { whitespace | comment }
 
@@ -57,4 +60,4 @@ CommandExpression { Command Arg* }
 Command { identifier ~c1 }
 Arg { (Name "=" Value | Value) }
 Name { identifier }
-Value { (identifier | term | string) }
+Value { (identifier | term | number | string) }

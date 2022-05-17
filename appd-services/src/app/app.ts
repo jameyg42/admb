@@ -39,14 +39,23 @@ export class AppServices {
             return apps.filter((a:any) => pattern instanceof RegExp ? pattern.test(a.name) : matches(pattern, a.name));
         })
     }
-    fetchBaselines(app:any):Promise<Baseline[]> {
+    fetchBaselines(app:App):Promise<Baseline[]> {
         return this.client.get<Baseline[]>(`/restui/baselines/getAllBaselines/${app.id}`)
     }
 
-    findBaseline(app:any, bl:any):Promise<Baseline|undefined> {
+    findBaseline(app:App, bl:string):Promise<Baseline|undefined> {
         const finder = findMap[bl] || FIND_NAMED(bl);
         return this.fetchBaselines(app)
-            .then(bls => bls.find(finder));
+            .then(bls => bls.find(finder))
+            .then(b => {
+                // FIXME if we use a mapped name to lookup a baseline, appd-pipeline 
+                // expects the baseline name to be the mapped name.  We'll look for a
+                // better solution in the future
+                if (b && findMap[bl]) {
+                    b.name = bl;
+                }
+                return b;
+            });
     }
 }
 

@@ -34,6 +34,7 @@ export abstract class BaseProcessor implements CommandProcessor {
         )
     }
     transformMetadata(ts:MetricTimeseries, processor:CommandDescription, args:Arguments) {
+        ts.metadata = ts.metadata || {};
         ts.metadata.processors = ts.metadata.processors || [];
         ts.metadata.processors.push({
             name: processor.name,

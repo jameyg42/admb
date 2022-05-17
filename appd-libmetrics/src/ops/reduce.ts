@@ -1,28 +1,23 @@
-import { ReducerFn, zip, isNumber, clone } from "@metlife/appd-libutils"
+import { ReducerFn } from "@metlife/appd-libutils"
 import { MetricTimeseries, MetricTimeseriesGroup } from "../api"
-import { extractValues } from "../map";
+import { reduceGroup, GapHandlerFn } from "../reduce";
 
-
-export const reduce = (tss:MetricTimeseriesGroup, fn:ReducerFn<number,number>, gapHandler = skip):MetricTimeseries => {
-    let last:any = undefined;
-    const values = zip(...tss.map(extractValues))
-        .map(vs => vs
-            .map((v, i, a) => {
-                if (isNumber(v)) return v;
-                last = gapHandler(a[i-1] || last, a[i+1], i, a);
-                return last;
-            })
-            .filter(v => (v as any) !== 'skip')
-            .map((v:any) => v as number)
-            .reduce(fn)
-        )
-    
-    const r = clone(tss[0]);
-    r.data.map((d,i) => ({start:d.start, value:values[i]}));
-    return r; // FIXMENOW metadata
+/**
+ * reduces all the series in the group to a single series using the provided
+ * reducer.  The reduction happens in a few steps:
+ *  - the series are normalized with leading/trailing "undefined" MetricDataPoints
+ *    so that the ranges are the same
+ *  - the values for each start time are grouped together into an array
+ *  - the values for each array are reduced using the reducer function - any
+ *    null|undefined values are first processed by the provided gapHandler
+ *    function
+ *    
+ * @param tss
+ * @param fn 
+ * @param gapHandler 
+ * @returns 
+ */
+export const reduce = (tss:MetricTimeseriesGroup, fn:ReducerFn<number,number>, gapHandler?:GapHandlerFn):MetricTimeseries => {
+    return reduceGroup(tss, fn, gapHandler, `reduce:${fn.name || 'unknown'}`)
 }
-export type GapHandlerFn = (before:number|undefined, after:number|undefined, i:number, a:number[]) => number|undefined|'skip';
-export const zeros:GapHandlerFn = () => 0;
-export const fill:GapHandlerFn = (b, a) => a && b ? (a+b)/2 : a ? a : b ? b : 0;
-export const preserve:GapHandlerFn = () => undefined;
-export const skip:GapHandlerFn = () => 'skip';
+export default reduce;

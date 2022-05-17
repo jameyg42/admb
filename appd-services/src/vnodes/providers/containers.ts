@@ -4,6 +4,8 @@ import { Range, fix } from '../../range';
 import { Client } from '../../client';
 import { App } from '../../app';
 
+const SERVERS = {id:3}; // FIXME - this isn't true across all controllers
+
 function listContainersForApp(client:Client, app:App, path:Path, range:Range):Promise<MetricNode[]> {
     range = fix(range);
     const req = {
@@ -44,7 +46,7 @@ function listMetricsForContainer(client:Client, app:App, path:Path, range:Range)
     const hierarchy = path[1].split('-');
     const name = hierarchy.slice(-1)[0];
     const hn = (['Root', 'Containers'].concat(hierarchy.slice(0, -1)).join('|'));
-    return Promise.resolve([createMapping(3, ['Application Infrastructure Performance', hn, 'Individual Nodes', name].concat(remainder))]);
+    return Promise.resolve([createMapping(SERVERS, ['Application Infrastructure Performance', hn, 'Individual Nodes', name].concat(remainder))]);
 }
 
 export class ContainerVnodeProvider implements VNodeProvider {

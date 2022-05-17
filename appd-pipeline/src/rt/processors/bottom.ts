@@ -1,12 +1,12 @@
 import { Arguments, BaseProcessor } from "./api";
 import { bottom } from "@metlife/appd-libmetrics/out/ops/bottom";
-import { MetricTimeseries } from "@metlife/appd-libmetrics";
+import { MetricTimeseries, MetricTimeseriesGroup } from "@metlife/appd-libmetrics";
 import * as reducers from "@metlife/appd-libstats";
 import { ReducerFn } from "@metlife/appd-libutils";
 
 export class BottomProcessor extends BaseProcessor {
-    execGroup(args:Arguments, group:MetricTimeseries[]):MetricTimeseries[]|Promise<MetricTimeseries[]> {
-        const by = reducerMap[args.by as string];
+    execGroup(args:Arguments, group:MetricTimeseriesGroup) {
+        const by = reducerMap[args.by as string] || 'avg';
         if (!by) {
             throw new SyntaxError(`invalid reducer function '${args.by}'`);
         }

@@ -1,11 +1,11 @@
 import { CommandDescription } from "./api";
 
-export const bottom:CommandDescription = {
-    name: 'bottom',
+export const top:CommandDescription = {
+    name: 'top',
     documentation: `
-    Picks the bottom (least) N series ordered by the specified aggregator function (default is \`avg\`).
+    Picks the top N series ordered by the specified aggregator function (default is \`avg\`).
     This is essentially short-hand for
-        sort <fn> dir=asc|> limit <n> 
+        sort <fn> dir=desc|> limit <n> 
     `,
     arguments:  [{
         name: 'size',
@@ -21,4 +21,4 @@ export const bottom:CommandDescription = {
         `,
         optional: true
     }]
-};
+}
