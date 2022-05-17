@@ -41,7 +41,9 @@ export class AppDynamicsMetricsProvider implements MetricsProvider {
             .then(flatten);
         })
 
-        const tss = metricsEx.map(m => {
+        const tss = metricsEx
+        .filter(m => m.name !== 'METRIC DATA NOT FOUND' && m.data.length > 0)
+        .map(m => {
             return values.map(value => {
                 const ts = {
                     app: m.node.app.name,

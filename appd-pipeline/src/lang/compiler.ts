@@ -105,6 +105,7 @@ export function compile(expr: string) {
             }
             const value = nodeValue(assertNodeIs(c.node, 'Value'));
             argNodes.push(new ArgNode(pos, name, value, argNode));
+            c.parent();
         }
 
         const args = _compileArguments(commandExpression, argNodes, processor);

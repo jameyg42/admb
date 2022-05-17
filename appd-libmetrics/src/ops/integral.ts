@@ -9,6 +9,12 @@ const safe = (v:number) => v ? v : 0;
  * @param ts
  * @returns 
  */
-export const integral = (ts:MetricTimeseries) => 
-    mapValues(ts, (v, i, a) => i == 0 ? 0 : safe(v) + safe(a[i-1]), "integral");
+export const integral = (ts:MetricTimeseries) => {
+    let total = 0;
+    return mapValues(ts, (v, i, a) => {
+        total += safe(v);
+        return total;
+    }, "integral");
+
+}
 export default integral;

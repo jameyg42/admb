@@ -6,6 +6,7 @@ export const smooth:CommandDescription = {
     arguments: [{
         name: 'window',
         type: 'number',
+        optional: true,
         documentation: 'the size of the window in # of datapoints to use in the moving average'
     }]
 };

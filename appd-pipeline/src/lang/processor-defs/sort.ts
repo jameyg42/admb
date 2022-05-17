@@ -6,6 +6,7 @@ export const sort:CommandDescription = {
     arguments: [{
         name: 'by',
         type: 'string',
+        optional: true,
         documentation: `
         the sorting operation, defaulting to "name" if not specified.  Operations may optionally take one or more arguments, provided
         in the form \`command[arguments]\` (i.e. wrapped in square brackets).

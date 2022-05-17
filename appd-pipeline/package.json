@@ -20,6 +20,7 @@
   "dependencies": {
     "@lezer/common": "0.16.0",
     "@lezer/lr": "0.16.0",
+    "parse-duration": "^1.0.2",
     "rxjs": "^7.5.5"
   },
   "devDependencies": {
