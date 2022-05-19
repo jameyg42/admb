@@ -28,7 +28,7 @@ export class ArgNode {
     constructor(public position: number, public name:string|undefined, public value: string, public node:SyntaxNode) {
         // the grammar does not currently strip quotes from string values, so do that here (FIXME more robust matching)
         if (/^\".*\"$/.test(value)) {
-            value = value.substring(1, value.length - 1);
+            this.value = value.substring(1, value.length - 1);
         }
     }
 }

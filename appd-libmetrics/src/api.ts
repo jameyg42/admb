@@ -1,4 +1,4 @@
-import { KVP } from "@metlife/appd-libutils";
+import { KVP } from "@metlife/appd-libutils/out/types";
 
 export interface Range {
     startTime: number;
@@ -13,14 +13,19 @@ export enum PrecisionUnit {
     Hours = 'h'
 }
 export interface MetricTimeseries {
-    app: string;
     name: string;
-    path: string[];
+    fullName: string;
+    sources: Source[];
+    source: Source;
     range: Range;
     value: string;
     precision: Precision;
     data: MetricDataPoint[];
     metadata: KVP<any>;
+}
+export interface Source {
+    app: string;
+    path: string[];
 }
 export type MetricTimeseriesGroup = MetricTimeseries[];
 export interface MetricDataPoint {

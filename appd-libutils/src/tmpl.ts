@@ -1,5 +1,5 @@
-import { get, isString, isArray } from 'lodash';
-
+import { get } from 'lodash';
+import { isArray, isString } from './objects';
 ////
 // a super-trivial "template" engine that does string interpolation.
 // general format %path | %{path}

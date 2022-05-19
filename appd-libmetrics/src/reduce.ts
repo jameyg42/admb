@@ -12,13 +12,14 @@ import { MetricDataPoint, MetricDataPointValue, MetricTimeseries, MetricTimeseri
 export function reduceGroup(tss:MetricTimeseriesGroup, reducer:ReducerFn<number, number>, gapHandler:GapHandlerFn = zeros, named?:string) {
     const result = createReduceResultTarget(tss);
     result.name = tss.map(ts => ts.name).join(',');
+    result.fullName = tss.map(ts => ts.fullName).join(',');
     if (named) {
         result.name = `${named}(${result.name})`;
+        result.fullName = `${named}(${result.fullName})`;
     }
+    result.sources = tss.map(ts => ts.source);
 
     const normalizedDataPoints = normalizeDataPointsRange(tss.map(ts => ts.data));
-    
-
     let last:any = undefined;
     const values = zip(...normalizedDataPoints.map(d => d.map(v => v.value)))
         .map(vs => vs
@@ -31,9 +32,8 @@ export function reduceGroup(tss:MetricTimeseriesGroup, reducer:ReducerFn<number,
             .reduce(reducer)
         )
     
-    const r = clone(tss[0]);
-    r.data.map((d,i) => ({start:d.start, value:values[i]}));
-    return r; // FIXMENOW metadata
+    result.data = result.data.map((d,i) => ({start:d.start, value:values[i]}));
+    return result; // FIXMENOW metadata
 }
 export function createReduceResultTarget(tss:MetricTimeseriesGroup):MetricTimeseries {
     //TOD actually implement

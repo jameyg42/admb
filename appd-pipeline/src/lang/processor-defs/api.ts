@@ -1,4 +1,5 @@
 import { SyntaxNode } from "@lezer/common";
+import { CommandExpressionNode } from "../syntax";
 
 export interface CommandDescription {
     name:string;
@@ -13,4 +14,4 @@ export interface CommandArgument {
     optional?: boolean;
     options?: string[];
 }
-export type CommandValidator = (node:SyntaxNode) => void;
+export type CommandValidator = (node:CommandExpressionNode) => void;

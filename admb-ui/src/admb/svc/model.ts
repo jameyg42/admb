@@ -1,19 +1,5 @@
-export interface Application {
-  id: number;
-  name: string;
-  type: string;
-}
-
-
-export interface MetricTimeseries {
-  name: string;
-  plotLayout?: PlotLayout;
-  data: TimeseriesPoint[];
-}
-export interface TimeseriesPoint {
-  start: number;
-  value: number;
-}
+export { MetricTimeseries } from "@metlife/appd-libmetrics/out/api"
+export { App as Application } from "@metlife/appd-services/out/app/types";
 export interface PlotLayout {
   type: string;
   yaxis?: number;

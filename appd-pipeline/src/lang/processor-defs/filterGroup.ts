@@ -17,9 +17,11 @@ export const filterGroup:CommandDescription = {
     }, {
         name: 'matching',
         type: 'string',
+		optional: true,
         documentation: `
         whether all series need to evaluate to true for the group to be included (\`every\`), at least one series (\`some\`),
-        or all the series matching the specified name expression (the metricFullName with optional wildcards)
+        or all the series matching the specified name expression (the metricFullName with optional wildcards).
+		Default is \`every\`.
         `
     }]
 }

@@ -1,4 +1,4 @@
-const tmpl = require('../out/tmpl');
+const tmpl = require('../../appd-services/out/tmpl');
 
 test('paren syntax', () => {
     const model = {

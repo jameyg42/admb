@@ -16,6 +16,7 @@ export function map(ts:MetricTimeseries, fn:DataPointMapperFn, named?:string) {
     const cts = clone(ts);
     if (named) {
         cts.name = `${named}(${cts.name})`;
+        cts.fullName = `${named}(${cts.fullName})`;
     }
     cts.data = cts.data.map(fn);
     return cts;

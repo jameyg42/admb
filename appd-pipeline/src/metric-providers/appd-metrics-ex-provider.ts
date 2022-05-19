@@ -45,10 +45,15 @@ export class AppDynamicsMetricsProvider implements MetricsProvider {
         .filter(m => m.name !== 'METRIC DATA NOT FOUND' && m.data.length > 0)
         .map(m => {
             return values.map(value => {
-                const ts = {
+                const source = {
                     app: m.node.app.name,
-                    name: m.name,
-                    path: m.node.path,
+                    path: m.node.path
+                }
+                const ts = {
+                    name: source.path[source.path.length-1],
+                    fullName: `${source.app}:|${m.fullName}[${value.type}${value.baseline ? '@'+value.baseline : ''}]`,
+                    source,
+                    sources: [source],
                     range: ctx.range,
                     value: value.type,
                     precision: {size:m.precision, units:'m'},

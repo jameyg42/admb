@@ -2,6 +2,8 @@ import { MetricTimeseries } from "@metlife/appd-libmetrics";
 import { Context, MetricTimeseriesGroup } from "../../rt/interpreter";
 import { CommandDescription } from "../../lang/processor-defs/api";
 import { CommandExpressionNode, ProcessingNode } from "../../lang/syntax";
+import { flatten } from "lodash";
+import { isArray } from "@metlife/appd-libutils";
 
 export abstract class BaseProcessor implements CommandProcessor {
     exec(node:ProcessingNode, ctx: Context):Promise<Context> {
@@ -23,6 +25,9 @@ export abstract class BaseProcessor implements CommandProcessor {
             results.forEach(ts => this.transformMetadata(ts, node.command, args));
             return results;
         });
+        if (ctx.groups.some(g => g.some(t =>isArray(t)))) {
+            ctx.groups = flatten(ctx.groups as any);
+        }
     }
     private forEachSeries(args:Arguments, ctx:Context, handler:(ts:MetricTimeseries) => MetricTimeseries, node:ProcessingNode) {
         ctx.groups = ctx.groups.map(g => 

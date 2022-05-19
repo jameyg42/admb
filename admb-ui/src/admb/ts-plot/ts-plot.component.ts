@@ -3,6 +3,7 @@ import { MetricTimeseries } from '../svc/model';
 import { flatten } from 'lodash';
 import { PlotlyComponent } from 'angular-plotly.js';
 
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'admb-ts-plot',
@@ -100,9 +101,9 @@ export class TsPlotComponent implements OnInit, OnDestroy {
 
 
 function timeseriesToPlots(ts: MetricTimeseries) {
-  const so: any = ts.plotLayout || defaultSeriesOptions;
+  const so: any = ts.metadata.plotLayout || defaultSeriesOptions;
   const series: any = {
-    name: ts.name,
+    name: ts.fullName,
     x: ts.data.map(dp => dp.start),
     y: ts.data.map(dp => dp.value),
     yaxis: `y${so.yaxis}`

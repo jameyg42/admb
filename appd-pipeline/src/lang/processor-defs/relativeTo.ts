@@ -15,5 +15,10 @@ export const relativeTo:CommandDescription = {
         name: 'path',
         type: 'string',
         documentation: 'the relative path'
+    },{
+        name: 'mode',
+        type: 'string',
+        optional: true,
+        documentation: 'how results are merged in.  One of merge (default) or replace.'
     }]
 }
