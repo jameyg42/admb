@@ -1,4 +1,4 @@
-import vm from 'node:vm';
+import { runInNewContext } from 'vm';
 import { MetricTimeseries, MetricTimeseriesGroup } from "../api";
 import { extractValues } from "../map";
 import { min, max, avg, mode, median} from "@metlife/appd-libstats";
@@ -7,7 +7,7 @@ import { matches } from "@metlife/appd-libutils/out/glob";
 
 export const filter = (ts:MetricTimeseries, expr:string, model:any={}) => {
     const values = extractValues(ts);
-    const r = vm.runInNewContext(expr, merge({
+    const r = runInNewContext(expr, merge({
         min: min(values),
         max: max(values),
         avg: avg(values),

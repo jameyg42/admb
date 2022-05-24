@@ -19,7 +19,7 @@ export interface Cancellable {
 export class HttpClient {
     private http: AxiosInstance;
     private errors$ = new Subject<HttpError>();
-    private inflight = new Set<AbortController>();
+    //private inflight = new Set<AbortController>();
     constructor(defaultOptions?:HttpConfig) {
         const mergedHeaders = Object.assign({
             'Accept': 'application/json, */*;q=0.8',
@@ -40,10 +40,10 @@ export class HttpClient {
      * @returns 
      */
     public request(config:HttpConfig):Cancellable&Promise<HttpResponse> {
-        const abort = new AbortController();
-        this.inflight.add(abort);
+        //const abort = new AbortController();
+        //this.inflight.add(abort);
         config = Object.assign({}, config, {
-            signal: abort.signal
+        //    signal: abort.signal
         });
         if (config.cookies) {
             config.headers = Object.assign({
@@ -61,10 +61,11 @@ export class HttpClient {
                             this.errors$.next(e);
                             throw e;
                         }).finally(() => {
-                            this.inflight.delete(abort);
+         //                   this.inflight.delete(abort);
                         });
         const cancellable = promise as any;  // FIXME - how to do this correctly????
-        cancellable.cancel = () => {abort.abort()};
+        //cancellable.cancel = () => {abort.abort()};
+        cancellable.cancel = () => {};
         return cancellable as Cancellable&Promise<HttpResponse>;
     }
     public get(path:string, params?:HttpParams, config?:HttpConfig):Cancellable&Promise<HttpResponse> {
@@ -97,7 +98,7 @@ export class HttpClient {
     };
 
     public cancelAll() {
-        this.inflight.forEach(a => a.abort());
+    //    this.inflight.forEach(a => a.abort());
     }
 
     public onError(observer:Observer<AxiosError>):Subscription {
