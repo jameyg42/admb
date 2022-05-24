@@ -1,0 +1,35 @@
+<div class="app-layout">
+  <section class="menubar noprint collapsed">
+      <header>
+        <i class="material-icons icon">trending_up</i>
+      </header>
+      <nav>
+        <ul>
+          <li><a routerLink="/admb" routerLinkActive="active"><i class="material-icons icon">analytics</i><span class="label">Browser</span></a></li>
+          <li><a routerLink="/admb-dashboard" routerLinkActive="active"><i class="material-icons icon">dashboard</i><span class="label">Dashboard</span></a></li>
+        </ul>
+      </nav>
+  </section>
+  <div class="main-wrapper" *ngIf="user != null">
+    <section class="header noprint">
+      <ul class="left">
+        <li>
+          <img src="../assets/appd_logo.png" height="25">
+          Metrics Browser <span style="font-size:60%">v3 (alpha)</span>
+        </li>
+      </ul>
+      <ul class="right">
+        <li><admb-help></admb-help></li>
+        <li><admb-profile [user]="user"></admb-profile></li>
+      </ul>
+    </section>
+    <section class="content">
+      <div class="content-wrapper">
+        <router-outlet></router-outlet>
+      </div>
+    </section>
+  </div>
+</div>
+
+<admb-login *ngIf="user == null && !userLoading" class="noprint"></admb-login>
+<p-toast></p-toast>

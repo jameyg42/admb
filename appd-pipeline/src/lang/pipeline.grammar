@@ -1,0 +1,63 @@
+////
+// pipeline grammar
+// there's three major productions
+// search  --> <app>:<path>+[ [<type>[@<baseline>]] ]
+// command --> <cmd> [[Name=]value]+ 
+// subpipe --> [ <expr> ]
+
+@tokens {
+  whitespace { std.whitespace+ }
+  lower { $[a-z] }
+  upper { $[A-Z] }
+  digit { $[0-9] }
+  symbols { $[~!@#$%^&*()+\-{,}?.] }
+
+  pipeOp { "|>" | ">>" }
+  comment { "//" ![\n]* }
+
+  @precedence { comment, "/" }
+
+  identifier { lower (lower | upper | digit)*  }
+  term { (lower | upper | digit | "_" )+ }
+  number { '-'? int frac? }
+  int  { '0' | $[1-9] digit* }
+  frac { '.' digit+ }
+  string { '"' (![\\\n"] | "\\" _)* '"'? }
+  @precedence { identifier, term, number, symbols }
+}
+@skip { whitespace | comment }
+
+@top PipelineScript { PipelineExpression }
+PipelineExpression { pipelineCommand (pipeOp pipelineCommand)* }
+pipelineCommand { ( SearchCommandExpression | CommandExpression | subPipeline) }
+subPipeline { "[" PipelineExpression "]" }
+
+// search  --> <app>:(<sep><segment>)+[ [<type>[@<baseline>]] ]
+phrase { ( identifier ~c1 | term | symbols)+ }
+SearchCommandExpression { 
+  Application ":" Path valueTypeExpression?
+}
+Application { phrase }
+Path { pathSegments }
+pathSegments {
+  ("/" PathSegment) ("/" PathSegment)* |
+  ("|" PathSegment) ("|" PathSegment)* 
+}
+
+PathSegment { phrase }
+valueTypeExpression {
+  "[" ValueType ("," ValueType)* "]"
+}
+
+ValueType { Type baselineExpression? }
+baselineExpression {
+  "@" Baseline
+}
+Type { identifier }
+Baseline { (identifier | term) }
+
+CommandExpression { Command Arg* }
+Command { identifier ~c1 }
+Arg { (Name "=" Value | Value) }
+Name { identifier }
+Value { (identifier | term | number | string) }

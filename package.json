@@ -1,14 +1,18 @@
 {
   "name": "@metlife/appdynamics-js",
+  "private": true,
+  "license": "UNLICENSED",
   "author": "Jamey Graham <jgraham@metlife.com>",
   "repository": {
     "type": "git",
     "url": "https://devtools.metlife.com/bitbucket/scm/~jgraham/appd-js.git"
   },
-  "license": "UNLICENSED",
-  "private": true,
   "workspaces": [
+    "appd-libutils",
+    "appd-libstats",
+    "appd-libmetrics",
     "appd-services",
-    "admb-web"
+    "appd-pipeline",
+    "admb-server"
   ]
 }

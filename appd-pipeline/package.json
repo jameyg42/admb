@@ -1,0 +1,33 @@
+{
+  "name": "@metlife/appd-pipeline",
+  "version": "2.0.0",
+  "description": "AppD metrics pipeline (grammar and runtime)",
+  "private": true,
+  "author": "Jamey Graham <jgraham@metlife.com>",
+  "license": "UNLICENSED",
+  "main": "out/index.js",
+  "scripts": {
+    "clean": "rimraf ./out",
+    "prebuild": "npm run clean",
+    "build:parser": "mkdirp out/lang && lezer-generator src/lang/pipeline.grammar --cjs --names -o out/lang/pipeline.grammar",
+    "build": "npm run build:parser && tsc",
+    "watch": "tsc --watch",
+    "pretest": "npm run build",
+    "test": "jest",
+    "test:quick": "jest",
+    "prepublish": "npm run build"
+  },
+  "dependencies": {
+    "@lezer/common": "0.16.0",
+    "@lezer/lr": "0.16.0",
+    "parse-duration": "^1.0.2",
+    "rxjs": "^7.5.5"
+  },
+  "devDependencies": {
+    "@lezer/generator": "0.16.0",
+    "jest": "27.5.1",
+    "mkdirp": "1.0.4",
+    "rimraf": "3.0.2",
+    "typescript": "4.3.5"
+  }
+}
