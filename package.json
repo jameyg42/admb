@@ -7,12 +7,24 @@
     "type": "git",
     "url": "https://devtools.metlife.com/bitbucket/scm/~jgraham/appd-js.git"
   },
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "debug:server": "nodemon admb-server/src/index.ts",
+    "debug:ui": "npm run watch --workspace admb-ui",
+    "debug": "npm-run-all -p -r debug:server debug:ui"
+  },
   "workspaces": [
     "appd-libutils",
     "appd-libstats",
     "appd-libmetrics",
     "appd-services",
     "appd-pipeline",
-    "admb-server"
-  ]
+    "admb-server",
+    "admb-ui"
+  ],
+  "devDependencies": {
+    "nodemon": "^2.0.16",
+    "npm-run-all": "^4.1.5",
+    "ts-node": "^10.8.0"
+  }
 }

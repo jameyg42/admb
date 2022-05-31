@@ -6,12 +6,13 @@
   "license": "UNLICENSED",
   "scripts": {
     "ng": "ng",
-    "build": "ng build",
+    "build": "ng build --configuration production",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "start": "bin/admbctrl start",
-    "stop": "bin/admbctrl stop"
+    "stop": "bin/admbctrl stop",
+    "watch": "ng serve"
   },
   "dependencies": {
     "@angular/animations": "~13.3.3",

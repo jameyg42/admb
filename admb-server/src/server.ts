@@ -6,7 +6,7 @@ import { asNumber } from '@metlife/appd-libutils'
 import { serviceRoutes as services } from './service-routes';
 
 const app = express();
-app.use(express.static(__dirname +'/../../admb-ui/dist/appd-browser-webui'));
+app.use(express.static(__dirname + '/../dist/admb-ui'));
 app.use(express.json())
 app.use(cookies());
 app.use(cors());
