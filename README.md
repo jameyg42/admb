@@ -1,6 +1,9 @@
-MetLife AMS AppDynamics JS package monorepo
-----
-Various JS packages related to AppDynamics.
+# MetLife AMS AppDynamics JS package monorepo
+Various TS/JS packages related to AppDynamics.  See individual package
+README.md's for example use.
+
+Currently, all packages are published in CommonJS format.  Publishing 
+as ES modules will be supported in the future.
 
 ### appd-services
 This module contains:
@@ -10,7 +13,6 @@ This module contains:
 - a few "raw" services that map more-or-less directly to AppD REST-UI services
 - the metrics-ex service, that extends the "raw" AppD metrics services (browse,get)
   with a) robust wildcard support and b) "virtual nodes"
-
 ### appd-libmetrics
 This module is a semi-generic (i.e. not AppD specific) set of routines that operate
 on timeseries data.  It includes routes to transform/aggregate timeseries data.
