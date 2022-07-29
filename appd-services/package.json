@@ -1,10 +1,12 @@
 {
   "name": "@metlife/appd-services",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Various services / service-extensions for AppDynamics",
   "author": "Jamey Graham <jgraham@metlife.com>",
   "license": "UNLICENSED",
   "main": "out/index.js",
+  "types": "out/index.d.ts",
+  "files": ["/out"],
   "scripts": {
     "clean": "rimraf ./out",
     "prebuild": "npm run clean",
