@@ -1,12 +1,14 @@
 {
   "name": "@metlife/appd-libmetrics",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "a simple metrics/timeseries library",
   "author": "Jamey Graham <jgraham@metlife.com>",
   "license": "UNLICENSED",
   "main": "out/index.js",
   "types": "out/index.d.ts",
-  "files": ["/out"],
+  "files": [
+    "/out"
+  ],
   "scripts": {
     "clean": "rimraf ./out",
     "prebuild": "npm run clean",
@@ -17,6 +19,8 @@
     "prepublish": "npm run build"
   },
   "dependencies": {
+    "@metlife/appd-libstats": "^2.0.1",
+    "@metlife/appd-libutils": "^2.0.1"
   },
   "devDependencies": {
     "jest": "^27.4.7",

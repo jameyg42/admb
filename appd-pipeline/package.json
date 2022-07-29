@@ -1,12 +1,14 @@
 {
   "name": "@metlife/appd-pipeline",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "AppD metrics pipeline (grammar and runtime)",
   "author": "Jamey Graham <jgraham@metlife.com>",
   "license": "UNLICENSED",
   "main": "out/index.js",
   "types": "out/index.d.ts",
-  "files": ["/out"],
+  "files": [
+    "/out"
+  ],
   "scripts": {
     "clean": "rimraf ./out",
     "prebuild": "npm run clean",
@@ -21,6 +23,9 @@
   "dependencies": {
     "@lezer/common": "0.16.0",
     "@lezer/lr": "0.16.0",
+    "@metlife/appd-libmetrics": "^2.0.1",
+    "@metlife/appd-libutils": "^2.0.1",
+    "@metlife/appd-services": "^2.0.1",
     "parse-duration": "^1.0.2",
     "rxjs": "^7.5.5"
   },

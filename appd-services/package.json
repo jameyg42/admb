@@ -1,12 +1,14 @@
 {
   "name": "@metlife/appd-services",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Various services / service-extensions for AppDynamics",
   "author": "Jamey Graham <jgraham@metlife.com>",
   "license": "UNLICENSED",
   "main": "out/index.js",
   "types": "out/index.d.ts",
-  "files": ["/out"],
+  "files": [
+    "/out"
+  ],
   "scripts": {
     "clean": "rimraf ./out",
     "prebuild": "npm run clean",
@@ -17,6 +19,7 @@
     "prepublish": "npm run build"
   },
   "dependencies": {
+    "@metlife/appd-libutils": "^2.0.1",
     "@types/lodash": "^4.14.182",
     "axios": "^0.26.1",
     "lodash": "^4.17.21",
