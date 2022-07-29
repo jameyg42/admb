@@ -2,7 +2,6 @@
   "name": "@metlife/appd-pipeline",
   "version": "2.0.0",
   "description": "AppD metrics pipeline (grammar and runtime)",
-  "private": true,
   "author": "Jamey Graham <jgraham@metlife.com>",
   "license": "UNLICENSED",
   "main": "out/index.js",

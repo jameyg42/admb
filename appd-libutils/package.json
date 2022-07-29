@@ -2,7 +2,6 @@
   "name": "@metlife/appd-libutils",
   "version": "2.0.0",
   "description": "miscellaneous utilities",
-  "private": true,
   "author": "Jamey Graham <jgraham@metlife.com>",
   "license": "UNLICENSED",
   "main": "out/index.js",
