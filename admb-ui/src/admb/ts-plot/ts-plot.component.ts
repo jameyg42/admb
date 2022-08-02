@@ -101,7 +101,7 @@ export class TsPlotComponent implements OnInit, OnDestroy {
 
 
 function timeseriesToPlots(ts: MetricTimeseries) {
-  const so: any = ts.metadata.plotLayout || defaultSeriesOptions;
+  const so: any = ts.metadata.plot || defaultSeriesOptions;
   const series: any = {
     name: ts.fullName,
     x: ts.data.map(dp => dp.start),

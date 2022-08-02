@@ -1,15 +1,22 @@
 import { MetricTimeseries } from "@metlife/appd-libmetrics";
 import { Context, MetricTimeseriesGroup } from "../../rt/interpreter";
 import { CommandDescription } from "../../lang/processor-defs/api";
-import { CommandExpressionNode, ProcessingNode } from "../../lang/syntax";
+import { CommandExpressionNode, ProcessingNode, Arguments } from "../../lang/syntax";
 import { flatten } from "lodash";
-import { isArray } from "@metlife/appd-libutils";
+import { isArray, tmpl, merge, isString } from "@metlife/appd-libutils";
+
+export { Arguments } from "../../lang/syntax";
+
 
 export abstract class BaseProcessor implements CommandProcessor {
     exec(node:ProcessingNode, ctx: Context):Promise<Context> {
         const self:any = this as any;
         if (node instanceof CommandExpressionNode) {
             const cmd = node as CommandExpressionNode;
+            // resolve variables in arguments - the fact that we need to do this here
+            // is design-smell
+            cmd.args = this.resolveVariables(ctx, cmd.args);
+
             if (self.execSeries) {
                 this.forEachSeries(cmd.args, ctx, (ts) => self.execSeries(cmd.args, ts), node);
             }
@@ -46,8 +53,26 @@ export abstract class BaseProcessor implements CommandProcessor {
             args
         })
     }
+    flattenVariables(ctx:Context) {
+        var c = ctx;
+        const vars = []
+        while (c.parent) {
+            vars.push(c.variables);
+            c = c.parent;
+        }
+        return merge(...vars);
+    }
+    resolveVariables(ctx:Context, args:Arguments):Arguments {
+        const vars = this.flattenVariables(ctx);
+        const resolved = {} as Arguments;
+        for (const k in args) {
+            if (isString(args[k])) {
+                resolved[k] = tmpl.evaluate(args[k] as string, vars);
+            }
+        }
+        return resolved;
+    }
 }
-export type Arguments = ({[key:string]:string|number|boolean});
 
 export interface CommandProcessor {
     exec(node:ProcessingNode, ctx:Context):Promise<Context>;

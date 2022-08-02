@@ -13,5 +13,6 @@ export const plot:CommandDescription = {
         type: 'number',
         documentation: 'the yaxis to plot the series on - defaults to 1',
         optional: true
-    }]
+    }],
+    varargs: true
 };

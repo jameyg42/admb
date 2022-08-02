@@ -14,7 +14,7 @@
     "pretest": "npm run build",
     "test": "jest",
     "prepublish": "npm run build",
-    "start": "node dist/server"
+    "start": "node bin/server"
   },
   "dependencies": {
     "cookie-parser": "^1.4.6",

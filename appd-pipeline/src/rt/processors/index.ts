@@ -49,6 +49,7 @@ import { LiftProcessor } from "./lift";
 import { DefProcessor } from "./def";
 import { RangeProcessor } from "./range";
 import { RelativeToProcessor } from "./relativeTo";
+import { PlotProcessor } from "./plot";
 
 registry.add('search', new SearchProcessor());
 registry.add('abs', new AbsProcessor());
@@ -82,3 +83,4 @@ registry.add('lift', new LiftProcessor());
 registry.add('def', new DefProcessor());
 registry.add('range', new RangeProcessor());
 registry.add('relativeTo', new RelativeToProcessor());
+registry.add('plot', new PlotProcessor());
