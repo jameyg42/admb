@@ -1,47 +1,49 @@
 import { MetricTimeseries, MetricTimeseriesGroup } from "../api";
 import { pearson } from '@metlife/appd-libstats';
+import { clone } from "@metlife/appd-libutils";
+import { flatten, fill, chunk, zip } from "lodash";
 
-// export function corr(tss:MetricTimeseriesGroup, fn = pearson, window?:number):MetricTimeseriesGroup {
-//     window = window || tss.length;
-//     const results:MetricTimeseries[] = [];
+export type Correlator = (x:number[], y:number[]) => number;
 
-//         if (g.length > 1) {
-//             // correlate each member of the group with each other
-//             for (let i = 0; i < g.length - 1; i++) {
-//                 for (let j = i+1; j < g.length; j++) {
-//                     results.push(correlateSeries(g[i], g[j], window));
-//                 }
-//             }
-//         } else {
-//             const tsX = g[0];
-//             const tsY = g[1] || tsX;
-//             results.push(correlateSeries(tsX, tsY, window));
-//         }
-//         return results;
-//     }
-// }
+export function correlateGroup(tss:MetricTimeseriesGroup, fn:Correlator = pearson, window?:number):MetricTimeseriesGroup {
+    const results:MetricTimeseries[] = [];
 
-// function correlateSeries(tsX, tsY, window) {
-//     const result = _.clone(tsX);
-//     result.name = `corr(${tsX.name},${tsY.name})`;
+    if (tss.length > 1) {
+        // correlate each member of the group with each other
+        for (let i = 0; i < tss.length - 1; i++) {
+            for (let j = i+1; j < tss.length; j++) {
+                results.push(correlateSeries(tss[i], tss[j], fn, window));
+            }
+        }
+    } else {
+        const tsX = tss[0];
+        const tsY = tss[1] || tsX;
+        results.push(correlateSeries(tsX, tsY, fn, window));
+    }
+    return results;
+}
 
-//     const X = tsX.data.map(d => d.value);
-//     const Y = tsY.data.map(d => d.value);
-//     const size = parseInt(window || X.length);
+export function correlateSeries(tsX:MetricTimeseries, tsY:MetricTimeseries, fn:Correlator = pearson, window?:number):MetricTimeseries {
+    const result = clone(tsX);
+    result.name = `corr(${tsX.name},${tsY.name})`;
 
-//     const ccs =  _.flatten(
-//                         correlateChunks(X, Y, size)
-//                         .map(cs => _.fill(Array(size), cs))
-//                 );
-//     base.applyToValues((v, i) => ccs[i])(result);
-//     return result;
-// }
+    const X = tsX.data.map(d => d.value);
+    const Y = tsY.data.map(d => d.value);
+    const chunkSize = window || X.length;
 
-// function correlateChunks(X, Y, size) {
-//     cX = _.chunk(X, size);
-//     cY = _.chunk(Y, size);
+    const ccs = flatten(
+                    correlateChunks(X as number[], Y as number[], fn, chunkSize)
+                    .map(cs => fill(Array(chunkSize), cs))
+                );
+    result.data.forEach((d,i) => d.value = ccs[i]); 
+    return result;
+}
 
-//     return _.zip(cX, cY)
-//             .map(([a, b]) => corr.pearson(a, b));
+function correlateChunks(X:number[], Y:number[], fn:Correlator, chunkSize:number) {
+    const cX = chunk(X, chunkSize);
+    const cY = chunk(Y, chunkSize);
+
+    return zip(cX, cY)
+            .map(([a, b]) => fn(a as number[], b as number[]));
         
-// }
+}

@@ -50,6 +50,9 @@ import { DefProcessor } from "./def";
 import { RangeProcessor } from "./range";
 import { RelativeToProcessor } from "./relativeTo";
 import { PlotProcessor } from "./plot";
+import { SqrtProcessor } from "./sqrt";
+import { CorrProcessor } from "./corr";
+import { ThresholdProcessor } from "./threshold";
 
 registry.add('search', new SearchProcessor());
 registry.add('abs', new AbsProcessor());
@@ -84,3 +87,6 @@ registry.add('def', new DefProcessor());
 registry.add('range', new RangeProcessor());
 registry.add('relativeTo', new RelativeToProcessor());
 registry.add('plot', new PlotProcessor());
+registry.add('sqrt', new SqrtProcessor());
+registry.add('corr', new CorrProcessor());
+registry.add('threshold', new ThresholdProcessor());

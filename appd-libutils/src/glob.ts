@@ -3,7 +3,7 @@ export function toRex(str:string) {
         str
         .replace(/[*]/g, '.*')
         .replace(/[?]/g, '.')
-        .replace(/{([^}]+)}/, (m,p1) => `(${p1.replace(/\s*,\s*/g,'|')})`)
+        .replace(/{([^}]+)}/g, (m,p1) => `(${p1.replace(/\s*,\s*/g,'|')})`)
         +'$'
     )
 }

@@ -9,7 +9,8 @@
   },
   "scripts": {
     "build": "npm run build --workspaces --if-present",
-    "publish": "npm publish --workspace appd-libutils --workspace appd-libstats --workspace appd-libmetrics --workspace appd-services --workspace appd-pipeline",
+    "build:services": "npm run build --workspace appd-libutils --workspace appd-libstats --workspace appd-libmetrics --workspace appd-services --workspace appd-pipeline",
+    "publish":        "npm publish   --workspace appd-libutils --workspace appd-libstats --workspace appd-libmetrics --workspace appd-services --workspace appd-pipeline",
     "debug:server": "nodemon admb-server/src/index.ts",
     "debug:ui": "npm run watch --workspace admb-ui",
     "debug": "npm-run-all -p -r debug:server debug:ui"
