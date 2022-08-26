@@ -1,6 +1,7 @@
 import { Component, Input, ViewChild, AfterViewInit, ElementRef, Output, EventEmitter } from '@angular/core';
-import {EditorState, EditorView, basicSetup} from "@codemirror/basic-setup";
-import { Extension } from '@codemirror/state';
+import { basicSetup } from "codemirror";
+import { EditorState, Extension } from '@codemirror/state';
+import { EditorView } from "@codemirror/view";
 
 @Component({
   selector: 'admb-code-editor',

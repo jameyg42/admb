@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { OverlayPanel } from 'primeng/overlaypanel/public_api';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { LoginService } from './login.service';
 import { SelectItemGroup } from 'primeng/api';
 
@@ -10,7 +10,7 @@ import { SelectItemGroup } from 'primeng/api';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
+  loginForm: UntypedFormGroup;
   controllers: SelectItemGroup[];
   blocked = false;
 
@@ -30,10 +30,10 @@ export class LoginComponent implements OnInit {
         {label: 'QA', value: {url:'https://qa.appd.metlife.com/controller', account:'customer1'}}
       ]
     }];
-    this.loginForm = new FormGroup({
-      controller: new FormControl(this.controllers[0].value),
-      uid: new FormControl(''),
-      pwd: new FormControl('')
+    this.loginForm = new UntypedFormGroup({
+      controller: new UntypedFormControl(this.controllers[0].value),
+      uid: new UntypedFormControl(''),
+      pwd: new UntypedFormControl('')
     });
   }
 
