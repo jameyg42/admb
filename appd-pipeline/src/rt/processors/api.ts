@@ -68,6 +68,8 @@ export abstract class BaseProcessor implements CommandProcessor {
         for (const k in args) {
             if (isString(args[k])) {
                 resolved[k] = tmpl.evaluate(args[k] as string, vars);
+            } else {
+                resolved[k] = args[k];
             }
         }
         return resolved;

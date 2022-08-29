@@ -9,10 +9,16 @@ packages will not be published.
 ### Added
 - [project] notable changes now tracked in CHANGELOG.md
 - [appd-pipeline] rough support for `%{variables}` in string and search values
-- [appd-pipeline] implemented remaining missing pipeline-ops (plot, def, corr, percentOf, threshold)
+- [appd-pipeline] implemented missing pipeline-ops (`plot`, `def`, `corr`, `log10`, `rangeIntersect`, `percentOf`, `threshold`)
+
+### Changed
+- [admb-ui] empty plot groups are now suppressed instead of showing an empty plot
+- [admb-ui] re-ordered SaaS controllers to the top of the list
 
 ### Fixed
-- [appd-libutils] all glob alternative wildcards vs. just the first per segment are evaluated
+- [appd-libutils] only first alternatives glob is converted to regex / matched
+- [appd-pipeline] `filterGroup` returns unmatched groups vs. expected matched groups
+- [appd-libmetrics] `reduce` doesn't handle gaps correctly
 
 ## [2.0.2] - 2022-07-29
 ### Fixed

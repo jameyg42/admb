@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
       ]
     }];
     this.loginForm = new UntypedFormGroup({
-      controller: new UntypedFormControl(this.controllers[0].value),
+      controller: new UntypedFormControl({}),
       uid: new UntypedFormControl(''),
       pwd: new UntypedFormControl('')
     });
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm.patchValue({
-      controller: this.controllers[0][0]
+      controller: this.controllers[0].items[0].value
     });
   }
 
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
         this.blocked = false;
       })
       .catch(err => {
-        console.log(err);
+        console.error(err);
         this.blocked = false;
         this.loginError = 'Invalid Login';
       });

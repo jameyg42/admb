@@ -26,6 +26,7 @@ export function correlateGroup(tss:MetricTimeseriesGroup, fn:Correlator = pearso
 export function correlateSeries(tsX:MetricTimeseries, tsY:MetricTimeseries, fn:Correlator = pearson, window?:number):MetricTimeseries {
     const result = clone(tsX);
     result.name = `corr(${tsX.name},${tsY.name})`;
+    result.fullName = `corr(${tsX.fullName},${tsY.fullName})`;
 
     const X = tsX.data.map(d => d.value);
     const Y = tsY.data.map(d => d.value);

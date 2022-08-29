@@ -13,6 +13,7 @@
     "clean": "rimraf ./out",
     "prebuild": "npm run clean",
     "build": "tsc",
+    "build:incremental": "tsc --incremental",
     "watch": "tsc --watch",
     "pretest": "npm run build",
     "test": "jest",

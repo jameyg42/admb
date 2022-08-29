@@ -20,6 +20,7 @@ export * from './label';
 export * from './lift';
 export * from './limit';
 export * from './log';
+export * from './log10';
 export * from './normalize';
 export * from './offset';
 export * from './outlier';
