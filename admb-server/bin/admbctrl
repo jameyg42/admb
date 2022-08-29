@@ -65,7 +65,7 @@ do_start() {
 	[[ -e "$PID_FOLDER" ]] || { mkdir -p "$PID_FOLDER" &> /dev/null; }
 	checkPermissions || return $?
   _monitor
-	nohup node ${NODE_OPTIONS} ${APP_DIR}/bin/server.js "$@" >> "$log_file" 2>&1 &
+	nohup node ${NODE_OPTIONS} ${APP_DIR}/out/package.js "$@" >> "$log_file" 2>&1 &
 	pid=$!
 	echo "$pid" > "$pid_file"
 	[[ -z $pid ]] && { echoRed "Failed to start"; return 1; }

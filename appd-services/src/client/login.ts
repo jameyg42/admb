@@ -1,6 +1,14 @@
 import { Session } from './client';
 import { HttpClient } from './http';
 import { LoginProvider } from './login-providers/spi';
+import { LDAPLoginProvider } from './login-providers/ldap';
+import { SAMLLoginProvider } from './login-providers/saml';
+
+const providers = {
+    'saml': SAMLLoginProvider,
+    'ldap': LDAPLoginProvider
+} as any;
+
 
 function login(url:string, account:string, username:string, password:string):Promise<Session> {
     const http = new HttpClient({baseURL:url});
@@ -9,9 +17,10 @@ function login(url:string, account:string, username:string, password:string):Pro
     .then(rsp => rsp.data.trim())
     .then(method => {
         try {
-            const Provider = require(`./login-providers/${method.toLowerCase()}`).default;
+            const Provider = providers[method.toLowerCase()];
             return new Provider() as LoginProvider;
         } catch (e) {
+            console.error(e);
             throw new Error(`no provider found for method ${method}`)
         }
     })
