@@ -1,11 +1,14 @@
 import { round } from "@metlife/appd-libstats";
+import { isString } from "@metlife/appd-libutils";
 import { MetricTimeseriesGroup } from "../api"
 import { reduceGroup, zeros } from "../reduce";
 
-export const percentOf = (tss:MetricTimeseriesGroup):MetricTimeseriesGroup => {
+export const percentOf = (tss:MetricTimeseriesGroup, whatRexOrString:string|RegExp=/.*/):MetricTimeseriesGroup => {
    if (tss.length == 0) return tss;
-   const of = tss[0];
-   const whats = tss.slice(1);
+
+   const what:RegExp = isString(whatRexOrString) ? new RegExp(whatRexOrString as string) : whatRexOrString as RegExp;
+   const of = tss.find(ts => what.test(ts.fullName)) || tss[0] // should filter() and filter-expr's be used here instead?
+   const whats = tss.filter(ts => ts !== of);
    if (whats.length == 0) {
       whats.push(of);
    }

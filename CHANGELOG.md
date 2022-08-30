@@ -10,6 +10,7 @@ packages will not be published.
 - [project] notable changes now tracked in CHANGELOG.md
 - [appd-pipeline] rough support for `%{variables}` in string and search values
 - [appd-pipeline] implemented missing pipeline-ops (`plot`, `def`, `corr`, `log10`, `rangeIntersect`, `percentOf`, `threshold`)
+- [appd-libmetrics] added `what` argument to `percentOf` to simplify selecting the timeseries we're taking the percentage of.
 
 ### Changed
 - [admb-ui] empty plot groups are now suppressed instead of showing an empty plot

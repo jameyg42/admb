@@ -4,6 +4,7 @@ import { MetricTimeseriesGroup } from "@metlife/appd-libmetrics";
 
 export class PercentOfProcessor extends BaseProcessor {
     execGroup(args:Arguments, series:MetricTimeseriesGroup):MetricTimeseriesGroup|Promise<MetricTimeseriesGroup> {
-        return percentOf(series);
+        const what = args.what as string;
+        return percentOf(series, what);
     }
 }
