@@ -8,6 +8,7 @@
     "url": "https://devtools.metlife.com/bitbucket/scm/~jgraham/appd-js.git"
   },
   "scripts": {
+    "package": "npm run build && npm run package --workspaces --if-present",
     "build": "npm run build --workspaces --if-present",
     "build:services": "npm run build --workspace appd-libutils --workspace appd-libstats --workspace appd-libmetrics --workspace appd-services --workspace appd-pipeline",
     "publish":        "npm publish   --workspace appd-libutils --workspace appd-libstats --workspace appd-libmetrics --workspace appd-services --workspace appd-pipeline",

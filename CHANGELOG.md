@@ -14,6 +14,7 @@ packages will not be published.
 ### Changed
 - [admb-ui] empty plot groups are now suppressed instead of showing an empty plot
 - [admb-ui] re-ordered SaaS controllers to the top of the list
+- [appd-libmetrics] added name and segment sortBy routines back
 
 ### Fixed
 - [appd-libutils] only first alternatives glob is converted to regex / matched

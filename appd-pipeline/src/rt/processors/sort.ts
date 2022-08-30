@@ -1,15 +1,27 @@
 import { Arguments, BaseProcessor } from "./api";
 import { sort } from "@metlife/appd-libmetrics/out/ops/sort";
 import { MetricTimeseriesGroup } from "@metlife/appd-libmetrics";
-import { sorters } from "@metlife/appd-libmetrics/out/ops/sort";
+import { sorterFactories } from "@metlife/appd-libmetrics/out/ops/sort";
 
 export class SortProcessor extends BaseProcessor {
     execGroup(args:Arguments, series:MetricTimeseriesGroup):MetricTimeseriesGroup|Promise<MetricTimeseriesGroup> {
-        const by = sorters[args.by as string || 'avg'];
-        const descending = (args.dir || 'desc') == 'desc';
+        const by = args.by as string || 'avg';
         if (!by) {
             throw new SyntaxError(`invalid sortBy function '${args.by}'`);
         }
-        return sort(series, by, descending);
+
+        const parsed = /(\w+)(?:\[(\w+)\])?(?:\((\w+)\))?/.exec(by);
+        const parsedBy = parsed ? parsed[1] : by;
+        const parsedArgs = parsed ? parsed[2] : undefined;
+        const descending = (args.dir || 'desc') == 'desc';
+
+        const byFactory = sorterFactories[parsedBy];
+        if (!byFactory) {
+            throw new SyntaxError(`unknown sort-by function '${by}`);
+        }
+        const byFn = byFactory(parsedArgs);
+        
+
+        return sort(series, byFn, descending);
     }
 }
