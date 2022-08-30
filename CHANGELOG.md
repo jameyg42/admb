@@ -11,6 +11,7 @@ packages will not be published.
 - [appd-pipeline] rough support for `%{variables}` in string and search values
 - [appd-pipeline] implemented missing pipeline-ops (`plot`, `def`, `corr`, `log10`, `rangeIntersect`, `percentOf`, `threshold`)
 - [appd-libmetrics] added `what` argument to `percentOf` to simplify selecting the timeseries we're taking the percentage of.
+- [appd-pipeline] `relativeTo` now takes a semicolon delimited set of paths to search relative to
 
 ### Changed
 - [admb-ui] empty plot groups are now suppressed instead of showing an empty plot

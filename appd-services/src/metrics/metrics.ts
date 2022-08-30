@@ -87,7 +87,7 @@ export class MetricsServices {
                 metricId: n.metricId
             }));
         return {
-            maxSize: 1088,
+            maxSize: 240,
             metricDataQueries: queries,
             timeRangeSpecifier: range
         } as any;
