@@ -10,8 +10,9 @@
   "scripts": {
     "build": "npm run build --workspaces --if-present",
     "build:incremental": "npm run build:incremental --workspaces --if-present",
-    "package": "npm run build && npm run package --workspaces --if-present",
-    "package:incremental": "npm run build:incremental && npm run package --workspaces --if-present",
+    "package": "npm run build && npm run package:only",
+    "package:only": "npm run package --workspaces --if-present",
+    "package:incremental": "npm run build:incremental && npm run package:only",
     "publish": "npm publish --workspace appd-libutils --workspace appd-libstats --workspace appd-libmetrics --workspace appd-services --workspace appd-pipeline",
     "debug:server": "nodemon admb-server/src/index.ts",
     "debug:ui": "npm run watch --workspace admb-ui",

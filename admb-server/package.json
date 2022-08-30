@@ -15,7 +15,7 @@
     "test": "jest",
     "prepublish": "npm run build",
     "start": "node bin/server",
-    "package": "esbuild out/index.js --platform=node --target=node10 --bundle --minify --outfile=out/package.js"
+    "package": "esbuild out/index.js --platform=node --target=node10 --bundle --outfile=out/package.js"
   },
   "dependencies": {
     "cookie-parser": "^1.4.6",
