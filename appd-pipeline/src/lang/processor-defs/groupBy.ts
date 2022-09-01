@@ -13,8 +13,8 @@ export const groupBy:CommandDescription = {
         type: 'string',
         optional: true,
         documentation: `
-        a regular expression - grouping is done using capture groups, where identical values for the concatenation 
-        of all the specified capture groups are grouped together.
-        `
+a regular expression - grouping is done using capture groups, where identical values for the concatenation 
+of all the specified capture groups are grouped together.
+`
     }]
 }
