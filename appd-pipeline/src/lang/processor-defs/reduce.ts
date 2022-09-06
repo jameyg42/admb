@@ -10,8 +10,7 @@ The following reducer functions are supported:
 * avg - averages all the values in the series together
 * sum - sums the values together
 * product - multiplies the values together
-* diff - subtracts each subsequent series value from the first series
-* quotient - divides each subsequent series value from the first series
+* difference - subtracts each subsequent series value from the first series
 * min - picks the min value
 * max - picks the max value
     
