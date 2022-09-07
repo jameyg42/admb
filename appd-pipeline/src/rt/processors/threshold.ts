@@ -19,6 +19,7 @@ export class ThresholdProcessor extends BaseProcessor {
          source: {app: 'n/a', path: ['/'] },
          sources: [{app: 'n/a', path: ['/'] }],
          range: {
+            type: 'BETWEEN_TIMES',
             startTime: earliest,
             endTime: latest
          },

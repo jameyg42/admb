@@ -6,7 +6,9 @@
   "license": "UNLICENSED",
   "main": "out/index.js",
   "types": "out/index.d.ts",
-  "files": ["/out"],
+  "files": [
+    "/out"
+  ],
   "scripts": {
     "clean": "rimraf ./out",
     "prebuild": "npm run clean",
@@ -18,7 +20,7 @@
     "prepublish": "npm run build"
   },
   "dependencies": {
-    "luxon": "^2.3.2",
+    "luxon": "^2.5.0",
     "node-cache": "^5.1.2"
   },
   "devDependencies": {

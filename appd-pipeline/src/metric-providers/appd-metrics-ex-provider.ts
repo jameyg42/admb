@@ -4,8 +4,7 @@ import { AppServices, Baseline, Client, MetricsExServices } from "@metlife/appd-
 import { Context } from "../rt/interpreter";
 import { SearchExpressionNode, ValueTypeNode } from "../lang/syntax";
 import { flatten } from "lodash";
-
-import { between } from "@metlife/appd-services/out/range";
+import { Range as AppDRange } from '@metlife/appd-services/out/range';
 
 
 
@@ -23,7 +22,7 @@ export class AppDynamicsMetricsProvider implements MetricsProvider {
             .map(vt => vt.baseline || 'DEFAULT')
             .sort()
             .filter((b, i, a) => i == 0 || b !== a[i-1]) as string[];
-        const range = between(ctx.range.startTime, ctx.range.endTime);
+        const range = ctx.range as AppDRange; // FIXME for now these two are compatible so we can just assign to the AppD type
         
         const metricsEx = await this.app.findApps(search.app).then(apps => {
             if (apps.length == 0) {

@@ -17,6 +17,8 @@ packages will not be published.
 - [admb-ui] empty plot groups are now suppressed instead of showing an empty plot
 - [admb-ui] re-ordered SaaS controllers to the top of the list
 - [appd-libmetrics] added name and segment sortBy routines back
+- [appd-libmetrics] overhauled the `Range` type, basing it on Luxon instead of Moment
+- [admb-ui] modified `TimePicker` to use libmetrics `Range` type and restored Relative time selection
 
 ### Fixed
 - [appd-libutils] only first alternatives glob is converted to regex / matched

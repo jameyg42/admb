@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { beforeNow } from '../../widget/timepicker/range';
 import { AdmbService } from '../svc/admb.service';
 import { AdmbParserService, ParseResult } from '../admb-parser.service';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { Range } from '@metlife/appd-libmetrics/out/range';
 @Component({
   selector: 'admb-browser-panel',
   templateUrl: './browser-panel.component.html',
@@ -11,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class BrowserPanelComponent implements OnInit {
   @Input()
-  range = beforeNow(4 * 60);
+  range = Range.beforeNow({"hours":4});
 
   _expr: string;
   get expr(): string {

@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AdmbParserService } from 'src/admb/admb-parser.service';
 import { AdmbService } from 'src/admb/svc/admb.service';
-import { Range } from 'src/widget/timepicker/range';
-import { DashboardModel, DashboardWidget } from '../dashboard-model';
+import { DashboardWidget } from '../dashboard-model';
 
 @Component({
   selector: 'admb-ts-widget',

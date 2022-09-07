@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@
 import { HistoryService, HistoryEntry } from './history.service';
 
 import { groupBy } from 'lodash';
-import * as moment from 'moment';
+import { DateTime } from '@metlife/appd-libutils/out/time';
 
 @Component({
   selector: 'admb-history-list',
@@ -31,7 +31,7 @@ export class HistoryListComponent implements OnInit {
     }
 
     const sorted = this.history.slice().sort((a, b) => b.lastUsed - a.lastUsed);
-    const groupedByDate = groupBy(sorted, v => moment(v.lastUsed).startOf('day').format('LL'));
+    const groupedByDate = groupBy(sorted, v => DateTime.fromMillis(v.lastUsed).startOf('day').toLocaleString(DateTime.DATE_MED));
 
     // the keyvalue pipe annoyingly re-sorts the keys, so don't use it
     return Object.entries(groupedByDate).map(([k,v]) => ({key: k, value: v}));
