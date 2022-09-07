@@ -12,7 +12,7 @@
         <div class="col" *ngFor="let psg of presets">
           <h5>{{psg.section}}</h5>
           <div *ngFor="let preset of psg.sets">
-              <a *ngIf="preset !== '-'" (click)="selectPreset(preset)">{{preset.label}}</a>
+              <a *ngIf="preset !== '-'" (click)="selectPreset(preset)">{{preset?.label}}</a>
               <hr *ngIf="preset === '-'">
             </div>
         </div>
@@ -22,7 +22,7 @@
       <div>
         <div>Earliest:</div>
         <div>
-          <p-inputNumber [(ngModel)]="relativeDuration" [showButtons]="true" size="5"></p-inputNumber>
+          <p-inputNumber [(ngModel)]="relativeDuration" [showButtons]="true" [size]="5"></p-inputNumber>
           <p-dropdown [(ngModel)]="relativeUnits" [options]="beforeNowOptions"></p-dropdown>
           <button pButton (click)="setRelative()" label="Apply"></button>
         </div>
@@ -32,11 +32,11 @@
       <div>
         <div>
           <span class="c1">Start:</span>
-          <span><p-calendar [(ngModel)]="absoluteStart" [showTime]="true" [hourFormat]="12" [showButtonBar]="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2018:2021"></p-calendar></span>
+          <span><p-calendar [(ngModel)]="absoluteStart" [showTime]="true" [hourFormat]="'12'" [showButtonBar]="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2018:2021"></p-calendar></span>
         </div>
         <div>
           <span class="c1">End:</span>
-          <span><p-calendar [(ngModel)]="absoluteEnd" [showTime]="true" [hourFormat]="12" [showButtonBar]="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2018:2021"></p-calendar></span>
+          <span><p-calendar [(ngModel)]="absoluteEnd" [showTime]="true" [hourFormat]="'12'" [showButtonBar]="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2018:2021"></p-calendar></span>
         </div>
       </div>
       <button pButton (click)="setAbsolute()" label="Apply"></button>

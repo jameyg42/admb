@@ -1,7 +1,16 @@
 import { Range } from '@metlife/appd-libmetrics/out/range';
 import { DateTime } from '@metlife/appd-libutils/out/time';
 
-export const PRESETS = [
+interface PresetSet {
+  section: string;
+  sets: (Preset|'-')[]
+}
+interface Preset {
+  label: string;
+  fn: () => Range;
+}
+
+export const PRESETS:PresetSet[]= [
   {
     section: 'Standard Presets',
     sets : [
