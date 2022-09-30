@@ -1,28 +1,34 @@
 import { Component, Input, ViewChild, AfterViewInit, ElementRef, Output, EventEmitter } from '@angular/core';
 import { basicSetup } from "codemirror";
-import { EditorState, Extension } from '@codemirror/state';
+import { EditorState } from '@codemirror/state';
 import { EditorView } from "@codemirror/view";
-import { admb } from "@metlife/admb-lang";
-import { CodeEditorCompletionService } from './code-editor-completion.service';
-
+import { lezer } from "@codemirror/lang-lezer";
+import { debounceTime, Subject } from 'rxjs';
 
 @Component({
-  selector: 'admb-code-editor',
-  templateUrl: './code-editor.component.html',
-  styleUrls: ['./code-editor.component.scss']
+  selector: 'app-editor',
+  templateUrl: './editor.component.html',
+  styleUrls: ['./editor.component.scss']
 })
-export class CodeEditorComponent implements AfterViewInit  {
-  @Input() extensions : Extension[] = [];
+export class EditorComponent implements AfterViewInit  {
+  @ViewChild('el') el! : ElementRef;
 
-  @ViewChild('el') el : ElementRef;
+  private editorView! : EditorView;
 
-  private editorView : EditorView;
+  private docChangeDebouncer: Subject<string>;
 
-  private _doc = 'testing';
+  @Output() 
+  public readonly docChange = new EventEmitter<string>();
 
-  constructor(private completionProvider:CodeEditorCompletionService) {
+  constructor() {
+    this.docChangeDebouncer = new Subject<string>();
+    this.docChangeDebouncer.pipe(
+      debounceTime(200)
+    ).subscribe((value) => this.docChange.emit(value));
   }
 
+
+  private _doc = 'testing';
   @Input()
   get doc(): string {
     return this._doc;
@@ -41,20 +47,20 @@ export class CodeEditorComponent implements AfterViewInit  {
       }
     }
   }
-  @Output() docChange = new EventEmitter<string>();
 
 
   ngAfterViewInit() {
     const onUpdate = EditorView.updateListener.of(v => {
       if (v.docChanged) {
         this._doc = v.state.doc.toString();
-        this.docChange.emit(this._doc);
+        this.docChangeDebouncer.next(this._doc);
       }
     })
-    const viewExtensions = this.extensions.slice();
-    viewExtensions.push(basicSetup);
-    viewExtensions.push(onUpdate);
-    viewExtensions.push(admb(this.completionProvider));
+    const viewExtensions = [
+      basicSetup,
+      onUpdate,
+      lezer()   
+    ];
     
     const state = EditorState.create({
       doc: this.doc,

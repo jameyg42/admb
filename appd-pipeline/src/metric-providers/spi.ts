@@ -1,7 +1,12 @@
 import { MetricTimeseries } from '@metlife/appd-libmetrics';
-import { SearchExpressionNode } from '../lang/syntax';
 import { Context } from '../rt/interpreter';
 
 export interface MetricsProvider {
-    fetchMetrics(ctx:Context, search:SearchExpressionNode): Promise<MetricTimeseries[]>
+    browseTree(app:string, path:string[]):Promise<string[]>;
+    fetchMetrics(ctx:Context, app:string, path:string[], valueTypes:ValueType[]): Promise<MetricTimeseries[]>;
+}
+
+export interface ValueType {
+    type:string;
+    baseline?:string;
 }

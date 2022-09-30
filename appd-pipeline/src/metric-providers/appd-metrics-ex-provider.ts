@@ -1,8 +1,7 @@
 import { MetricTimeseries } from "@metlife/appd-libmetrics";
-import { MetricsProvider } from "./spi";
+import { MetricsProvider, ValueType } from "./spi";
 import { AppServices, Baseline, Client, MetricsExServices } from "@metlife/appd-services";
 import { Context } from "../rt/interpreter";
-import { SearchExpressionNode, ValueTypeNode } from "../lang/syntax";
 import { flatten } from "lodash";
 import { Range as AppDRange } from '@metlife/appd-services/out/range';
 
@@ -15,8 +14,16 @@ export class AppDynamicsMetricsProvider implements MetricsProvider {
         this.metrics = new MetricsExServices(client);
         this.app = new AppServices(client);
     }
-    async fetchMetrics(ctx:Context, search:SearchExpressionNode): Promise<MetricTimeseries[]> {
-        const values = search?.values.length > 0 ? search.values : [{type:'value'} as ValueTypeNode];
+    async browseTree(app:string, path:string[]):Promise<string[]> {
+        const apps = await this.app.findApps(app);
+        return Promise.all(
+            apps.map(a => this.metrics.browse(a, path))
+        )
+        .then(flatten)
+        .then(nodes => nodes.map(n => n.name));
+    }
+    async fetchMetrics(ctx:Context, app:string, path:string[], valueTypes:ValueType[]): Promise<MetricTimeseries[]> {
+        const values = valueTypes.length > 0 ? valueTypes : [{type:'value'}];
         const baselines = values
             .filter(vt => vt.type == 'baseline' || vt.type == 'stddev')
             .map(vt => vt.baseline || 'DEFAULT')
@@ -24,7 +31,7 @@ export class AppDynamicsMetricsProvider implements MetricsProvider {
             .filter((b, i, a) => i == 0 || b !== a[i-1]) as string[];
         const range = ctx.range as AppDRange; // FIXME for now these two are compatible so we can just assign to the AppD type
         
-        const metricsEx = await this.app.findApps(search.app).then(apps => {
+        const metricsEx = await this.app.findApps(app).then(apps => {
             if (apps.length == 0) {
                 return [];
             }
@@ -33,7 +40,7 @@ export class AppDynamicsMetricsProvider implements MetricsProvider {
                     Promise.all(baselines.map(b => this.app.findBaseline(app, b)))
                     .then(baselines => baselines.filter(b => b) as Baseline[])
                     .then(baselines => 
-                        this.metrics.fetchMetrics(app, search.path, range, ...baselines)
+                        this.metrics.fetchMetrics(app, path, range, ...baselines)
                     )
                 )
             )

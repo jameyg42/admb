@@ -12,6 +12,7 @@ packages will not be published.
 - [appd-pipeline] implemented missing pipeline-ops (`plot`, `def`, `corr`, `log10`, `rangeIntersect`, `percentOf`, `threshold`)
 - [appd-libmetrics] added `what` argument to `percentOf` to simplify selecting the timeseries we're taking the percentage of.
 - [appd-pipeline] `relativeTo` now takes a semicolon delimited set of paths to search relative to
+- [appd-ui] added ADMB language pack to expression editor *finally* providing autocomplete
 
 ### Changed
 - [admb-ui] empty plot groups are now suppressed instead of showing an empty plot
@@ -19,6 +20,8 @@ packages will not be published.
 - [appd-libmetrics] added name and segment sortBy routines back
 - [appd-libmetrics] overhauled the `Range` type, basing it on Luxon instead of Moment
 - [admb-ui] modified `TimePicker` to use libmetrics `Range` type and restored Relative time selection
+- [appd-pipeline] MetricsProvider SPI changed to support autocomplete functions.  For now, this also ties the
+  SPI to the grammar specifics (app,path,valueTypes)
 
 ### Fixed
 - [appd-libutils] only first alternatives glob is converted to regex / matched

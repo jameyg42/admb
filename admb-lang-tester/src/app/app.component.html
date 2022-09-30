@@ -1,0 +1,28 @@
+<div class="flex flex-column h-screen">
+   <header>
+      <h2>ADMB Grammar+Lang Editor/Tester</h2>
+      <span>v1</span>
+   </header>
+   <main class="flex-grow-1 flex min-h-0">
+      <p-splitter class="flex-grow-1 max-h-full">
+         <ng-template pTemplate>
+            <div class="flex flex-column max-h-full min-h-0">
+               <div class="flex-grow-1 min-h-0">
+                  <app-editor></app-editor>
+               </div>
+               <pre style="height: 15rem;">{{generateResults}}</pre>
+            </div>
+         </ng-template>
+         <ng-template pTemplate>
+            <div class="flex-grow-1 max-h-full min-h-0">
+               <div class="shadow-2" style="height: 50%;">
+                  <app-sample-editor></app-sample-editor>
+               </div>
+               <div style="height: 50%; overflow:auto;">
+                  <app-parse-tree></app-parse-tree>
+               </div>
+            </div>
+         </ng-template>
+      </p-splitter>
+   </main>
+</div>

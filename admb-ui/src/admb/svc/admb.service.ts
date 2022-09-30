@@ -14,7 +14,16 @@ export class AdmbService {
   }
 
   public listApps(): Observable<Application[]> {
-    return this.http.get<Application[]>('/api/apps')
+    return this.http.get<Application[]>('/api/pipeline/apps')
+      .pipe(
+        catchError((e, c) => {
+          this.messageService.add({severity: 'error', detail: e.message, life: 5000});
+          throw e;
+        })
+      );
+  }
+  public browseTree(app:string, path:string[]): Observable<string[]> {
+    return this.http.post<string[]>('/api/pipeline/browse', {app,path})
       .pipe(
         catchError((e, c) => {
           this.messageService.add({severity: 'error', detail: e.message, life: 5000});
@@ -33,5 +42,4 @@ export class AdmbService {
         })
       );
   }
-
 }

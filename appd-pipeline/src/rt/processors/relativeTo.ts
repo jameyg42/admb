@@ -14,10 +14,10 @@ export class RelativeToProcessor extends BaseProcessor {
             flattenDeep(ctx.groups.map(g => 
                 g.map(ts => 
                     ts.sources.map(s => {
+                        // FIXME the 'paths' should be fully parsed so we can get the ValueTypeNodes
                         const p = resolveRelative(s.path, path);
                         const x = ctx.global().providers.map(provider => {
-                            const search = new SearchExpressionNode(s.app, p, [], {} as SyntaxNode);
-                            return provider.fetchMetrics(ctx, search);
+                            return provider.fetchMetrics(ctx, s.app, p, []);
                         });
                         return x;
                     })
