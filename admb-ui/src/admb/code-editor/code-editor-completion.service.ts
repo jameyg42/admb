@@ -14,7 +14,7 @@ export class CodeEditorCompletionService implements AdmbCompletionProvider {
       this.appsCache = null;
     })
   }
-  browseApps(): Promise<string[]> {
+  listApps(): Promise<string[]> {
     return this.appsCache 
       ? Promise.resolve(this.appsCache) 
       : firstValueFrom(this.services.listApps())

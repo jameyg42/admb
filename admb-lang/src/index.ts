@@ -1,2 +1,2 @@
 export { admb } from "./admb";
-export { CompletionProvider as AdmbCompletionProvider } from "./completion";
+export { AdmbCompletionProvider } from "./complete/provider";
