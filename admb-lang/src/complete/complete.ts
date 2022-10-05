@@ -28,6 +28,7 @@ function merge(results:CompletionResult[]) {
    return {
       from: Math.min(...results.map(r => r.from)),
       to: Math.min(...results.map(r => r.to).filter((to):to is number => to != undefined)),
-      options: results.flatMap(r => r.options)
+      options: results.flatMap(r => r.options),
+      validFor: results.map(r => r.validFor).filter(r => r != undefined).find(r => r)
    }
 }

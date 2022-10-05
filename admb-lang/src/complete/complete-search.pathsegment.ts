@@ -46,5 +46,8 @@ export const SearchPathSegmentCompletionSource:AdmbCompletionSource = (context:C
 function results(from:number, to:number, app:string, path:string[], provider:AdmbCompletionProvider):Promise<CompletionResult> {
    return provider.browseTree(app, path)
    .then(paths => paths.map(label => ({label})))
-   .then(options => ({from, to, options}));
+   .then(options => ({
+      from, to, options,
+      validFor:  /^[^\/|>]*$/
+   }));
 }
