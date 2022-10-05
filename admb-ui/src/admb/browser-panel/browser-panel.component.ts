@@ -10,7 +10,7 @@ import { Range } from '@metlife/appd-libmetrics/out/range';
 })
 export class BrowserPanelComponent implements OnInit {
   @Input()
-  range = Range.beforeNow({"hours":4});
+  range:Range = Range.beforeNow({"hours":4});
 
   _expr: string;
   get expr(): string {
@@ -35,7 +35,10 @@ export class BrowserPanelComponent implements OnInit {
     const state = this.route.snapshot.queryParams;
     this.expr = state.ex || '';
     if (state.r) {
-      this.range = JSON.parse(state.r);
+      const rangeLike = JSON.parse(state.r);
+      if (rangeLike) {
+        this.range = Range.fromRangeLike(rangeLike);
+      }
     }
   }
 
