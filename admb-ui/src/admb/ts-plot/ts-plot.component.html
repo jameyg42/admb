@@ -1,5 +1,5 @@
 <div class="nobreak" *ngIf="timeseriesGroup.length > 0">
-  <div><p-checkbox [(ngModel)]="interactive" [binary]="true"></p-checkbox> Interactive</div>
+  <div class="flex align-items-center interactive-switch"><p-inputSwitch [(ngModel)]="interactive"></p-inputSwitch> <span class="font-semibold">Interactive</span></div>
   <plotly-plot *ngIf="plotData"
   [config]="config"
   [layout]="layout"
