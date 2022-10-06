@@ -20,7 +20,7 @@
     "prepublish": "npm run build"
   },
   "dependencies": {
-    "@metlife/appd-libutils": "^2.0.1"
+    "@metlife/appd-libutils": "*"
   },
   "devDependencies": {
     "jest": "^27.4.7",

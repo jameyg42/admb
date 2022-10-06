@@ -25,9 +25,9 @@
   "dependencies": {
     "@lezer/common": "^1.0.1",
     "@lezer/lr": "^1.2.3",
-    "@metlife/appd-libmetrics": "^2.0.1",
-    "@metlife/appd-libutils": "^2.0.1",
-    "@metlife/appd-services": "^2.0.1",
+    "@metlife/appd-libmetrics": "*",
+    "@metlife/appd-libutils": "*",
+    "@metlife/appd-services": "*",
     "parse-duration": "^1.0.2",
     "rxjs": "^7.5.5"
   },

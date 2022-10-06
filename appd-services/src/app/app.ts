@@ -1,9 +1,9 @@
 import { App, Baseline, Season } from './types';
 import { Client } from "../client";
-import { Duration } from 'luxon';
 import { flatten } from 'lodash';
 import { ReadThroughCache } from '@metlife/appd-libutils/out/cache';
 import { matches } from '@metlife/appd-libutils/out/glob';
+import { Duration } from '@metlife/appd-libutils/out/time';
 
 
 export class AppServices {

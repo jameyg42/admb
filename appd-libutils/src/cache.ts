@@ -1,5 +1,5 @@
 import {default as NodeCache} from 'node-cache';
-import { Duration } from 'luxon';
+import { Duration } from './time';
 
 export const defaults = {
     useClones: false

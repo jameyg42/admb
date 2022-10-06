@@ -25,8 +25,8 @@
     "appd-services",
     "appd-pipeline",
     "admb-server",
-    "admb-ui",
     "admb-lang",
+    "admb-ui",
     "admb-lang-tester"
   ],
   "devDependencies": {
