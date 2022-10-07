@@ -5,10 +5,9 @@ import { ReadThroughCache } from '@metlife/appd-libutils/out/cache';
 import { matches } from '@metlife/appd-libutils/out/glob';
 import { Duration } from '@metlife/appd-libutils/out/time';
 
+const cache = new ReadThroughCache();
 
 export class AppServices {
-    private cache = new ReadThroughCache();
-
     constructor(private client:Client) { }
 
     static create(client:Client|Promise<Client>):Promise<AppServices> {
@@ -18,7 +17,7 @@ export class AppServices {
     }
 
     fetchAllApps():Promise<App[]> {
-        return this.cache.get('apps', () => {
+        return cache.get(`apps-${this.client.session.url}`, () => {
             return this.client.get<any>('/restui/applicationManagerUiBean/getApplicationsAllTypes')
             .then(all => {
                 let apps = Object.keys(all)

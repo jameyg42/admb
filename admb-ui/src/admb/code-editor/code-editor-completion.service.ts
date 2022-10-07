@@ -12,7 +12,9 @@ export class CodeEditorCompletionService implements AdmbCompletionProvider {
   constructor(private services:AdmbService, private login:LoginService) { 
     login.userChange$.subscribe((next) => {
       this.appsCache = null;
-    })
+      this.listApps();
+    });
+    this.listApps();
   }
   listApps(): Promise<string[]> {
     return this.appsCache 
