@@ -1,8 +1,9 @@
 import { Completion, CompletionContext, CompletionResult } from "@codemirror/autocomplete";
 import { AdmbCompletionSource } from "./complete";
 import { AdmbCompletionProvider } from "./provider";
-import { getContextNode, findSibling, text, NO_RESULT } from "./tree-utils";
+import { getContextNode, findSibling, text, NO_RESULT, findParent } from "./tree-utils";
 import * as processorDefs from '@metlife/appd-pipeline/out/lang/processor-defs';
+import { SyntaxNode } from "@lezer/common";
 
 /**
  * CommandExpression.Arg.Name's can be completed
@@ -18,10 +19,16 @@ export const CommandNameCompletionSource:AdmbCompletionSource = (context:Complet
    const commandNode = findSibling("CommandExpression", "Command", context);
    if (commandNode) {
       const command = text(commandNode, context);
-      const argCompletions = commandArgs[command];
+      let argCompletions = commandArgs[command];
       if (argCompletions && argCompletions.length > 0) {
-         const ctx = getContextNode(context);
+         const currentArgs = findParent("CommandExpression", context)?.getChildren("Arg") || [];
+         const named = currentArgs.map(arg => arg.getChild("Name")).filter((n):n is SyntaxNode => !!n).map(n => text(n, context));
+         argCompletions = argCompletions.filter(c => !named.find(n => n == c.label));
+         // TODO eliminate positioned args too, but we can't treat the current Arg as a positioned Arg
+         // because we may be currently typing a name that would otherwise be treated as a positioned value
+         if (argCompletions.length == 0) return NO_RESULT;
 
+         const ctx = getContextNode(context);
          if (ctx == null) {
             return results(context.pos, context.pos, argCompletions);
          }
