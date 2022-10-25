@@ -27,6 +27,7 @@ packages will not be published.
 - [appd-libutils] only first alternatives glob is converted to regex / matched
 - [appd-pipeline] `filterGroup` returns unmatched groups vs. expected matched groups
 - [appd-libmetrics] `reduce` doesn't handle gaps correctly
+- [appd-services] added "first class" support for logging into Local accounts even when the SAML provider is used
 
 ## [2.0.2] - 2022-07-29
 ### Fixed

@@ -88,7 +88,8 @@ function smLoginAndRedirectBackToAuthnSAMLRequest(uid:string, pwd:string):(s:any
             root.querySelectorAll('form#LoginForm input')
             .map(input => ([input.attributes.name, input.attributes.value]))
         );
-        inputs.USER = `${uid}@metnet`;
+        const [user,domain] = uid.split('@');
+        inputs.USER = `${user}@${domain || 'metnet'}`;
         inputs.PASSWORD = pwd;
 
         const submit = new URL(form.attributes.action, loginRedirect.baseURL);
