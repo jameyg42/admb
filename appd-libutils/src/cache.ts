@@ -17,7 +17,11 @@ export class ReadThroughCache {
             return Promise.resolve(v);
         }
         return loader().then((v:T) => {
-            this.cache.set(key, v, ttl instanceof Duration ? ttl.as('seconds') : ttl || 0);
+            if (ttl) {
+                this.cache.set(key, v, ttl instanceof Duration ? ttl.as('seconds') : ttl);
+            } else {
+                this.cache.set(key, v);
+            }
             return v;
         });
     }
