@@ -13,6 +13,7 @@ packages will not be published.
 - [appd-libmetrics] added `what` argument to `percentOf` to simplify selecting the timeseries we're taking the percentage of.
 - [appd-pipeline] `relativeTo` now takes a semicolon delimited set of paths to search relative to
 - [appd-ui] added ADMB language pack to expression editor *finally* providing autocomplete
+- [appd-ui] added "range breaks" for weekends and work-hours (UI only - doesn't impact underlying series or calcs on them)
 
 ### Changed
 - [admb-ui] empty plot groups are now suppressed instead of showing an empty plot
