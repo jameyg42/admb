@@ -10,11 +10,12 @@ import { AdmbService } from '../svc/admb.service';
 export class CodeEditorCompletionService implements AdmbCompletionProvider {
   appsCache:string[]|null;
   constructor(private services:AdmbService, private login:LoginService) { 
-    login.userChange$.subscribe((next) => {
+    login.userChange$.subscribe((user) => {
       this.appsCache = null;
-      this.listApps();
+      if (user) {
+        this.listApps();
+      }
     });
-    this.listApps();
   }
   listApps(): Promise<string[]> {
     return this.appsCache 
