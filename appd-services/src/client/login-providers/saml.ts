@@ -65,6 +65,9 @@ function postUnauthorizedAuthnSAMLRequestRedirectToSMLogin(authnRequest:HttpPara
     }, authnRequest))
     .then(rsp => {
         const location = rsp.headers['location'];
+        if (!location) {
+            throw {status:499, message: 'broken SAML login flow - did not redirect to login.fcc'}
+        }
         const sm = new URL(location);
         return http().get(location)
         .then(rsp => ({
@@ -103,6 +106,9 @@ function smLoginAndRedirectBackToAuthnSAMLRequest(uid:string, pwd:string):(s:any
             // we only need the SMSESSION set-cookie, but grab and forward them all
             // we also need to add the GUID cookie back
             const location = rsp.headers['location'];
+            if (!location) {
+                throw {status:499, message: 'broken SAML login flow - did not redirect to samlRequest'};
+            }
             if (loginRedirect.ssoGuid) {
                 rsp.cookies.push(loginRedirect.ssoGuid);
             }
