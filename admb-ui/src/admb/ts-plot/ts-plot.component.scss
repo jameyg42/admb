@@ -1,0 +1,10 @@
+::ng-deep .p-inputswitch.p-focus .p-inputswitch-slider {
+   outline: none;
+   box-shadow: none;
+}
+::ng-deep .p-inputswitch {
+   transform: scale(.8);
+}
+.interactive-switch {
+   color: #666;
+}

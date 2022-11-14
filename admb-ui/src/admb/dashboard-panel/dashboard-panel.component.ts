@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Range } from 'src/widget/timepicker/range';
-import { DashboardModel, DashboardWidget } from './dashboard-model';
+import { Range } from '@metlife/appd-libmetrics/out/range';
+import { DashboardModel } from './dashboard-model';
 import { isArray } from 'lodash';
 
 @Component({

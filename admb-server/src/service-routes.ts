@@ -32,12 +32,12 @@ serviceRoutes.get('/api/user', (req,rsp,next) => {
       .then(user => rsp.json(user))
       .catch(next);
 })
-  
+
 serviceRoutes.post('/api/pipeline/exec', (req,rsp,next) => {
-    const expr = req.body;
+    const {expr, range, vars} = req.body;
     const client = loadSession(req);
     const appdProvider = new AppDynamicsMetricsProvider(client);
-    exec(expr.expr, [appdProvider], expr.range, expr.vars)
+    exec(expr, [appdProvider], range, vars)
     .then (results => {
       rsp.json(results);
     })
@@ -45,12 +45,20 @@ serviceRoutes.post('/api/pipeline/exec', (req,rsp,next) => {
       rsp.status(500).json(e);
     });
 });
-serviceRoutes.get('/api/apps', (req,rsp,next) => {
+serviceRoutes.get('/api/pipeline/apps', (req,rsp,next) => {
     const client = loadSession(req);
-    const appSvc = new AppServices(client);
-    return appSvc.fetchAllApps()
+    const appService = new AppServices(client);
+    return appService.fetchAllApps()
       .then(apps => rsp.json(apps))
       .catch(next);
+});
+serviceRoutes.post('/api/pipeline/browse', (req,rsp,next) => {
+  const {app, path} = req.body;
+  const client = loadSession(req);
+  const appdProvider = new AppDynamicsMetricsProvider(client);
+  return appdProvider.browseTree(app, path)
+    .then(paths => rsp.json(paths))
+    .catch(next);
 });
   
 function getUser(client:Client):Promise<User> {

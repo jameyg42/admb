@@ -133,6 +133,9 @@
           }
         }
       }
-    }},
-  "defaultProject": "admb-ui"
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
 }

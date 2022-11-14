@@ -18,20 +18,55 @@ export default sort;
 
 export type SortBy = (descending:boolean) => (a:MetricTimeseries, b:MetricTimeseries) => number;
 
-export const valuesSort = (reducer:ReducerFn<number, number>):SortBy => (descending:boolean) => 
-(a:MetricTimeseries,b:MetricTimeseries) => {
+const valuesSort = (reducer:ReducerFn<number, number>):SortBy => (descending:boolean) => (a:MetricTimeseries,b:MetricTimeseries) => {
+    [a,b] = direction(descending, a, b);
     const av = extractValues(a).reduce(reducer);
     const bv = extractValues(b).reduce(reducer);
-    return descending ? bv-av : av-bv;
+    return av - bv;
+};
+const nameSort = (args:string):SortBy                         => (descending:boolean) => (a:MetricTimeseries,b:MetricTimeseries) => {
+    [a,b] = direction(descending, a, b);
+    const ap = rex(args, a.name);
+    const bp = rex(args, b.name);
+    return ap.localeCompare(bp);
+};
+const segmentSort = (idx:number):SortBy                       => (descending:boolean) => (a:MetricTimeseries,b:MetricTimeseries) => {
+    [a,b] = direction(descending, a, b);
+    const ap = a.source.path[idx-1] || a.name;
+    const bp = b.source.path[idx-1] || b.name;
+    return ap.localeCompare(bp);
 };
 
-
+export const sorterFactories = {
+    name: (args:string) => nameSort(args),
+    segment: (idx:number) => segmentSort(idx),
+    avg: () => valuesSort(avg),
+    mean: () => valuesSort(avg),
+    median: () => valuesSort(median),
+    mode: () => valuesSort(mode),
+    min: () => valuesSort(min),
+    max: () => valuesSort(max)
+} as SorterFactories;
 export const sorters = {
-    avg: valuesSort(avg),
-    mean: valuesSort(avg),
-    median: valuesSort(median),
-    mode: valuesSort(mode),
-    min: valuesSort(min),
-    max: valuesSort(max)
+    avg: sorterFactories.avg(),
+    mean: sorterFactories.mean(),
+    median: sorterFactories.median(),
+    mode: sorterFactories.mode(),
+    min: sorterFactories.min(),
+    max: sorterFactories.max()
 } as Sorters;
-export type Sorters = ({[key:string]:SortBy});
+export type SorterFactories = ({[key:string]:(a?:any)=>SortBy});
+export type Sorters = ({[key:string]:SortBy})
+
+function direction(descending:boolean, a:any, b:any):[a:MetricTimeseries,b:MetricTimeseries] {
+    return descending ? [b,a] : [a,b];
+}
+function rex(r:string, s:string):string {
+    if (!r) {
+        return s;
+    }
+    const m = new RegExp(r).exec(s);
+    return m ? 
+        m.length == 1 ? m[0] : m.slice(1).join()
+        : ''
+}

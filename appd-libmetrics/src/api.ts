@@ -1,8 +1,11 @@
 import { KVP } from "@metlife/appd-libutils/out/types";
 
+export type RangeType = 'BEFORE_NOW'|'BETWEEN_TIMES';
 export interface Range {
-    startTime: number;
-    endTime: number;
+    type: RangeType;
+    startTime?: number;
+    endTime?: number;
+    durationInMinutes?: number;
 }
 export interface Precision {
     size: number;

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { OverlayPanel } from 'primeng/overlaypanel/public_api';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { LoginService } from './login.service';
 import { SelectItemGroup } from 'primeng/api';
 
@@ -10,7 +10,7 @@ import { SelectItemGroup } from 'primeng/api';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
+  loginForm: UntypedFormGroup;
   controllers: SelectItemGroup[];
   blocked = false;
 
@@ -20,26 +20,26 @@ export class LoginComponent implements OnInit {
 
   constructor(private loginService: LoginService) {
     this.controllers =  [{
-      label: 'On Prem', items: [
-        {label: 'Production', value: {url:'https://appd.metlife.com/controller', account: 'customer1'}},
-        {label: 'QA', value: {url:'https://qa.appd.metlife.com/controller', account:'customer1'}},
-        {label: 'AppD-on-AppD', value: {url:'http://ustry1basv00edl.met_intnet.net:8090/controller', account: 'customer'}},
-      ]},{
       label: 'SaaS', items: [
         {label: 'Production (ml-prod)', value: {url:'https://ml-prod.saas.appdynamics.com/controller', account: 'ml-prod'}},
         {label: 'QA (ml-nonprod)', value: {url:'https://ml-nonprod.saas.appdynamics.com/controller', account:'ml-nonprod'}},
-      ]}
-    ];
-    this.loginForm = new FormGroup({
-      controller: new FormControl(this.controllers[0].value),
-      uid: new FormControl(''),
-      pwd: new FormControl('')
+      ] 
+    }, {
+      label: 'On Prem', items: [
+        {label: 'Production', value: {url:'https://appd.metlife.com/controller', account: 'customer1'}},
+        {label: 'QA', value: {url:'https://qa.appd.metlife.com/controller', account:'customer1'}}
+      ]
+    }];
+    this.loginForm = new UntypedFormGroup({
+      controller: new UntypedFormControl({}),
+      uid: new UntypedFormControl(''),
+      pwd: new UntypedFormControl('')
     });
   }
 
   ngOnInit() {
     this.loginForm.patchValue({
-      controller: {url:'https://appd.metlife.com/controller', account: 'customer1'}
+      controller: this.controllers[0].items[0].value
     });
   }
 
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
         this.blocked = false;
       })
       .catch(err => {
-        console.log(err);
+        console.error(err);
         this.blocked = false;
         this.loginError = 'Invalid Login';
       });

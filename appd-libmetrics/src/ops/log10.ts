@@ -7,5 +7,5 @@ import { mapValues } from "../map";
  * @param ts 
  * @returns 
  */
-export const log = (ts:MetricTimeseries) => mapValues(ts, (v) => v ? Math.log10(v) : v, "log");
-export default log;
+export const log10 = (ts:MetricTimeseries) => mapValues(ts, (v) => v ? Math.log10(v) : v, "log10");
+export default log10;

@@ -1,7 +1,7 @@
 import { ReducerFn } from "@metlife/appd-libutils"
 import { MetricTimeseries, MetricTimeseriesGroup } from "../api"
 import { reduceGroup, GapHandlerFn } from "../reduce";
-import { avg, sum, product, min, max } from "@metlife/appd-libstats";
+import { avg, sum, difference, product, min, max } from "@metlife/appd-libstats";
 
 /**
  * reduces all the series in the group to a single series using the provided
@@ -23,7 +23,7 @@ export const reduce = (tss:MetricTimeseriesGroup, fn:ReducerFn<number,number>, g
 }
 export default reduce;
 export const reducersMap = {
-    avg, sum, product, min, max
+    avg, sum, difference, product, min, max
 } as ({[key:string]:ReducerFn<number,number>});
 
 // hack - the reducers are currently created using arrows and don't have a name

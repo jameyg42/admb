@@ -10,18 +10,16 @@
     "module": "es2020",
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es6", // FIXME https://github.com/plotly/angular-plotly.js/issues/75#issuecomment-526871836
-    "resolveJsonModule": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "target": "es2020",
     "lib": [
-      "es2018",
+      "es2020",
       "dom"
     ]
   },
   "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
   }
 }

@@ -8,5 +8,10 @@ export const corr:CommandDescription = {
         type: 'number',
         optional: true,
         documentation: 'if specified, the number of datapoints to include to compute a correlation point.'
+    }, {
+        name: 'fn',
+        type: 'string',
+        optional: true,
+        documentation: 'correlation function - one of `pearson` [default] or `spearman`'
     }]
 }

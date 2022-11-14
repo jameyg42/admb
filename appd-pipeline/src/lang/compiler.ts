@@ -127,12 +127,20 @@ export function compile(expr: string) {
         // first process named args
         const namedArgs = argNodes.filter(a => a.name);
         namedArgs.forEach(arg => {
-            const def = cmdArgMap[(arg.name as string)];
-            if (!def) {
-                throw new SyntaxError(`unknown argument '${arg.name}' for '${processor.name}'`, arg.node, expr);
-            }
-            if (args[def.name]) {
-                throw new SyntaxError(`repeated argument '${def.name}'`, arg.node, expr);
+            let def:CommandArgument;
+            if (!processor.varargs) {
+                def = cmdArgMap[(arg.name as string)];
+                if (!def) {
+                    throw new SyntaxError(`unknown argument '${arg.name}' for '${processor.name}'`, arg.node, expr);
+                }
+                if (args[def.name]) {
+                    throw new SyntaxError(`repeated argument '${def.name}'`, arg.node, expr);
+                }
+            } else {
+                def = {
+                    name: arg.name as string,
+                    type: "any"
+                }
             }
             _compileArgument(arg, def, args);
         });

@@ -52,8 +52,8 @@ _start() {
 }
 
 _monitor() {
-  if [ -f ./bin/appd-loader.js ] && [ -d ${APP_DIR}/node_modules/appdynamics ]; then
-    NODE_OPTIONS+=" -r ./bin/appd-loader.js"
+  if [ -f ${APP_DIR}/bin/appd-loader.js ] && [ -d ${APP_DIR}/node_modules/appdynamics ]; then
+    NODE_OPTIONS+=" -r ${APP_DIR}/bin/appd-loader.js"
     echoGreen "AppDynamics monitoring is ENABLED"
   else
     echoYellow "AppDynamics monitoring is NOT ENABLED"
@@ -65,7 +65,7 @@ do_start() {
 	[[ -e "$PID_FOLDER" ]] || { mkdir -p "$PID_FOLDER" &> /dev/null; }
 	checkPermissions || return $?
   _monitor
-	nohup node ${NODE_OPTIONS} ${APP_DIR}/bin/server.js "$@" >> "$log_file" 2>&1 &
+	nohup node ${NODE_OPTIONS} ${APP_DIR}/out/package.js "$@" >> "$log_file" 2>&1 &
 	pid=$!
 	echo "$pid" > "$pid_file"
 	[[ -z $pid ]] && { echoRed "Failed to start"; return 1; }

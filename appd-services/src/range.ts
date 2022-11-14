@@ -1,4 +1,4 @@
-import { Duration, DateTime, Interval } from 'luxon';
+import { Duration, DateTime, Interval } from '@metlife/appd-libutils/out/time';
 
 export interface FixedRange {
     type: ('BETWEEN_TIMES'),

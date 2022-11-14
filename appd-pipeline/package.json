@@ -1,6 +1,6 @@
 {
   "name": "@metlife/appd-pipeline",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "description": "AppD metrics pipeline (grammar and runtime)",
   "author": "Jamey Graham <jgraham@metlife.com>",
   "license": "UNLICENSED",
@@ -13,7 +13,9 @@
     "clean": "rimraf ./out",
     "prebuild": "npm run clean",
     "build:parser": "mkdirp out/lang && lezer-generator src/lang/pipeline.grammar --cjs --names -o out/lang/pipeline.grammar",
-    "build": "npm run build:parser && tsc",
+    "build:ts": "tsc",
+    "build:incremental": "tsc --incremental",
+    "build": "npm run build:parser && npm run build:ts",
     "watch": "tsc --watch",
     "pretest": "npm run build",
     "test": "jest",
@@ -21,19 +23,19 @@
     "prepublish": "npm run build"
   },
   "dependencies": {
-    "@lezer/common": "0.16.0",
-    "@lezer/lr": "0.16.0",
-    "@metlife/appd-libmetrics": "^2.0.1",
-    "@metlife/appd-libutils": "^2.0.1",
-    "@metlife/appd-services": "^2.0.1",
+    "@lezer/common": "^1.0.1",
+    "@lezer/lr": "^1.2.3",
+    "@metlife/appd-libmetrics": "*",
+    "@metlife/appd-libutils": "*",
+    "@metlife/appd-services": "*",
     "parse-duration": "^1.0.2",
     "rxjs": "^7.5.5"
   },
   "devDependencies": {
-    "@lezer/generator": "0.16.0",
+    "@lezer/generator": "^1.1.1",
     "jest": "27.5.1",
     "mkdirp": "1.0.4",
     "rimraf": "3.0.2",
-    "typescript": "4.3.5"
+    "typescript": "^4.8.2"
   }
 }

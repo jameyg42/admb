@@ -1,15 +1,16 @@
-import { ReducerFn, clone, isNumber, zip } from "@metlife/appd-libutils";
+import { ReducerFn, clone, isValidNumber, zip } from "@metlife/appd-libutils";
 import { MetricDataPoint, MetricDataPointValue, MetricTimeseries, MetricTimeseriesGroup } from "./api"
 
 /**
- * Reduce a set of MetricTimeseries to a single series.  Currently, this does *not*
- * align the Timeseries to the same range/precision and simply zips the data by 
- * index, reducing each value with the same index.  
+ * Reduce a set of MetricTimeseries to a single series.  
  * @param tss
  * @param reducer 
  * @param named 
  */
 export function reduceGroup(tss:MetricTimeseriesGroup, reducer:ReducerFn<number, number>, gapHandler:GapHandlerFn = zeros, named?:string) {
+    // FIXME threshold should be metadata only
+    tss = tss.filter(ts => ts.name != 'threshold');
+    
     const result = createReduceResultTarget(tss);
     result.name = tss.map(ts => ts.name).join(',');
     result.fullName = tss.map(ts => ts.fullName).join(',');
@@ -19,18 +20,17 @@ export function reduceGroup(tss:MetricTimeseriesGroup, reducer:ReducerFn<number,
     }
     result.sources = tss.map(ts => ts.source);
 
-    const normalizedDataPoints = normalizeDataPointsRange(tss.map(ts => ts.data));
-    let last:any = undefined;
-    const values = zip(...normalizedDataPoints.map(d => d.map(v => v.value)))
+    const normalizedDataPoints = normalizeDataPointsRange(tss.map(ts => ts.data))
+        .map(mdps => mdps
+            .map(mdp => mdp.value)
+            .map((v, i, a) => isValidNumber(v) ? v : gapHandler(a[i-1], a[i+1], i, a))
+            .filter(v => isValidNumber(v))
+            .map (v => v as number)
+        );
+    const values = zip(...normalizedDataPoints)
         .map(vs => vs
-            .map((v, i, a) => {
-                if (isNumber(v)) return v;
-                last = gapHandler(a[i-1] || last, a[i+1]||0, i, a); // FIXME broken broken broken
-                return last;
-            })
-            .filter(v => ! isNaN(v))
             .reduce(reducer)
-        )
+        );
     
     result.data = result.data.map((d,i) => ({start:d.start, value:values[i]}));
     return result; // FIXMENOW metadata
@@ -87,7 +87,7 @@ function interval(start:number, step:number, len:number):MetricDataPoint[] {
 }
 
 
-export type GapHandlerFn = (before:number, after:number, i:number, values:MetricDataPointValue[]) => number|null|undefined;
+export type GapHandlerFn = (before:MetricDataPointValue, after:MetricDataPointValue, i:number, values:MetricDataPointValue[]) => MetricDataPointValue;
 export const zeros:GapHandlerFn = () => 0;
 export const fill:GapHandlerFn = (b, a) => a && b ? (a+b)/2 : a ? a : b ? b : 0;
 export const preserve:GapHandlerFn = (b, a, i, as) => as[i];

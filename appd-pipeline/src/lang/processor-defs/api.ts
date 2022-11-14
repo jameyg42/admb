@@ -5,7 +5,9 @@ export interface CommandDescription {
     name:string;
     documentation?: string;
     arguments?: CommandArgument[];
-    validator?: CommandValidator;
+    // short-term hack to support variable arguments.  A more robust 
+    // "plugable" verification mechanism should be developed
+    varargs?: boolean;
 }
 export interface CommandArgument {
     name:string;
@@ -14,4 +16,3 @@ export interface CommandArgument {
     optional?: boolean;
     options?: string[];
 }
-export type CommandValidator = (node:CommandExpressionNode) => void;

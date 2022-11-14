@@ -1,4 +1,4 @@
-import { Cancellable, HttpClient, HttpConfig, HttpParams, HttpResponse } from "./http";
+import { Cancellable, HttpClient, HttpParams } from "./http";
 import { default as login } from './login';
 
 export class Session {
@@ -54,7 +54,6 @@ export class Client {
         this.client.cancelAll();
     }
 
-
     static create(session:Session|Promise<Session>):&Promise<Client> {
         return session instanceof Session 
             ? Promise.resolve(new Client(session)) 
@@ -64,7 +63,13 @@ export class Client {
         return new Client(Session.deserialize(session));
     }
     static open(url:string, account:string, username:string, password:string):Promise<Client> {
-        return login(url, account, username, password)
+        // TODO we need a way to force the use of Local logins, ignoring the configured default login provider.
+        // For now, if the username specifies a domain in the username, we'll use domain matching account to
+        // indicate local logins
+        const [,domain] = username.split('@');
+        let method = domain && domain == account ? 'local': undefined;
+
+        return login(url, account, username, password, method)
             .then(session => new Client(session));
     }
 }

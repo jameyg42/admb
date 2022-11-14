@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChildren, QueryList, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
 import { BrowserPanelComponent } from './browser-panel/browser-panel.component';
 import { HistoryService } from './history-list/history.service';
+import { Range } from '@metlife/appd-libmetrics/out/range';
 
 @Component({
   selector: 'admb-panel',
@@ -24,19 +24,14 @@ export class AdmbPanelComponent implements OnInit {
       const activeEditor = this.activeEditor;
       if (activeEditor) {
         if (evt.range) {
-          activeEditor.range = evt.range;
+          activeEditor.range = Range.fromRangeLike(evt.range);
         }
         activeEditor.expr = evt.expr;
       }
       this.palettebarExpanded = false;
     });
-
-
   }
-
-
 
   ngOnInit() {
   }
-
 }

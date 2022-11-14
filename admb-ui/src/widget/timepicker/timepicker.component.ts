@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import {Range, between, beforeNow, zoom, slide, fix} from './range';
+import { Range } from '@metlife/appd-libmetrics/out/range';
 import { OverlayPanel } from 'primeng/overlaypanel';
-
-import * as moment from 'moment';
 import { PRESETS } from './presets';
+import { DurationUnit } from '@metlife/appd-libutils/out/time';
+
 @Component({
   selector: 'admb-timepicker',
   templateUrl: './timepicker.component.html',
@@ -29,14 +29,14 @@ export class TimepickerComponent implements OnInit {
     {label: 'Weeks Ago', value: 'weeks'},
     {label: 'Months Ago', value: 'months'}
   ];
-  relativeDuration = 5;
-  relativeUnits = 'minutes' as moment.DurationInputArg2;
+  relativeDuration:number = 5;
+  relativeUnits:DurationUnit = 'minutes' 
 
   absoluteStart: Date;
   absoluteEnd: Date;
 
   constructor() {
-    this.range = beforeNow(moment.duration(4, 'hours'));
+    this.range = Range.beforeNow({"hours": 4});
   }
 
   @Input()
@@ -48,15 +48,15 @@ export class TimepickerComponent implements OnInit {
     if (!range) {
       return;
     }
-    this.fixedRange = fix(range); // this just simplifies keeping the absolute controls in sync
+    this.fixedRange = range.fix(); // this just simplifies keeping the absolute controls in sync
 
     this.absoluteStart = new Date(this.fixedRange.startTime);
     this.absoluteEnd = new Date(this.fixedRange.endTime);
 
-    const dur = moment.duration(new Date().getTime() - this.fixedRange.startTime, 'ms');
-    this.relativeUnits = Math.floor(dur.asMonths()) > 0 ? 'months'
-                        :  (Math.floor(dur.asDays()) > 0 ? 'days'
-                        : (Math.floor(dur.asHours()) > 0 ? 'hours' : 'minutes'));
+    const dur = range.toDuration();
+    this.relativeUnits = Math.floor(dur.as('months')) > 0 ? 'months'
+                        :  (Math.floor(dur.as('days')) > 0 ? 'days'
+                        : (Math.floor(dur.as('hours')) > 0 ? 'hours' : 'minutes'));
     this.relativeDuration = Math.floor(dur.as(this.relativeUnits));
     this.rangeLabel = range;
 
@@ -79,35 +79,24 @@ export class TimepickerComponent implements OnInit {
     this.setRangeAndLabel(preset.fn(), preset.label);
   }
   setRelative() {
-    const d = moment.duration(this.relativeDuration, this.relativeUnits);
-    this.range = beforeNow(d);
+    const d = {};
+    d[this.relativeUnits] = this.relativeDuration;
+    this.range = Range.beforeNow(d);
   }
   setAbsolute() {
-    this.range = between(this.absoluteStart.getTime(), this.absoluteEnd.getTime());
-  }
-
-  getShiftMagnitude(): number {
-    // how much we shift depends on the size of the range - larger ranges shift more
-    const r = this.fixedRange;
-    const d = moment.duration(moment(r.endTime).diff(moment(r.startTime)));
-    const m = Math.floor(d.asMinutes() * .25);
-    return m;
+    this.range = Range.between(this.absoluteStart.getTime(), this.absoluteEnd.getTime());
   }
   slideLeft() {
-    const m = this.getShiftMagnitude();
-    this.range = slide(this.range, -m);
+    this.range = this.range.slide("LEFT");
   }
   slideRight() {
-    const m = this.getShiftMagnitude();
-    this.range = slide(this.range, m);
+    this.range = this.range.slide("RIGHT");
   }
   zoomIn() {
-    const m = Math.floor(this.getShiftMagnitude()  / 2);
-    this.range = zoom(this.range, -m);
+    this.range = this.range.zoom("IN");
   }
   zoomOut() {
-    const m = Math.min(Math.floor(this.getShiftMagnitude() / 2), 5);
-    this.range = zoom(this.range, m);
+    this.range = this.range.zoom("OUT");
   }
 }
 

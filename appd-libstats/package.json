@@ -1,6 +1,6 @@
 {
   "name": "@metlife/appd-libstats",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "description": "a simple statistics library",
   "author": "Jamey Graham <jgraham@metlife.com>",
   "license": "UNLICENSED",
@@ -13,17 +13,18 @@
     "clean": "rimraf ./out",
     "prebuild": "npm run clean",
     "build": "tsc",
+    "build:incremental": "tsc --incremental",
     "watch": "tsc --watch",
     "pretest": "tsc --incremental",
     "test": "jest",
     "prepublish": "npm run build"
   },
   "dependencies": {
-    "@metlife/appd-libutils": "^2.0.1"
+    "@metlife/appd-libutils": "*"
   },
   "devDependencies": {
     "jest": "^27.4.7",
     "rimraf": "^3.0.2",
-    "typescript": "^4.3.5"
+    "typescript": "^4.8.2"
   }
 }

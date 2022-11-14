@@ -35,13 +35,52 @@ export class TsPlotComponent implements OnInit, OnDestroy {
   }
 
   set interactive(interactive) {
-    console.log('interactive', interactive);
     this.plot.config.staticPlot = !interactive;
     this.plot.updatePlot();
   }
   get interactive() {
     return !this.plot?.config.staticPlot || false;
   }
+
+  private _hideWeekends = false;
+  private hideWeekendsBounds =  {bounds:["sat", "mon"]};
+  set hideWeekends(hide:boolean) {
+    this._hideWeekends = hide;
+    let breaks = this.layout.xaxis.rangebreaks || [];
+    if (hide) {
+      breaks.push(this.hideWeekendsBounds);
+    } else {
+      breaks = breaks.filter(b => b !== this.hideWeekendsBounds);
+    }
+    this.layout.xaxis.rangebreaks = breaks;
+    this.plot.updatePlot();
+  }
+  get hideWeekends(): boolean {
+    return this._hideWeekends;
+  }
+  private _hideNonWorkHours= false;
+  private hideNonWorkHoursBounds =  {bounds:[18,8], pattern:"hour"};
+  set hideNonWorkHours(hide:boolean) {
+    this._hideNonWorkHours = hide;
+    let breaks = this.layout.xaxis.rangebreaks || [];
+    if (hide) {
+      breaks.push(this.hideNonWorkHoursBounds);
+      if (!this.hideWeekends) {
+        breaks.push(this.hideWeekendsBounds);
+      }      
+    } else {
+      breaks = breaks.filter(b => b !== this.hideNonWorkHoursBounds);
+      if (!this.hideWeekends) {
+        breaks = breaks.filter(b => b !== this.hideWeekendsBounds);
+      }
+    }
+    this.layout.xaxis.rangebreaks = breaks;
+    this.plot.updatePlot();
+  }
+  get hideNonWorkHours(): boolean {
+    return this._hideNonWorkHours;
+  }
+
 
   constructor() {
     this.config = {
@@ -101,7 +140,7 @@ export class TsPlotComponent implements OnInit, OnDestroy {
 
 
 function timeseriesToPlots(ts: MetricTimeseries) {
-  const so: any = ts.metadata.plotLayout || defaultSeriesOptions;
+  const so: any = ts.metadata.plot || defaultSeriesOptions;
   const series: any = {
     name: ts.fullName,
     x: ts.data.map(dp => dp.start),

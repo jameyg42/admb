@@ -23,7 +23,8 @@ export const is = (what:('string'|'number'|'bigint'|'boolean'|'array'|'object'))
 export const isArray = is('array');
 export const isString = is('string');
 export const isBoolean = is('boolean');
-export const isNumber = (o:any) => is('number')(o) || is('bigint')(o);
+export const isNumber = (o:any) => (is('number')(o) || is('bigint')(o));
+export const isValidNumber = (o:any) => isNumber(o) && !isNaN(o);
 
 export const asNumber = (o?:any) => isNumber(o) ? o as number : o ? parseFloat(o.toString()) : o;
 export const asBoolean = (o?:any) => {

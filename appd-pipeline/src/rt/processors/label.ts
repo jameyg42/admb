@@ -6,7 +6,8 @@ export class LabelProcessor extends BaseProcessor {
     execSeries(args:Arguments, series:MetricTimeseries):MetricTimeseries|Promise<MetricTimeseries> {
         const expr = args.expr as string || '%{name}'
         const model = merge({
-            args,  
+            args,
+            app: series.source?.app,
             n: series.name,
             s: [series.source.app].concat(series.source.path)
         }, series);

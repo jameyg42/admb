@@ -8,7 +8,7 @@ import { xor } from "@metlife/appd-libutils/out/crypto";
 })
 export class LoginService {
 
-  private userChange = new Subject();
+  private userChange = new Subject<any>();
   userChange$ = this.userChange.asObservable();
 
   constructor(private http: HttpClient) {}

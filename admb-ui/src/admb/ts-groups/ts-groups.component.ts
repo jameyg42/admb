@@ -12,6 +12,7 @@ export class TsGroupsComponent implements OnInit {
   private _groups: any; // the array of array nesting can be arbitrarily deep, so just use any
 
   flattenedGroups$: Observable<MetricTimeseries[][]>;
+  noResults = false;
 
   constructor() { }
 
@@ -23,6 +24,7 @@ export class TsGroupsComponent implements OnInit {
   }
   @Input()
   set groups(groups: any) {
+    this.noResults = false;
     this._groups = groups;
     function flatten(gs, r) {
       if (Array.isArray(gs) && Array.isArray(gs[0])) {
@@ -38,6 +40,9 @@ export class TsGroupsComponent implements OnInit {
     }
     const flat = [];
     flatten(groups, flat);
+    if (flat.length == 0 || flat.every(f => f.length == 0)) {
+      this.noResults = true;
+    }
     this.flattenedGroups$ = of(flat);
   }
 }

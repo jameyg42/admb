@@ -1,6 +1,10 @@
 import { Component, Input, ViewChild, AfterViewInit, ElementRef, Output, EventEmitter } from '@angular/core';
-import {EditorState, EditorView, basicSetup} from "@codemirror/basic-setup";
-import { Extension } from '@codemirror/state';
+import { basicSetup } from "codemirror";
+import { EditorState, Extension } from '@codemirror/state';
+import { EditorView } from "@codemirror/view";
+import { admb } from "@metlife/admb-lang";
+import { CodeEditorCompletionService } from './code-editor-completion.service';
+
 
 @Component({
   selector: 'admb-code-editor',
@@ -15,6 +19,10 @@ export class CodeEditorComponent implements AfterViewInit  {
   private editorView : EditorView;
 
   private _doc = 'testing';
+
+  constructor(private completionProvider:CodeEditorCompletionService) {
+  }
+
   @Input()
   get doc(): string {
     return this._doc;
@@ -46,6 +54,7 @@ export class CodeEditorComponent implements AfterViewInit  {
     const viewExtensions = this.extensions.slice();
     viewExtensions.push(basicSetup);
     viewExtensions.push(onUpdate);
+    viewExtensions.push(admb(this.completionProvider));
     
     const state = EditorState.create({
       doc: this.doc,

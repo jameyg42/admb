@@ -9,21 +9,21 @@ export class RelativeToProcessor extends BaseProcessor {
         // TODO we could combine all the paths and do a single search, but for now just
         // fire off a search per series
         const args = (node as CommandExpressionNode).args;
-        const path = args.path as string;
-        return Promise.all(
+        const paths = (args.path as string)?.split(';');
+        return Promise.all(paths.map(path => Promise.all(
             flattenDeep(ctx.groups.map(g => 
                 g.map(ts => 
                     ts.sources.map(s => {
+                        // FIXME the 'paths' should be fully parsed so we can get the ValueTypeNodes
                         const p = resolveRelative(s.path, path);
                         const x = ctx.global().providers.map(provider => {
-                            const search = new SearchExpressionNode(s.app, p, [], {} as SyntaxNode);
-                            return provider.fetchMetrics(ctx, search);
+                            return provider.fetchMetrics(ctx, s.app, p, []);
                         });
                         return x;
                     })
                 )
-            ))
-        )
+            )))
+        ))
         .then(flattenDeep)
         .then(results => {
             const mode = args.mode as string;
@@ -43,6 +43,8 @@ function resolveRelative(base:string[], path:string) {
     paths.forEach(p => {
         if (p == '..') {
             r.pop();
+        } else if (p == '.') {
+            // ignore
         } else {
             r.push(p);
         }

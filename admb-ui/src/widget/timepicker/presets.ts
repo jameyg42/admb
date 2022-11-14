@@ -1,83 +1,97 @@
-import {Range, between, beforeNow, zoom, slide} from './range';
-import * as moment from 'moment';
-export const PRESETS = [
+import { Range } from '@metlife/appd-libmetrics/out/range';
+import { DateTime } from '@metlife/appd-libutils/out/time';
+
+interface PresetSet {
+  section: string;
+  sets: (Preset|'-')[]
+}
+interface Preset {
+  label: string;
+  fn: () => Range;
+}
+
+export const PRESETS:PresetSet[]= [
   {
     section: 'Standard Presets',
     sets : [
       {
         label: '5 minutes',
-        fn: () => beforeNow(5)
+        fn: () => Range.beforeNow({"minutes":5})
       },
       {
         label: '15 minutes',
-        fn: () => beforeNow(15)
+        fn: () => Range.beforeNow({"minutes":15})
       },
       {
         label: '30 minutes',
-        fn: () => beforeNow(30)
+        fn: () => Range.beforeNow({"minutes":30})
       },
       '-',
       {
         label: '1 hour',
-        fn: () => beforeNow(moment.duration(1, 'hour'))
+        fn: () => Range.beforeNow({"hours":1})
       },
       {
         label: '2 hours',
-        fn: () => beforeNow(moment.duration(2, 'hour'))
+        fn: () => Range.beforeNow({"hours":2})
       },
       {
         label: '4 hours',
-        fn: () => beforeNow(moment.duration(4, 'hour'))
+        fn: () => Range.beforeNow({"hours":4})
       },
       '-',
       {
         label: '1 day',
-        fn: () => beforeNow(moment.duration(1, 'day'))
+        fn: () => Range.beforeNow({"days":1})
       },
       {
         label: '3 days',
-        fn: () => beforeNow(moment.duration(3, 'day'))
+        fn: () => Range.beforeNow({"days":3})
       },
       {
         label: '1 week',
-        fn: () => beforeNow(moment.duration(7, 'day'))
+        fn: () => Range.beforeNow({"weeks":1})
       },
       {
         label: '2 weeks',
-        fn: () => beforeNow(moment.duration(14, 'day'))
+        fn: () => Range.beforeNow({"weeks":2})
       },
       '-',
       {
         label: '1 month',
-        fn: () => beforeNow(moment.duration(30, 'day'))
+        fn: () => Range.beforeNow({"months":1})
       },
       {
         label: '3 months',
-        fn: () => beforeNow(moment.duration(90, 'day'))
+        fn: () => Range.beforeNow({"months":3})
       },
     ]
   }, {
     section: 'Other',
     sets: [
       {
+        label: 'Today',
+        fn : () => Range.between(DateTime.now().startOf('day'), DateTime.now())
+      },
+      {
         label: 'Yesterday',
-        fn : () => between(moment().subtract(1, 'day').startOf('day'), moment().startOf('day'))
+        fn : () => Range.between(DateTime.now().startOf('day').minus({'day':1}), DateTime.now().startOf('day'))
       },
       {
         label: 'This week',
-        fn: () => between(moment().startOf('week'), moment())
+        fn: () => Range.between(DateTime.now().startOf('week'), DateTime.now())
       },
       {
         label: 'Last week',
-        fn: () => between(moment().subtract(1, 'week').startOf('week'), moment().startOf('week'))
+        fn: () => Range.between(DateTime.now().minus({'week':1}).startOf('week'), DateTime.now().startOf('week'))
       },
       {
         label: 'This month',
-        fn: () => between(moment().startOf('month'), moment())
+        fn: () => Range.between(DateTime.now().startOf('month'), DateTime.now())
       },
       {
         label: 'Last month',
-        fn: () => between(moment().subtract(1, 'month').startOf('month'), moment().startOf('month'))
+        fn: () => Range.between(DateTime.now().minus({'month':1}).startOf('month'), DateTime.now().startOf('month'))
       }
     ]
   }
