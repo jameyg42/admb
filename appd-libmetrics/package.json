@@ -1,6 +1,6 @@
 {
   "name": "@metlife/appd-libmetrics",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "description": "a simple metrics/timeseries library",
   "author": "Jamey Graham <jgraham@metlife.com>",
   "license": "UNLICENSED",

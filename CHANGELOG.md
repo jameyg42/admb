@@ -5,7 +5,7 @@ version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
 
-## [Unreleased]
+## [3.0.0]
 ### Added
 - [project] notable changes now tracked in CHANGELOG.md
 - [appd-pipeline] rough support for `%{variables}` in string and search values
@@ -23,6 +23,7 @@ packages will not be published.
 - [admb-ui] modified `TimePicker` to use libmetrics `Range` type and restored Relative time selection
 - [appd-pipeline] MetricsProvider SPI changed to support autocomplete functions.  For now, this also ties the
   SPI to the grammar specifics (app,path,valueTypes)
+- [appd-services] added support for SAML-based logins for MetLife's Siteminder-based SAML login flow
 
 ### Fixed
 - [appd-libutils] only first alternatives glob is converted to regex / matched

@@ -1,6 +1,6 @@
 {
   "name": "@metlife/admb-lang",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "description": "codemirror language pack for appd-pipeline grammar",
   "author": "Jamey Graham <jgraham@metlife.com>",
   "license": "UNLICENSED",

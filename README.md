@@ -27,6 +27,6 @@ The package where things that don't belong anywhere else go....
 ### appd-pipeline
 The "pipeline" is basically the backend implementation of the AppDynamics Metrics Browser (ADMB).  It includes the pipeline grammer, compiler, and runtime.  
 
-### admb-ui, admb-server
+### admb-ui, admb-server, admb-lang, admb-lang-tester
 The Angular-based user-interface for the AppDynamics Metrics Browser (ADMB) and
-the thin server-side.  See admb-ui/README.md for more.
+the thin server-side, and supporting utilities. See admb-ui/README.md for more.
