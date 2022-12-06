@@ -1,7 +1,8 @@
 import { Component, Input, ViewChild, AfterViewInit, ElementRef, Output, EventEmitter } from '@angular/core';
-import { basicSetup } from "codemirror";
+import { defaultKeymap, history, historyKeymap, indentWithTab } from "@codemirror/commands";
+import { EditorView, keymap, drawSelection, highlightSpecialChars, highlightActiveLine, lineNumbers, highlightActiveLineGutter} from "@codemirror/view";
+import { autocompletion, completionKeymap, closeBrackets, closeBracketsKeymap } from "@codemirror/autocomplete";
 import { EditorState } from '@codemirror/state';
-import { EditorView } from "@codemirror/view";
 import { lezer } from "@codemirror/lang-lezer";
 import { debounceTime, Subject } from 'rxjs';
 
@@ -57,7 +58,21 @@ export class EditorComponent implements AfterViewInit  {
       }
     })
     const viewExtensions = [
-      basicSetup,
+      autocompletion(),
+      lineNumbers(),
+      drawSelection(),
+      highlightActiveLineGutter(),
+      highlightSpecialChars(),
+      history(),
+      closeBrackets(),
+      highlightActiveLine(),
+      keymap.of([
+        ...defaultKeymap,
+        ...historyKeymap,
+        ...completionKeymap,
+        ...closeBracketsKeymap,
+        indentWithTab,
+      ]),
       onUpdate,
       lezer()   
     ];

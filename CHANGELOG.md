@@ -5,7 +5,10 @@ version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
 
-## [3.0.0]
+## [UNRELEASED]
+### Changed
+- [admb-ui] replaced codemirror `basicSetup` dep with individual modules and streamlined editor features
+## [3.0.0] - 2022-11-14
 ### Added
 - [project] notable changes now tracked in CHANGELOG.md
 - [appd-pipeline] rough support for `%{variables}` in string and search values

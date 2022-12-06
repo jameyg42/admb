@@ -21,7 +21,6 @@ export class ExprEditorComponent {
 
   constructor(private ngZone: NgZone) {
     const execExpr: Command = view => {
-      console.log('ctrl+enter command')
       this.exprExecute.emit(this.expr);
       return true;
     };
