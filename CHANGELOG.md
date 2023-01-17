@@ -8,6 +8,8 @@ packages will not be published.
 ## [UNRELEASED]
 ### Changed
 - [admb-ui] replaced codemirror `basicSetup` dep with individual modules and streamlined editor features
+- [project] updated to Angular@15 (currency chore) and other minor dep updates
+
 ## [3.0.0] - 2022-11-14
 ### Added
 - [project] notable changes now tracked in CHANGELOG.md
