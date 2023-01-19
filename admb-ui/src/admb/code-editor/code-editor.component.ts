@@ -1,7 +1,8 @@
 import { Component, Input, ViewChild, AfterViewInit, ElementRef, Output, EventEmitter } from '@angular/core';
-import { basicSetup } from "codemirror";
+import { defaultKeymap, history, historyKeymap, indentWithTab } from "@codemirror/commands";
+import { EditorView, keymap, drawSelection, highlightSpecialChars, highlightActiveLine, lineNumbers, highlightActiveLineGutter} from "@codemirror/view";
+import { autocompletion, completionKeymap, closeBrackets, closeBracketsKeymap } from "@codemirror/autocomplete";
 import { EditorState, Extension } from '@codemirror/state';
-import { EditorView } from "@codemirror/view";
 import { admb } from "@metlife/admb-lang";
 import { CodeEditorCompletionService } from './code-editor-completion.service';
 
@@ -51,14 +52,29 @@ export class CodeEditorComponent implements AfterViewInit  {
         this.docChange.emit(this._doc);
       }
     })
-    const viewExtensions = this.extensions.slice();
-    viewExtensions.push(basicSetup);
-    viewExtensions.push(onUpdate);
-    viewExtensions.push(admb(this.completionProvider));
+    const extensions = this.extensions.concat(
+      autocompletion(),
+      lineNumbers(),
+      drawSelection(),
+      highlightActiveLineGutter(),
+      highlightSpecialChars(),
+      history(),
+      closeBrackets(),
+      highlightActiveLine(),
+      keymap.of([
+        ...defaultKeymap,
+        ...historyKeymap,
+        ...completionKeymap,
+        ...closeBracketsKeymap,
+        indentWithTab,
+      ]),
+      onUpdate,
+      admb(this.completionProvider),
+    )
     
     const state = EditorState.create({
       doc: this.doc,
-      extensions: viewExtensions
+      extensions
     });
     this.editorView = new EditorView({
       state: state,

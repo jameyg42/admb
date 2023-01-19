@@ -1,6 +1,6 @@
 {
   "name": "@metlife/appd-libutils",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "miscellaneous utilities",
   "author": "Jamey Graham <jgraham@metlife.com>",
   "license": "UNLICENSED",
@@ -26,7 +26,7 @@
   "devDependencies": {
     "@types/luxon": "^3.0.1",
     "jest": "^27.4.7",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.8.2"
+    "rimraf": "^4.1.0",
+    "typescript": "~4.8.2"
   }
 }

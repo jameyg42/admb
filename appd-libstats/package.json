@@ -1,6 +1,6 @@
 {
   "name": "@metlife/appd-libstats",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "a simple statistics library",
   "author": "Jamey Graham <jgraham@metlife.com>",
   "license": "UNLICENSED",
@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "jest": "^27.4.7",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.8.2"
+    "rimraf": "^4.1.0",
+    "typescript": "~4.8.2"
   }
 }
