@@ -5,7 +5,7 @@ version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
 
-## [UNRELEASED]
+## [3.0.1]
 ### Changed
 - [admb-ui] replaced codemirror `basicSetup` dep with individual modules and streamlined editor features
 - [project] updated to Angular@15 (currency chore) and other minor dep updates
