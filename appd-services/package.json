@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@metlife/appd-libutils": "*",
-    "axios": "^1.1.3",
+    "axios": "1.2.2",
     "lodash": "^4.17.21",
     "node-html-parser": "^6.1.1",
     "rxjs": "~7.5.0",

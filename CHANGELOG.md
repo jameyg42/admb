@@ -13,6 +13,7 @@ packages will not be published.
 ### Fixed
 - [admb-ui] set a `min-height` style on Plotly `DIV`s as a tactical fix for `0px` height plots that can occur during
             plot redraws (window resize or option changes)
+- [appd-services] pinned to axios@1.2.2.  Axios@1.2.3 introduced a breaking API change (this likely was by accident)
 
 ## [3.0.0] - 2022-11-14
 ### Added
