@@ -10,6 +10,10 @@ packages will not be published.
 - [admb-ui] replaced codemirror `basicSetup` dep with individual modules and streamlined editor features
 - [project] updated to Angular@15 (currency chore) and other minor dep updates
 
+### Fixed
+- [admb-ui] set a `min-height` style on Plotly `DIV`s as a tactical fix for `0px` height plots that can occur during
+            plot redraws (window resize or option changes)
+
 ## [3.0.0] - 2022-11-14
 ### Added
 - [project] notable changes now tracked in CHANGELOG.md

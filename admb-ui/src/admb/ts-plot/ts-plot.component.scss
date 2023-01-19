@@ -5,6 +5,9 @@
 ::ng-deep .p-inputswitch {
    transform: scale(.8);
 }
+::ng-deep .js-plotly-plot {
+   min-height: 400px;
+}
 .interactive-switch {
    color: #666;
 }
