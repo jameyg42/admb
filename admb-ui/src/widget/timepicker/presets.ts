@@ -39,6 +39,10 @@ export const PRESETS:PresetSet[]= [
         label: '4 hours',
         fn: () => Range.beforeNow({"hours":4})
       },
+      {
+        label: '8 hours',
+        fn: () => Range.beforeNow({"hours":8})
+      },
       '-',
       {
         label: '1 day',
@@ -51,6 +55,10 @@ export const PRESETS:PresetSet[]= [
       {
         label: '1 week',
         fn: () => Range.beforeNow({"weeks":1})
+      },
+      {
+        label: '8 days',
+        fn: () => Range.beforeNow({"days":8})
       },
       {
         label: '2 weeks',
@@ -80,6 +88,10 @@ export const PRESETS:PresetSet[]= [
       {
         label: 'This week',
         fn: () => Range.between(DateTime.now().startOf('week'), DateTime.now())
+      },
+      {
+        label: 'A week ago',
+        fn: () => Range.between(DateTime.now().minus({'week':1}).startOf('day'), DateTime.now().minus({'week':1}).endOf('day'))
       },
       {
         label: 'Last week',

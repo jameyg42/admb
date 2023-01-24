@@ -7,7 +7,7 @@ import { App, Baseline } from '../app';
 
 const metricTreeCache = new cache.ReadThroughCache({stdTTL: 10 * 60});
 const fixedRangeMetricCache = new cache.ReadThroughCache({stdTTL: 10 * 60});
-const relativeRangeMetricCache = new cache.ReadThroughCache({stdTTL: 2 * 60});
+const relativeRangeMetricCache = new cache.ReadThroughCache({stdTTL: 1 * 60});
 
 function cacheFor(range:Range) {
     return range.type === 'BEFORE_NOW' ? relativeRangeMetricCache : fixedRangeMetricCache;
