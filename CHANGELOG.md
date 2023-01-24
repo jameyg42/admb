@@ -5,7 +5,20 @@ version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
 
-## [3.0.1]
+
+## [3.0.2] - 2023-01-24
+### Added
+- [admb-ui] additional time range presets
+### Changed
+- [admb-ui] automatic autocomplete of PathSegments (experimental)
+- [appd-services] reduced relative range caching to 1 minute (was 2)
+
+### Fixed
+- [admb-ui] Application autocomplete now works when left-adjacent to the Application node
+- [admb-ui] bump PrimeNG version to fix drop-down issue (see https://github.com/primefaces/primeng/issues/12525)
+- [admb-ui] fixed issue w/ timeselector "between" calendar widgets rendering offscreen
+
+## [3.0.1] - 2023-01-19
 ### Changed
 - [admb-ui] replaced codemirror `basicSetup` dep with individual modules and streamlined editor features
 - [project] updated to Angular@15 (currency chore) and other minor dep updates
