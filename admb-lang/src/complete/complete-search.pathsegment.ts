@@ -18,9 +18,6 @@ import { findParent, getContextNode, getLeftAdjacent, nodeEquals, NO_RESULT, tex
  * @returns 
  */
 export const SearchPathSegmentCompletionSource:AdmbCompletionSource = (context:CompletionContext, provider:AdmbCompletionProvider) => {
-   if (!context.explicit) {
-      return NO_RESULT;
-   }
    const search = findParent("SearchCommandExpression", context);
    if (search) {
       const appNode = search.getChild("Application");

@@ -18,8 +18,13 @@ export const SearchApplicationCompletionSource:AdmbCompletionSource = (context:C
    if (ctx?.name == "Command" || ctx?.name == "Application") {
       return results(ctx.from, ctx.to, provider);
    } 
-   else if (getLeftAdjacent(context) == null) {
+
+   const left = getLeftAdjacent(context);
+   if (left == null) {
       return results(context.pos, context.pos, provider);
+   }
+   if (ctx != null && left?.name == "Application") {
+      return results(left.from, left.to, provider);
    }
    return NO_RESULT;
 }
