@@ -97,11 +97,10 @@ export class MetricsExServices {
                 baselines.map(bl => this.metrics.fetchMetricBaselineData(metricNodes, range, bl, granularity))
             )
             .then(baselineMetrics => {
-                metrics.forEach((m, i) => {
-                    const baselines = baselineMetrics[i];
-                    m.baselineData = baselines.map(b => ({
-                        baseline: b.baseline,
-                        data: b.data
+                metrics.forEach((m, mi) => {
+                    m.baselineData = baselines.map((b, bi) => ({
+                        baseline: b,
+                        data: baselineMetrics[bi][mi].data
                     } as BaselineData))
                 });
                 return metrics;

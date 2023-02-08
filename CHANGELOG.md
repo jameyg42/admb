@@ -5,6 +5,9 @@ version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
 
+## UNRELEASED ##
+### Fixed
+- [appd-services] fixed issue where baseline metrics for more than one metric could not be fetched
 
 ## [3.0.2] - 2023-01-24
 ### Added
