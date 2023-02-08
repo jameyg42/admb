@@ -6,6 +6,8 @@ will be published at once with the same version number, but unchanged
 packages will not be published.
 
 ## UNRELEASED ##
+### Added
+- [appd-metrics] added additional reducer 'aliases' to the `reduce` op reducerMap
 ### Fixed
 - [appd-services] fixed issue where baseline metrics for more than one metric could not be fetched
 

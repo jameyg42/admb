@@ -23,8 +23,9 @@ export const reduce = (tss:MetricTimeseriesGroup, fn:ReducerFn<number,number>, g
 }
 export default reduce;
 export const reducersMap = {
-    avg, sum, difference, product, min, max
+    avg, sum, difference, product, min, max, diff:difference, multiply:product
 } as ({[key:string]:ReducerFn<number,number>});
 
 // hack - the reducers are currently created using arrows and don't have a name
 Object.entries(reducersMap).forEach(([k,f]) => (f as any)._name = k);
+
