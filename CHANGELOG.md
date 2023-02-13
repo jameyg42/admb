@@ -10,6 +10,7 @@ packages will not be published.
 - [appd-metrics] added additional reducer 'aliases' to the `reduce` op reducerMap
 ### Fixed
 - [appd-services] fixed issue where baseline metrics for more than one metric could not be fetched
+- [appd-pipeline] fixed issue where falsey required argument values were causing compile errors
 
 ## [3.0.2] - 2023-01-24
 ### Added
