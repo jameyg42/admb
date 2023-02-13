@@ -161,7 +161,7 @@ export function compile(expr: string) {
         cmdArgs
             .filter(arg => !(arg.optional))
             .forEach(arg => {
-                if (!args[arg.name]) {
+                if (args[arg.name] === undefined) {
                     throw new SyntaxError(`required argument '${arg.name}' not provided`, cmdNode, expr);
                 }
             })
