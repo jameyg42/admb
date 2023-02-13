@@ -5,7 +5,7 @@ version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
 
-## UNRELEASED ##
+## [3.1.0] - 2023-02-13 ##
 ### Added
 - [appd-metrics] added additional reducer 'aliases' to the `reduce` op reducerMap
 ### Fixed
