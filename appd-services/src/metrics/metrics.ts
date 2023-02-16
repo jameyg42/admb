@@ -1,8 +1,8 @@
 import { Metric, MetricData, MetricNode, PathArg } from './types';
 import { createHash } from 'crypto';
+import { Client } from '@metlife/appd-client';
 import { cache } from '@metlife/appd-libutils';
 import { Range, defaultRange } from '../range';
-import { Client } from '../client';
 import { App, Baseline } from '../app';
 
 const metricTreeCache = new cache.ReadThroughCache({stdTTL: 10 * 60});

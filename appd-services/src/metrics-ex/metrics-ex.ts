@@ -1,7 +1,7 @@
 import { isGlob, toRex } from "@metlife/appd-libutils/out/glob";
+import { Client } from "@metlife/appd-client";
 import { MetricsServices, Path, MetricNode } from '../metrics';
 import { App, Baseline } from '../app';
-import { Client } from "../client";
 import { Range, defaultRange } from "../range";
 import { PathExArg, PathEx, MetricEx, BaselineData } from "./types";
 import { VNodeServices } from "../vnodes";

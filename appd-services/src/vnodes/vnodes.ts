@@ -1,4 +1,4 @@
-import { Client } from "../client";
+import { Client } from "@metlife/appd-client";
 import { Range, defaultRange } from "../range";
 
 import { MetricsServices, Path, MetricNode, PathArg } from "../metrics";

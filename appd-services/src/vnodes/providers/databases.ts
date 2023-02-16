@@ -1,5 +1,5 @@
 import { App } from "../../app";
-import { Client } from "../../client";
+import { Client } from "@metlife/appd-client";
 import { MetricNode, Path } from "../../metrics";
 import { fix, Range } from "../../range";
 import { VNodeProvider, VNodeMapping, createVNode, createMapping } from "../vnodes";

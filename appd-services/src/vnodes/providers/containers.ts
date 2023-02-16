@@ -1,7 +1,7 @@
 import { VNodeProvider, VNodeMapping, createVNode, createMapping} from '../vnodes';
 import { MetricNode, Path } from '../../metrics';
 import { Range, fix } from '../../range';
-import { Client } from '../../client';
+import { Client } from '@metlife/appd-client';
 import { App } from '../../app';
 
 const SERVERS = {id:3}; // FIXME - this isn't true across all controllers
