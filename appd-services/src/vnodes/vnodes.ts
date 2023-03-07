@@ -11,14 +11,13 @@ import { App } from "../app";
 
 export interface VNodeMapping {
     app: App;
-    mappedTo: Path
+    mappedTo: Path;
 }
 export interface VNodeProvider {
     name: string;
     resolveVirtualNodes(client:Client, app:App, path:Path, range:Range): Promise<(MetricNode|VNodeMapping)[]>
 }
 
-// FIXME providers are currently using hardcoded appIds which won't work for SaaS
 export function createMapping(app: App, mappedTo:Path):VNodeMapping {
      return {app, mappedTo} as VNodeMapping;
 }
@@ -55,6 +54,7 @@ export class VNodeServices {
             : client.then(c => new VNodeServices(c));
     }
     browseTree(app:App, pathArg:PathArg, range:Range = defaultRange):Promise<MetricNode[]> {
+        const metrics = this.metrics || this;
         const path:Path = Array.isArray(pathArg) ? pathArg : pathArg.split('|');
         if (path.length == 0) { // root nodes
             return Promise.resolve(providers.map(p => createVNode(p.name, app, [])));
@@ -70,7 +70,7 @@ export class VNodeServices {
                 Promise.all( // resolve any Mappings to the MetricNode
                 vnodes.map(vn => {
                     if ((vn as VNodeMapping).mappedTo) {
-                        return this.metrics.browseTree((vn as VNodeMapping).app, (vn as VNodeMapping).mappedTo, range)
+                        return metrics.browseTree((vn as VNodeMapping).app, (vn as VNodeMapping).mappedTo, range)
                         .then(ns => ns.map(n => {
                             n.path = path.concat(n.path.slice(-1));
                             return n;

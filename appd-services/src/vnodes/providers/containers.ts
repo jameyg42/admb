@@ -2,9 +2,9 @@ import { VNodeProvider, VNodeMapping, createVNode, createMapping} from '../vnode
 import { MetricNode, Path } from '../../metrics';
 import { Range, fix } from '../../range';
 import { Client } from '@metlife/appd-client';
-import { App } from '../../app';
+import { App, AppServices } from '../../app';
 
-const SERVERS = {id:3}; // FIXME - this isn't true across all controllers
+const SIM="Server & Infrastructure Monitoring";
 
 function listContainersForApp(client:Client, app:App, path:Path, range:Range):Promise<MetricNode[]> {
     range = fix(range);
@@ -46,7 +46,11 @@ function listMetricsForContainer(client:Client, app:App, path:Path, range:Range)
     const hierarchy = path[1].split('-');
     const name = hierarchy.slice(-1)[0];
     const hn = (['Root', 'Containers'].concat(hierarchy.slice(0, -1)).join('|'));
-    return Promise.resolve([createMapping(SERVERS, ['Application Infrastructure Performance', hn, 'Individual Nodes', name].concat(remainder))]);
+    const mapping = new AppServices(client).findApps(SIM)
+        .then(serverApps => serverApps.map(servers => 
+            createMapping(servers, ['Application Infrastructure Performance', hn, 'Individual Nodes', name].concat(remainder))
+        ));
+    return mapping;
 }
 
 export class ContainerVnodeProvider implements VNodeProvider {

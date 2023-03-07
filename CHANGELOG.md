@@ -12,6 +12,9 @@ packages will not be published.
 ### Changed
 - [appd-services] use separate @metlife/appd-client module 
   (@metlife/appd-services/client is still exported for backwards compat)
+- [appd-services] Database virtual nodes now use the DBMON Database name instead of the backend name
+### Fixed
+- [appd-services] virtual nodes now work with SaaS controllers 
 ### Deprecated
 - [appd-services] deprecated the use of the appd-services/client export - use the `@metlife/appd-client` 
   top level package instead.
