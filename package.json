@@ -13,7 +13,7 @@
     "package": "npm run build && npm run package:only",
     "package:only": "npm run package --workspaces --if-present",
     "package:incremental": "npm run build:incremental && npm run package:only",
-    "publish": "npm publish --workspace appd-libutils --workspace appd-libstats --workspace appd-libmetrics --workspace appd-services --workspace appd-pipeline",
+    "publish": "npm publish --workspace appd-libutils --workspace appd-libstats --workspace appd-libmetrics --workspace appd-client --workspace appd-services --workspace appd-pipeline",
     "debug:server": "nodemon admb-server/src/index.ts",
     "debug:ui": "npm run watch --workspace admb-ui",
     "debug": "npm-run-all -p -r debug:server debug:ui"
@@ -21,6 +21,7 @@
   "workspaces": [
     "appd-libutils",
     "appd-libstats",
+    "appd-client",
     "appd-libmetrics",
     "appd-services",
     "appd-pipeline",

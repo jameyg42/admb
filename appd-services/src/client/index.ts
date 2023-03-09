@@ -1,1 +1,1 @@
-export { Client } from './client';
+export * from "@metlife/appd-client";

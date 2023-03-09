@@ -5,6 +5,20 @@ version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
 
+## [3.2.0] - 2023-03-09##
+### Added
+- [appd-client] new `@metlife/appd-client` module.  This is just the `@metlife/appd-services/client`
+  export broken out into its own top-level module.
+### Changed
+- [appd-services] use separate @metlife/appd-client module 
+  (@metlife/appd-services/client is still exported for backwards compat)
+- [appd-services] Database virtual nodes now use the DBMON Database name instead of the backend name
+### Fixed
+- [appd-services] virtual nodes now work with SaaS controllers 
+### Deprecated
+- [appd-services] deprecated the use of the appd-services/client export - use the `@metlife/appd-client` 
+  top level package instead.
+
 ## [3.1.0] - 2023-02-13 ##
 ### Added
 - [appd-metrics] added additional reducer 'aliases' to the `reduce` op reducerMap
@@ -31,7 +45,7 @@ packages will not be published.
 
 ### Fixed
 - [admb-ui] set a `min-height` style on Plotly `DIV`s as a tactical fix for `0px` height plots that can occur during
-            plot redraws (window resize or option changes)
+  plot redraws (window resize or option changes)
 - [appd-services] pinned to axios@1.2.2.  Axios@1.2.3 introduced a breaking API change (this likely was by accident)
 
 ## [3.0.0] - 2022-11-14

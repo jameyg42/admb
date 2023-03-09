@@ -1,12 +1,13 @@
-import { App } from "../../app";
-import { Client } from "../../client";
+import { App, AppServices } from "../../app";
+import { Client } from "@metlife/appd-client";
 import { MetricNode, Path } from "../../metrics";
 import { fix, Range } from "../../range";
 import { VNodeProvider, VNodeMapping, createVNode, createMapping } from "../vnodes";
+import { flatten } from "lodash";
 
-const DBMON = {id:1}; // FIXME
+const DBMON = 'Database Monitoring';
 
-function listDatabasesForApp(client:Client, app:App, path:Path, range:Range): Promise<MetricNode[]> {
+function listMappedDatabaseBackendsForApp(client:Client, app: App, range: Range):Promise<any[]> {
     range = fix(range);
     
     const req = {
@@ -21,64 +22,58 @@ function listDatabasesForApp(client:Client, app:App, path:Path, range:Range): Pr
     };
 
     return client.post<any>('/restui/backend/list/database', req)
-        .then(dbs => dbs.data.map((db:any) => createVNode(db.name, app, path, 0, 'DATABASE', db.id)))
+        .then(rsp => rsp.data as any[])
+        .then(dbs => dbs.filter(db => db.dbBackendStatus != 'UNMAPPED'));
 }
-function databaseIds(client:Client, dbIds:number[], range:Range) {
-    range = fix(range);
-    const req = {
-        "requestFilter":dbIds,
-        "resultColumns":["TYPE","RESPONSE_TIME","CALLS","CALLS_PER_MIN","ERRORS","ERRORS_PER_MIN"],
-        "offset":0,"limit":-1,"searchFilters":[],"columnSorts":[{"column":"NAME","direction":"ASC"}],
-        "timeRangeStart": range.startTime,
-        "timeRangeEnd": range.endTime
-    };
-    return client.post('/restui/backend/list/database/ids', req);
+function mapBackendToDatabase(client:Client, backendId:number):Promise<any> {
+    // ecchh....this is a terrible way to get the DBMON db id, but it seems to be how the UI
+    // currently does it
+    return client.get<any>(`/restui/backendFlowMapUiService/backend/${backendId}?time-range=last_3_months.BEFORE_NOW.-1.-1.129600&mapId=-1&baselineId=-1`)
+        .then(flowMap => {
+            if (flowMap.nodes.length == 0) {
+                return null;
+            }
+            const dbServer = flowMap.nodes[1].dbBackendInfo.server;
+            return {
+                id: (dbServer.id as number),
+                name: (dbServer.serverName as string)
+            };
+        });
 }
-function listDatabaseMetricsFor(client:Client, app:App, path:Path, range:Range): Promise<MetricNode[]> {
-    return listDatabasesForApp(client, app, path.slice(0,1), range)
-            .then(dbs => {
-                const dbIds = dbs
-                    .filter((db:any) => db.name == path[1])
-                    .map((db:any) => db.entityId);
-                return databaseIds(client, dbIds, range);
-            })
-            .then((dbs:any) => dbs.data.map((db:any) => mapDb(db, app, path)))
+function listDatabaseBackendsAsMetrics(client:Client, app:App, path:Path, range:Range):Promise<MetricNode[]> {
+    return listMappedDatabaseBackendsForApp(client, app, range)
+        .then(backends => Promise.all(
+            backends.map(backend => mapBackendToDatabase(client, backend.id))
+        ))
+        .then(databases => {
+            // backends are scoped to a tier, so there will often be multiple backends for the same DB
+            // unique the list here
+            return databases
+                .filter(d => d !== null)
+                .sort((a, b) => (a.name as string).localeCompare(b.name))
+                .filter((d, i, a) => i == 0 || a[i].name !== d.name);
+        })
+        .then(databases => databases.map(db => createVNode(db.name, app, path)))
 }
-const mappings = {
-    'averageResponseTime': 'Average Response Time (ms)',
-    'callsPerMinute': 'Calls per Minute',
-    'errorsPerMinute': 'Errors per Minute'
-} as any;
-function mapDb(db:any, app:App, path:Path) {
-    return Object.entries(mappings)
-        .filter(([k, n]) => db.performanceStats[k].metricId > 0)
-        .map(([k, n]:[any,any]) => createVNode(n, app, path.concat([n]), db.performanceStats[k].metricId, 'APPLICATION', app.id))
-}
-function findMappedDb(client:Client, app:App, path:Path, range:Range): Promise<VNodeMapping[]> {
-    return listDatabasesForApp(client, app, path, range)
-        .then(dbs => dbs.filter(db => db.name == path[1]))
-        .then(dbs => Promise.all(dbs.map(db => 
-            client.get<any>(`databasesui/databases/backendMapping/getMappedDBServer?backendId=${db.entityId}`)
-        )))
-        .then(mdbs => mdbs
-            .filter(mdb => mdb)
-            .map(mdb => {
-                const remainder = path.slice(3);
-                const mapping = createMapping(DBMON, ['Databases', mdb.name].concat(remainder));
-                return mapping;
-            })
-        );
-}
+function createDatabaseVNodeMapping(client:Client, path:Path): Promise<VNodeMapping[]> {
+    return new AppServices(client).findApps(DBMON)
+        .then(dbmon => dbmon.map(db => createMapping(db, path)));
+} 
 
 export class DatabaseVnodeProvider implements VNodeProvider {
     name = 'Databases';
     resolveVirtualNodes(client:Client, app:App, path:Path, range:Range): Promise<(MetricNode|VNodeMapping)[]> {
+        if (app.name == DBMON) {
+            return Promise.resolve([]);
+        }
         if (path.length == 1) {
-            return listDatabasesForApp(client, app, path, range);
-        } else if (path.length > 2 && path[2] == 'mapped') {
-            return findMappedDb(client, app, path, range);
-        } else {
-            return listDatabaseMetricsFor(client, app, path, range);
+            return listDatabaseBackendsAsMetrics(client, app, path, range);
+        } 
+        else if (path.length > 1) {
+            return createDatabaseVNodeMapping(client, path);
+        }
+        else {
+            return Promise.resolve([]);
         }
     }
 }
