@@ -28,8 +28,11 @@ function listMappedDatabaseBackendsForApp(client:Client, app: App, range: Range)
 function mapBackendToDatabase(client:Client, backendId:number):Promise<any> {
     // ecchh....this is a terrible way to get the DBMON db id, but it seems to be how the UI
     // currently does it
-    return client.get<any>(`/restui/backendFlowMapUiService/backend/${backendId}?time-range=last_1_hour.BEFORE_NOW.-1.-1.60&mapId=-1&baselineId=-1`)
+    return client.get<any>(`/restui/backendFlowMapUiService/backend/${backendId}?time-range=last_3_months.BEFORE_NOW.-1.-1.129600&mapId=-1&baselineId=-1`)
         .then(flowMap => {
+            if (flowMap.nodes.length == 0) {
+                return null;
+            }
             const dbServer = flowMap.nodes[1].dbBackendInfo.server;
             return {
                 id: (dbServer.id as number),
@@ -46,6 +49,7 @@ function listDatabaseBackendsAsMetrics(client:Client, app:App, path:Path, range:
             // backends are scoped to a tier, so there will often be multiple backends for the same DB
             // unique the list here
             return databases
+                .filter(d => d !== null)
                 .sort((a, b) => (a.name as string).localeCompare(b.name))
                 .filter((d, i, a) => i == 0 || a[i].name !== d.name);
         })
