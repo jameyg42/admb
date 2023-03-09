@@ -1,6 +1,8 @@
 import { default as axios, AxiosInstance, AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Observer, Subject, Subscription } from 'rxjs';
 import { parse as parseCookie, Cookie } from 'tough-cookie';
+import { Agent as HttpAgent } from 'http';
+import { Agent as HttpsAgent } from 'https';
 
 export const REQUEST = Symbol("REQUEST");
 export interface HttpCookie extends Cookie {}
@@ -16,6 +18,12 @@ export interface Cancellable {
     cancel: Function;
 }
 
+// this should probably be more configurable on a per-controller-host basis, but for now
+// just prevent service calls from overwhelming the controllers
+const httpAgent  = new HttpAgent({keepAlive: true, maxSockets: 8});
+const httpsAgent = new HttpsAgent({keepAlive: true, maxSockets: 8});
+
+
 export class HttpClient {
     private http: AxiosInstance;
     private errors$ = new Subject<HttpError>();
@@ -27,7 +35,9 @@ export class HttpClient {
         }, defaultOptions?.headers);
 
         const options = Object.assign({
-            timeout: 30 * 1000
+            timeout: 30 * 1000,
+            httpAgent,
+            httpsAgent
         }, defaultOptions, {
             headers: mergedHeaders
         });

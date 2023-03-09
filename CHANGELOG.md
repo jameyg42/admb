@@ -5,7 +5,10 @@ version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
 
-## [3.2.0] - 2023-03-09##
+## UNRELEASED ##
+### Changed
+- [appd-client] set maxSockets for the underlying NodeJS `http.Agent` to prevent thrashing the controller
+## [3.2.0] - 2023-03-09 ##
 ### Added
 - [appd-client] new `@metlife/appd-client` module.  This is just the `@metlife/appd-services/client`
   export broken out into its own top-level module.
