@@ -8,6 +8,7 @@ packages will not be published.
 ## UNRELEASED ##
 ### Changed
 - [appd-client] set maxSockets for the underlying NodeJS `http.Agent` to prevent thrashing the controller
+
 ## [3.2.0] - 2023-03-09 ##
 ### Added
 - [appd-client] new `@metlife/appd-client` module.  This is just the `@metlife/appd-services/client`
