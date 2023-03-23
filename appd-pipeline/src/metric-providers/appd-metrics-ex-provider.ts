@@ -1,4 +1,4 @@
-import { MetricTimeseries } from "@metlife/appd-libmetrics";
+import { MetricTimeseries, normalizeSeriesRange } from "@metlife/appd-libmetrics";
 import { MetricsProvider, ValueType } from "./spi";
 import { AppServices, Baseline, Client, MetricsExServices } from "@metlife/appd-services";
 import { Context } from "../rt/interpreter";
@@ -23,12 +23,17 @@ export class AppDynamicsMetricsProvider implements MetricsProvider {
         .then(nodes => nodes.map(n => n.name));
     }
     async fetchMetrics(ctx:Context, app:string, path:string[], valueTypes:ValueType[]): Promise<MetricTimeseries[]> {
-        const values = valueTypes.length > 0 ? valueTypes : [{type:'value'}];
+        const values = valueTypes.length > 0 ? valueTypes : [{type:'value'}]; 
+        values.forEach(vt => {
+            if (vt.type == 'baseline' || vt.type == 'stddev') {
+                vt.baseline = vt.baseline || 'DEFAULT';
+            }
+        });
         const baselines = values
-            .filter(vt => vt.type == 'baseline' || vt.type == 'stddev')
-            .map(vt => vt.baseline || 'DEFAULT')
+            .filter(vt => vt.baseline)
+            .map(vt => vt.baseline as string)
             .sort()
-            .filter((b, i, a) => i == 0 || b !== a[i-1]) as string[];
+            .filter((b, i, a) => i == 0 || b !== a[i-1]);
         const range = ctx.range as AppDRange; // FIXME for now these two are compatible so we can just assign to the AppD type
         
         const metricsEx = await this.app.findApps(app).then(apps => {
@@ -65,15 +70,17 @@ export class AppDynamicsMetricsProvider implements MetricsProvider {
                     precision: {size:m.precision, units:'m'},
                     metadata: {}
                 } as any;
-                if (value.type == 'baseline' || value.type == 'stddev') {
-                    const data = m.baselineData.find(bd => 
-                        bd.baseline.name == value.baseline || bd.baseline.seasonality == value.baseline
-                    )?.data;
-                    ts.data = data?.map(d => ({
-                        start: d.startTime,
-                        value: value.type == 'baseline' ? d.value : d.standardDeviation
-                    }));
-                } else {
+                if (value.type == 'baseline' || value.type == 'stddev') { 
+                    if (m.baselineData) {
+                        const data = m.baselineData.find(bd => 
+                            bd.baseline.name == value.baseline || bd.baseline.seasonality == value.baseline
+                        )?.data;
+                        ts.data = data?.map(d => ({
+                            start: d.startTime,
+                            value: value.type == 'baseline' ? d.value : d.standardDeviation
+                        }));
+                    }
+                } else if ((m.data[0] as any)[value.type] !== undefined){
                     ts.data = m.data.map((d:any) => ({
                         start: d.startTime,
                         value: d[value.type]
