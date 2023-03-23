@@ -5,6 +5,9 @@ version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
 
+## [3.3.1] - 2023-03-23 ##
+### Fixed
+- [appd-pipeline] need to check all data points for a potential value when excluding series, not just the first
 ## [3.3.0] - 2023-03-23 ##
 ### Changed
 - [appd-client] set `maxSockets` for the underlying NodeJS `http.Agent` to prevent thrashing the controller

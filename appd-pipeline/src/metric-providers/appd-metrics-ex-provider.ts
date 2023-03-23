@@ -80,7 +80,8 @@ export class AppDynamicsMetricsProvider implements MetricsProvider {
                             value: value.type == 'baseline' ? d.value : d.standardDeviation
                         }));
                     }
-                } else if ((m.data[0] as any)[value.type] !== undefined){
+                } 
+                else if (m.data.some((d:any) => d[value.type] !== undefined)) {
                     ts.data = m.data.map((d:any) => ({
                         start: d.startTime,
                         value: d[value.type]
