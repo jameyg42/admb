@@ -53,6 +53,9 @@ export class MetricsServices {
             return Promise.resolve([]);
         }
         const query = this.createMetricQuery(metricNodes, range);
+        if (query.metricDataQueries.length == 0) {
+            return Promise.resolve([]);
+        }
 
         const cacheKey = key(this.client.session.url, query);
         return cacheFor(range).get(cacheKey, () =>

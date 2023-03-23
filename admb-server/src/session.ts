@@ -9,7 +9,10 @@ export function load(req:Request) {
   if (req.cookies[STORAGE_KEY]) {
     return Client.reopen(req.cookies[STORAGE_KEY]);
   }
-  throw {status:401, message: 'Not signed in'};
+  const nsi = Error('401 : Not signed in') as any;
+  nsi.statusCode = 401;
+  nsi.statusMessage = "Not signed in";
+  throw nsi;
 }
 export function end(rsp:Response) {
     rsp.clearCookie(STORAGE_KEY);

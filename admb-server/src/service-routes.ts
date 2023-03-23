@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { ErrorRequestHandler, NextFunction, Request, Response, Router } from "express";
 import { Client, AppServices } from "@metlife/appd-services";
 import { AppDynamicsMetricsProvider, exec } from "@metlife/appd-pipeline";
 import { store as storeSession, load as loadSession, end as endSession} from "./session";
@@ -68,6 +68,15 @@ function getUser(client:Client):Promise<User> {
         account
     }));
 }
+
+serviceRoutes.use((err:Error, req:Request, rsp:Response, next:NextFunction) => {
+  if ((err as any).statusCode == 401) {
+    rsp.status(401).send((err as any).statusMessage);
+    next();
+  } else {
+    next(err);
+  }
+})
   
 export interface User {
     controller: string;
