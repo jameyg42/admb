@@ -17,8 +17,7 @@ export class RangeProcessor extends BaseProcessor {
             // came "over the wire" as it's metrics.api.Range form.  Eventually libmetrics will
             // make this less confusing, but for now construct a range.Range so we can do the manipulation
             const range = Range.fromRangeLike(ctx.range);
-            range.slide({'milliseconds': duration});
-            ctx.range = range.toRangeLikeObject();
+            ctx.range = range.slide({'milliseconds': duration}).toRangeLikeObject();
         }
 
         return Promise.resolve(ctx);
