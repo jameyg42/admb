@@ -5,6 +5,10 @@ version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
 
+## [3.3.2] - 2023-03-28 ##
+### Fixed
+- [appd-pipeline] fixed bug where `range` operator wasn't actually adjusting the search range
+
 ## [3.3.1] - 2023-03-23 ##
 ### Fixed
 - [appd-pipeline] need to check all data points for a potential value when excluding series, not just the first
