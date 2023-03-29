@@ -5,7 +5,7 @@ version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
 
-## UNRELEASED ##
+## [3.4.0] - 2023-03-29 ##
 ### Added
 - [appd-pipeline] allow `relativeTo` to take ValueType expressions
 - [appd-pipeline] allow ValueType expressions to contain `%{variables}`
