@@ -1,23 +1,38 @@
-import { SyntaxNode } from "@lezer/common";
-import { CommandExpressionNode, ProcessingNode, SearchExpressionNode, ValueTypeNode } from "../../lang/syntax";
+import { CommandExpressionNode, ProcessingNode } from "../../lang/syntax";
+import { ValueType } from "../../metric-providers/spi";
 import { Context } from "../interpreter";
 import { BaseProcessor } from "./api";
 import { flattenDeep } from "lodash";
+import { tmpl } from "@metlife/appd-libutils";
 
 export class RelativeToProcessor extends BaseProcessor {
     exec(node: ProcessingNode, ctx: Context): Promise<Context> {
-        // TODO we could combine all the paths and do a single search, but for now just
-        // fire off a search per series
+        // TODO this approach seems very wrong - we should be leveraging the parser here and more of the
+        // `search` operator machinery.  Perhaps the easiest way would be to work the `relativeTo` command
+        // into the parser itself allowing relativeTo paths to be autocompleted (among other benefits), but
+        // i'm not sure we can parse just a path by itself (w/out an application:/ prefix) with the current
+        // parser structure.  So for now, just somewhat ugliushly parse out the relative path using regex's.
+        const vars = this.flattenVariables(ctx);
         const args = (node as CommandExpressionNode).args;
         const paths = (args.path as string)?.split(';');
-        return Promise.all(paths.map(path => Promise.all(
+        return Promise.all(paths.map(pv => Promise.all(
             flattenDeep(ctx.groups.map(g => 
                 g.map(ts => 
                     ts.sources.map(s => {
-                        // FIXME the 'paths' should be fully parsed so we can get the ValueTypeNodes
-                        const p = resolveRelative(s.path, path);
+                        let [,path,value] = /([^\[]*)(?:\[(.*)\]$)?/.exec(pv) || [];
+                        path = tmpl.evaluate(path, vars);
+                        const values = value === undefined ? [] : value.split(',')
+                            .map(vtn => {
+                                const [,type,baseline] = /([^@]*)(?:@(.*)$)?/.exec(vtn) || [];
+                                return {
+                                    type: type ? tmpl.evaluate(type, vars) : vtn,
+                                    baseline: baseline ? tmpl.evaluate(baseline, vars) : undefined
+                                } as ValueType;
+                            });
+                        
+                        const p = resolveRelative(s.path, path || pv);
                         const x = ctx.global().providers.map(provider => {
-                            return provider.fetchMetrics(ctx, s.app, p, []);
+                            return provider.fetchMetrics(ctx, s.app, p, values);
                         });
                         return x;
                     })
