@@ -18,6 +18,7 @@
   @precedence { comment, "/" }
 
   identifier { lower (lower | upper | digit)*  }
+  variable { '%{' identifier '}' }
   term { (lower | upper | digit | "_" )+ }
   number { '-'? int frac? }
   int  { '0' | $[1-9] digit* }
@@ -53,8 +54,8 @@ ValueType { Type baselineExpression? }
 baselineExpression {
   "@" Baseline
 }
-Type { identifier }
-Baseline { (identifier | term) }
+Type { identifier | variable }
+Baseline { (identifier | term | variable) }
 
 CommandExpression { Command Arg* }
 Command { identifier ~c1 }
