@@ -5,6 +5,12 @@ version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
 
+## UNRELEASED ##
+### Fixed
+- [appd-pipeline] series copied with `copy` actually need to be copied (deep cloned)
+  to prevent transforms (`plot`, `label`, etc) from being applied to the
+  source series
+
 ## [3.4.0] - 2023-03-29 ##
 ### Added
 - [appd-pipeline] allow `relativeTo` to take ValueType expressions

@@ -4,6 +4,7 @@ import { Context } from "../interpreter";
 import { BaseProcessor } from "./api";
 import { flatten } from "lodash";
 import { filter } from "@metlife/appd-libmetrics/out/ops/filter";
+import { clone } from "@metlife/appd-libutils";
 
 export class CopyProcessor extends BaseProcessor {
     exec(node: ProcessingNode, ctx: Context): Promise<Context> {
@@ -28,7 +29,8 @@ export function copy(ctx:Context, expr:string, deep:boolean, preserveGroups:bool
     do {
         c = c.parent;
         c.groups = c.groups.map(group => {
-            const matched = expr ? group.filter(s => filter(s, expr)) : group;
+            const matched = (expr ? group.filter(s => filter(s, expr)) : group)
+                .map(ts => deleteSource ? ts : clone(ts));
             allMatched = allMatched.concat(matched);
             if (deleteSource) {
                 if (expr) {
