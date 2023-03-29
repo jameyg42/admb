@@ -5,6 +5,11 @@ version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
 
+## UNRELEASED ##
+### Added
+- [appd-pipeline] allow `relativeTo` to take ValueType expressions
+- [appd-pipeline] allow ValueType expressions to contain `%{variables}`
+
 ## [3.3.2] - 2023-03-28 ##
 ### Fixed
 - [appd-pipeline] fixed bug where `range` operator wasn't actually adjusting the search range

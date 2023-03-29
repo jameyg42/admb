@@ -25,8 +25,8 @@ export class RelativeToProcessor extends BaseProcessor {
                             .map(vtn => {
                                 const [,type,baseline] = /([^@]*)(?:@(.*)$)?/.exec(vtn) || [];
                                 return {
-                                    type: type ? tmpl.evaluate(type, vars) : vtn,
-                                    baseline: baseline ? tmpl.evaluate(baseline, vars) : undefined
+                                    type: (type ? tmpl.evaluate(type, vars) : vtn).trim(),
+                                    baseline: baseline ? tmpl.evaluate(baseline, vars).trim() : undefined
                                 } as ValueType;
                             });
                         
