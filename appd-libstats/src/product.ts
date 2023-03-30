@@ -1,4 +1,4 @@
-import { reducerOrFn } from "@metlife/appd-libutils";
+import { reducerOrFn } from "@metlife/appd-libutils/out/arrays";
 
 /**
  * Returns the product of all elements in an Array
