@@ -14,6 +14,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { MenuModule } from 'primeng/menu';
 import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
 
 import { TimepickerModule } from '../widget/timepicker/timepicker.module';
 
@@ -32,6 +33,7 @@ import { TsWidgetComponent } from './dashboard-panel/ts-widget/ts-widget.compone
 
 import { PlotlyViaCDNModule } from 'angular-plotly.js';
 import { CodeEditorComponent } from './code-editor/code-editor.component';
+import { TsTableComponent } from './ts-table/ts-table.component';
 PlotlyViaCDNModule.setPlotlyVersion('latest'); // can be `latest` or any version number (i.e.: '1.40.0')
 PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full) or 'basic', 'cartesian', 'geo', 'gl3d', 'gl2d', 'mapbox' or 'finance'
 
@@ -49,6 +51,7 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     DashboardPanelComponent,
     TsWidgetComponent,
     CodeEditorComponent,
+    TsTableComponent,
   ],
   imports: [
     CommonModule,
@@ -66,6 +69,7 @@ PlotlyViaCDNModule.setPlotlyBundle('basic'); // optional: can be null (for full)
     ScrollPanelModule,
     MenuModule,
     DialogModule,
+    TableModule,
 
     TimepickerModule,
 

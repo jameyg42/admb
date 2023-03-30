@@ -1,4 +1,4 @@
-export { MetricTimeseries, Range } from "@metlife/appd-libmetrics/out/api"
+export { MetricTimeseries, MetricTimeseriesGroup, Range } from "@metlife/appd-libmetrics/out/api"
 export { App as Application } from "@metlife/appd-services/out/app/types";
 
 export interface PlotLayout {
