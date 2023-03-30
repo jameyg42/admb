@@ -1,6 +1,10 @@
-<div *ngIf="flattenedGroups$">
-  <admb-ts-plot *ngFor="let g of flattenedGroups$ | async" [timeseriesGroup]="g"></admb-ts-plot>
+<div *ngIf="plottedSeriesGroups$">
+  <admb-ts-plot *ngFor="let g of plottedSeriesGroups$ | async" [timeseriesGroup]="g"></admb-ts-plot>
 </div>
+<div *ngIf="tabularSeriesGroups$">
+  <admb-ts-table *ngFor="let g of tabularSeriesGroups$ | async" [timeseriesGroup]="g"></admb-ts-table>
+</div>
+
 <div *ngIf="noResults">
   <b>No Matching Results</b>
 </div>

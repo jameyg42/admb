@@ -1,4 +1,4 @@
-import { reducerOrFn, atOnceReducer, nsort } from "@metlife/appd-libutils";
+import { reducerOrFn, atOnceReducer, nsort } from "@metlife/appd-libutils/out/arrays";
 
 /**
  * Returns the median of all numbers in the provided array

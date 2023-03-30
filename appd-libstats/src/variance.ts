@@ -1,4 +1,4 @@
-import { reducerOrFn, atOnceReducer } from "@metlife/appd-libutils";
+import { reducerOrFn, atOnceReducer } from "@metlife/appd-libutils/out/arrays";
 import mean from "./mean";
 
 export const variance = reducerOrFn(atOnceReducer((a:number[]) => {

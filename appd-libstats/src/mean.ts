@@ -1,4 +1,4 @@
-import { reducerOrFn, atOnceReducer } from "@metlife/appd-libutils";
+import { reducerOrFn, atOnceReducer } from "@metlife/appd-libutils/out/arrays";
 import { sum } from "./sum";
 /**
  * Returns the average of all elements in an Array

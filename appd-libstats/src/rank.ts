@@ -1,4 +1,4 @@
-import { sort } from "@metlife/appd-libutils";
+import { sort } from "@metlife/appd-libutils/out/arrays";
 
 export const rank = (a:number[]) => {
     const ranks = sort(a)

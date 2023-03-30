@@ -1,4 +1,4 @@
-import { reducerOrFn, atOnceReducer, sort } from "@metlife/appd-libutils";
+import { reducerOrFn, atOnceReducer, sort } from "@metlife/appd-libutils/out/arrays";
 
 /**
  * Returns the Nth percentile of all elements in an Array

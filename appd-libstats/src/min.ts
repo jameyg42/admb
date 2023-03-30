@@ -1,4 +1,4 @@
-import { reducerOrFn } from "@metlife/appd-libutils";
+import { reducerOrFn } from "@metlife/appd-libutils/out/arrays";
 
 /**
  * Returns the minimum of all elements in an Array
