@@ -29,8 +29,8 @@ export class TsGroupsComponent implements OnInit {
     if (!groups || groups.length == 0 || groups.every(f => f.length == 0)) {
       this.noResults = true;
     }
-    this.plottedSeriesGroups$ = of(groups.map(g => g.filter(ts => ts.metadata.plot.type !== 'table')).filter(g => g.length > 0));
-    this.tabularSeriesGroups$ = of(groups.map(g => g.filter(ts => ts.metadata.plot.type === 'table')).filter(g => g.length > 0));
+    this.plottedSeriesGroups$ = of(groups.map(g => g.filter(ts => ts.metadata.plot?.type === undefined || ts.metadata.plot?.type !== 'table')).filter(g => g.length > 0));
+    this.tabularSeriesGroups$ = of(groups.map(g => g.filter(ts => ts.metadata.plot?.type === 'table')).filter(g => g.length > 0));
   }
 }
 

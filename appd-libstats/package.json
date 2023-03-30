@@ -1,6 +1,6 @@
 {
   "name": "@metlife/appd-libstats",
-  "version": "3.0.1",
+  "version": "3.5.0",
   "description": "a simple statistics library",
   "author": "Jamey Graham <jgraham@metlife.com>",
   "license": "UNLICENSED",
