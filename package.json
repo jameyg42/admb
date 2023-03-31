@@ -25,9 +25,9 @@
     "appd-libmetrics",
     "appd-services",
     "appd-pipeline",
-    "admb-server",
     "admb-lang",
     "admb-ui",
+    "admb-server",
     "admb-lang-tester"
   ],
   "devDependencies": {
