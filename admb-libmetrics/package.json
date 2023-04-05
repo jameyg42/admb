@@ -1,0 +1,31 @@
+{
+  "name": "@admb/libmetrics",
+  "version": "4.0.0",
+  "description": "a simple metrics/timeseries library",
+  "author": "Jamey Graham <jameyg228@gmail.com>",
+  "license": "MIT",
+  "main": "out/index.js",
+  "types": "out/index.d.ts",
+  "files": [
+    "/out"
+  ],
+  "scripts": {
+    "clean": "rimraf ./out",
+    "prebuild": "npm run clean",
+    "build": "tsc",
+    "build:incremental": "tsc --incremental",
+    "watch": "tsc --watch",
+    "pretest": "tsc --incremental",
+    "test": "jest",
+    "prepublish": "npm run build"
+  },
+  "dependencies": {
+    "@admb/libstats": "*",
+    "@admb/libutils": "*"
+  },
+  "devDependencies": {
+    "jest": "^27.4.7",
+    "rimraf": "^5.0.0",
+    "typescript": "~4.8.2"
+  }
+}

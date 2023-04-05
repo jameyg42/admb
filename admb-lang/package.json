@@ -1,0 +1,37 @@
+{
+  "name": "@admb/admb-lang",
+  "version": "4.0.0",
+  "description": "codemirror language pack for appd-pipeline grammar",
+  "author": "Jamey Graham <jameyg228@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "main": "out/index.js",
+  "types": "out/index.d.ts",
+  "files": [
+    "/out"
+  ],
+  "scripts": {
+    "clean": "rimraf ./out",
+    "prebuild": "npm run clean",
+    "build": "tsc",
+    "build:incremental": "tsc --incremental",
+    "watch": "tsc --watch",
+    "pretest": "tsc --incremental",
+    "test": "jest",
+    "prepublish": "npm run build"
+  },
+  "dependencies": {
+    "@admb/admb-lang": "*",
+    "@admb/pipeline": "*",
+    "@codemirror/autocomplete": "^6.2.0",
+    "@codemirror/language": "^6.2.1",
+    "@codemirror/state": "^6.1.1",
+    "@lezer/common": "^1.0.1",
+    "@lezer/highlight": "^1.0.0"
+  },
+  "devDependencies": {
+    "jest": "^27.4.7",
+    "rimraf": "^5.0.0",
+    "typescript": "~4.8.2"
+  }
+}

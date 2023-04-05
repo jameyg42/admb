@@ -1,0 +1,7 @@
+<div class="admb-view" (click)="palettebarExpanded = false">
+  <admb-browser-panel></admb-browser-panel>
+</div>
+<div class="palettebar noprint" [class.expanded]="palettebarExpanded" [class.pinned]="palettebarPinned">
+  <div class="thumb ui-button-like" (click)="palettebarExpanded = true"><i class="material-icons icon">restore</i></div>
+  <admb-history-list></admb-history-list>
+</div>

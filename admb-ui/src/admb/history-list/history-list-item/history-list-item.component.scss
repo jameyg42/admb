@@ -1,0 +1,65 @@
+.admb-history-item
+{
+  font-size: 80%;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  user-select: none;
+}
+.admb-history-item .summary {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.admb-history-item .summary:hover,
+.admb-history-item.expanded .summary
+{
+  background-color: rgba(0,0,0,.04);
+}
+
+.admb-history-item .summary span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admb-history-item .details {
+  position: relative;
+  .uc {
+    text-align: center;
+    font-style: italic;
+    font-weight: bold;
+    width: 30px;
+    padding: 2px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #999999;
+    color: white;
+    border-bottom-right-radius: 6px;
+  }
+  .expr {
+   font-family: monospace;
+   user-select: text;
+   white-space: pre-line;
+   margin-bottom: 1em;
+   font-size: 110%;
+  }
+  .action {
+  }
+}
+
+.admb-history-item .details {
+  display: none;
+}
+.admb-history-item.expanded .details {
+  display: block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,.2);
+  padding: 4px;
+
+  .addl span {
+    font-size: 80%;
+    font-style: italic;
+    font-weight: bold;
+    display: inline-block;
+  }
+}

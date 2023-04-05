@@ -1,0 +1,34 @@
+{
+  "name": "@admb/services",
+  "version": "4.0.0",
+  "description": "Various services / service-extensions for AppDynamics",
+  "author": "Jamey Graham <jameyg228@gmail.com>",
+  "license": "MIT",
+  "main": "out/index.js",
+  "types": "out/index.d.ts",
+  "files": [
+    "/out"
+  ],
+  "scripts": {
+    "clean": "rimraf ./out",
+    "prebuild": "npm run clean",
+    "build": "tsc",
+    "build:incremental": "tsc --incremental",
+    "watch": "tsc --watch",
+    "pretest": "npm run build",
+    "test": "jest",
+    "prepublish": "npm run build"
+  },
+  "dependencies": {
+    "@admb/client": "*",
+    "@admb/libutils": "*",
+    "lodash": "^4.17.21",
+    "rxjs": "~7.5.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.182",
+    "jest": "27.5.1",
+    "rimraf": "^5.0.0",
+    "typescript": "~4.8.2"
+  }
+}

@@ -1,0 +1,13 @@
+<div class="nobreak" *ngIf="timeseriesGroup.length > 0">
+  <div class="flex align-items-center interactive-switch">
+    <p-inputSwitch [(ngModel)]="interactive"></p-inputSwitch> <span class="font-semibold">Interactive</span>
+    <p-inputSwitch [(ngModel)]="hideWeekends"></p-inputSwitch> <span class="font-semibold">Hide Weekends</span>
+    <p-inputSwitch [(ngModel)]="hideNonWorkHours"></p-inputSwitch> <span class="font-semibold">Hide Non-Work Hours</span>
+  </div>
+  <plotly-plot *ngIf="plotData"
+  [config]="config"
+  [layout]="layout"
+  [data]="plotData"
+  [useResizeHandler]="true"
+></plotly-plot>
+</div>

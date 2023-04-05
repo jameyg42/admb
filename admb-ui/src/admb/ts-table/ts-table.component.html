@@ -1,0 +1,19 @@
+<button type="button" pButton icon="pi pi-file" (click)="dt.exportCSV()" class="p-button-rounded p-button-secondary p-button-text" pTooltip="Export CSV" tooltipPosition="bottom"></button>
+<p-table #dt [columns]="columns" [value]="seriesRows" styleClass="p-datatable-sm p-datatable-striped">
+  <ng-template pTemplate="header">
+      <tr>
+         <th pSortableColumn="name">Name<p-sortIcon field="name"></p-sortIcon></th>
+         <th pSortableColumn="avg">Avg<p-sortIcon field="avg"></p-sortIcon></th>
+         <th pSortableColumn="min">Min<p-sortIcon field="min"></p-sortIcon></th>
+         <th pSortableColumn="max">Max<p-sortIcon field="max"></p-sortIcon></th>
+      </tr>
+   </ng-template>
+   <ng-template pTemplate="body" let-series>
+      <tr>
+         <td>{{ series.name }}</td>
+         <td>{{ series.avg | number: "1.1-1" }}</td>
+         <td>{{ series.min }}</td>
+         <td>{{ series.max}}</td>
+      </tr>
+   </ng-template>
+</p-table>

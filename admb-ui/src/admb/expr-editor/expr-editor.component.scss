@@ -1,0 +1,21 @@
+:host {
+  // for some reason this needs an initial width for the flex to work
+  // the actual value is insignificant
+  width: 100px;
+}
+:host ::ng-deep .CodeMirror {
+  height: auto;
+}
+:host ::ng-deep .CodeMirror-scroll {
+  max-height: 12em;
+  max-width: 100%;
+}
+:host ::ng-deep .CodeMirror-wrap pre.CodeMirror-line,
+:host ::ng-deep .CodeMirror-wrap pre.CodeMirror-line-like
+{
+  word-break: break-word;
+}
+:host ::ng-deep .cm-operator {
+  font-weight: bold;
+  color: blue;
+}

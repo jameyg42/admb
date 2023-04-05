@@ -1,0 +1,50 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height:100%;
+}
+:host .header {
+  padding: 4px;
+  margin-bottom: 4px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.3);
+}
+:host .results {
+  flex: 1 1 auto;
+  overflow: overlay;
+  position: relative;
+}
+:host ::ng-deep .p-progressbar {
+   height: 5px;
+   background-color: red;
+ }
+ :host ::ng-deep .valid .p-progressbar {
+  background-color: #4CAF50;
+  .p-progressbar-value {
+    background-color: #f7f7f7;
+  }
+}
+:host ::ng-deep .p-button,
+:host ::ng-deep .p-button-icon-only,
+:host ::ng-deep .p-multiselect .p-multiselect-label {
+  padding-top: .3rem;
+  padding-bottom: .3rem;
+}
+
+
+ @media print {
+  :host {
+    display: contents;
+  }
+  :host .results {
+    display: contents;
+  }
+  :host .header div {
+    display: none;
+  }
+  :host .header div.p-grid {
+    display: block;
+  }
+  :host .header p-button {
+    display: none;
+  }
+}

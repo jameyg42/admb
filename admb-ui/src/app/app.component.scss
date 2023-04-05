@@ -1,0 +1,22 @@
+:host .header {
+  display: flex;
+  margin: 6px 4px 0px 4px;
+  ul {
+    display: block;
+    padding: 0px;
+    margin: 0px;
+    li {
+      display: inline-block;
+      ::ng-deep .icon {
+        cursor: pointer;
+        font-size: 30px;
+      }
+    }
+  }
+  ul.left {
+    flex: 1 1 auto;
+  }
+  ul.right {
+    flex: 0 0 auto;
+  }
+}

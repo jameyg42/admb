@@ -1,0 +1,27 @@
+@charset "UTF-8";
+@import 'colors';
+
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: $gray8;
+}
+::-webkit-scrollbar-thumb {
+  background: $gray5;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: $gray4;
+}
+body .ui-button-like
+{
+  background-color: $primary;
+  border: 1px solid $primary;
+  color: white;
+}
+body .ui-button-like:hover
+{
+  background-color: $primaryHover;
+  border-color: $primaryHover;
+}

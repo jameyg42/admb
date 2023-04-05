@@ -1,0 +1,15 @@
+dist/
+out/
+node_modules/
+
+.vscode/
+.angular/
+
+npm-debug.log
+.DS_Store
+Thumbs.db
+
+.private/
+.env
+
+local-test-server/

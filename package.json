@@ -1,0 +1,39 @@
+{
+  "name": "@admb/admb-project",
+  "private": true,
+  "license": "MIT",
+  "author": "Jamey Graham <jameyg228@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameyg42/admb.git"
+  },
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "build:incremental": "npm run build:incremental --workspaces --if-present",
+    "package": "npm run build && npm run package:only",
+    "package:only": "npm run package --workspaces --if-present",
+    "package:incremental": "npm run build:incremental && npm run package:only",
+    "publish": "npm publish --workspace admb-libutils --workspace admb-libstats --workspace admb-libmetrics --workspace admb-client --workspace admb-services --workspace admb-pipeline",
+    "debug:server": "nodemon admb-server/src/index.ts",
+    "debug:ui": "npm run watch --workspace admb-ui",
+    "debug": "npm-run-all -p -r debug:server debug:ui"
+  },
+  "workspaces": [
+    "admb-libutils",
+    "admb-libstats",
+    "admb-client",
+    "admb-client-saml-loginform-provider",
+    "admb-libmetrics",
+    "admb-services",
+    "admb-pipeline",
+    "admb-lang",
+    "admb-ui",
+    "admb-server",
+    "admb-lang-tester"
+  ],
+  "devDependencies": {
+    "nodemon": "^2.0.16",
+    "npm-run-all": "^4.1.5",
+    "ts-node": "^10.8.0"
+  }
+}

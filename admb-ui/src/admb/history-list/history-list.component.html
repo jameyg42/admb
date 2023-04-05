@@ -1,0 +1,7 @@
+<div *ngFor="let group of groupedByDateHistory; trackBy: trackGroupBy ">
+  <h3>{{group.key}}</h3>
+  <div *ngFor="let entry of group.value; trackBy: trackEntryBy">
+    <admb-history-list-item [entry]="entry"></admb-history-list-item>
+  </div>
+  <hr/>
+</div>

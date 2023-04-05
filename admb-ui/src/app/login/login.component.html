@@ -1,0 +1,25 @@
+<div class="underlay">
+  <div class="loginOverlay">
+    <h2>Controller Login</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="doLogin()">
+    <div class="login-form-control">
+      <p-dropdown [options]="controllers" formControlName="controller" [group]="controllersAreGrouped" [autoDisplayFirst]="false" placeholder="controller"></p-dropdown>
+    </div>
+    <div class="p-inputgroup login-form-control">
+      <input type="text" pInputText formControlName="uid" placeholder="username" autofocus="true">
+      <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+    </div>
+    <div class="p-inputgroup login-form-control">
+      <input type="password" pPassword [feedback]="false" formControlName="pwd" placeholder="password">
+      <span class="p-inputgroup-addon"><i class="pi pi-lock"></i></span>
+    </div>
+    <button pButton type="submit" label="Login" [loading]="blocked"></button>
+    </form>
+    <p-messages *ngIf="loginError" severity="error">
+      <ng-template pTemplate>
+          <div class="ml-2">{{loginError}}</div>
+      </ng-template>
+    </p-messages>
+  </div>
+</div>
+<p-blockUI [blocked]="blocked"></p-blockUI>

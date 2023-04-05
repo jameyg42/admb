@@ -1,0 +1,19 @@
+<div class="dashboard-editor">
+  <p-button label="Edit" (onClick)="editMode = true"></p-button>
+  <p-button label="Fixup" (onClick)="fixup()" *ngIf="editMode == true"></p-button>
+  <p-button label="Done" (onClick)="doneEditing()" *ngIf="editMode == true"></p-button>
+
+  <admb-code-editor></admb-code-editor>
+
+</div>
+<div class="ui-dashboard">
+  <div class="dashboard-canvas" *ngIf="dashboardModel">
+    <div class="dashboard-widget db-cols-{{widget.cols}}" *ngFor="let widget of dashboardModel.widgets">
+      <div class="db-wrapper">
+        <admb-ts-widget  [model]="widget"></admb-ts-widget>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="dashboardError">{{dashboardError}}</div>
+</div>
+
