@@ -10,7 +10,7 @@ export class Session {
         return new Session(attribs.url, attribs.act, attribs.sid, attribs.xrf);
     }
     serialize(): string {
-        const b64 = Buffer.from(JSON.stringify({url: this.url, acc: this.account, sid: this.sessionId, xrf: this.csrf})).toString('base64');
+        const b64 = Buffer.from(JSON.stringify({url: this.url, act: this.account, sid: this.sessionId, xrf: this.csrf})).toString('base64');
         return b64;
     }
 }

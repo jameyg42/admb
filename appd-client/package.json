@@ -1,6 +1,6 @@
 {
   "name": "@metlife/appd-client",
-  "version": "3.3.0",
+  "version": "3.5.1",
   "description": "Various services / service-extensions for AppDynamics",
   "author": "Jamey Graham <jgraham@metlife.com>",
   "license": "UNLICENSED",

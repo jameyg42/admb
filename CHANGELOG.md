@@ -5,6 +5,10 @@ version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
 
+## [3.5.1] - 2023-05-17 ##
+### Fixed
+- [appd-client] serialize/deserialize sequence loses account property
+
 ## [3.5.0] - 2023-03-30 ##
 ### Added
 - [admb-ui] new (experimental) `plot type=table` plot type.  
