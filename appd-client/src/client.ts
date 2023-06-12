@@ -66,8 +66,12 @@ export class Client {
         // TODO we need a way to force the use of Local logins, ignoring the configured default login provider.
         // For now, if the username specifies a domain in the username, we'll use domain matching account to
         // indicate local logins
-        const [,domain] = username.split('@');
-        let method = domain && domain == account ? 'local': undefined;
+        const {user,domain} = (/^(?<user>.*)(?:@(?<domain>.*))$/.exec(username)?.groups || {user: username, domain: undefined}) as any;
+        let method = undefined;
+        if (domain && domain === account) {
+            method = 'local';
+            username = user;
+        }
 
         return login(url, account, username, password, method)
             .then(session => new Client(session));
