@@ -5,6 +5,11 @@ version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
 
+## [3.5.2] - 2023-06-12 ##
+### Fixed
+- [appd-client] only split domain on last `@` sign in username allowing usernames like 
+  `user@domain@account` to be used
+  
 ## [3.5.1] - 2023-05-17 ##
 ### Fixed
 - [appd-client] serialize/deserialize sequence loses account property
