@@ -4,6 +4,9 @@ mono-repo.  The version specified in this file will be the largest
 version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
+## [3.5.3] - 2023-08-22 ##
+### Changed
+- [admb-ui] dependency updates
 
 ## [3.5.2] - 2023-06-12 ##
 ### Fixed
