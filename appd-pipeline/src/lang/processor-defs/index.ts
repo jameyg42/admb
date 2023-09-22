@@ -1,6 +1,7 @@
 
 export * from './abs';
 export * from './binary';
+export * from './bin';
 export * from './bottom';
 export * from './ceil';
 export * from './copy';

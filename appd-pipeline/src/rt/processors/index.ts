@@ -20,6 +20,7 @@ export function findProcessor(name:string) {
 import { SearchProcessor } from "./search";
 import { AbsProcessor } from "./abs";
 import { BinaryProcessor } from "./binary";
+import { BinProcessor } from "./bin";
 import { BottomProcessor } from "./bottom";
 import { CeilProcessor } from "./ceil";
 import { DerivativeProcessor } from "./derivative";
@@ -59,6 +60,7 @@ import { RangeIntersectProcessor } from "./rangeIntersect";
 registry.add('search', new SearchProcessor());
 registry.add('abs', new AbsProcessor());
 registry.add('binary', new BinaryProcessor());
+registry.add('bin', new BinProcessor());
 registry.add('bottom', new BottomProcessor());
 registry.add('ceil', new CeilProcessor());
 registry.add('derivative', new DerivativeProcessor());

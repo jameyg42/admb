@@ -5,6 +5,25 @@ version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
 
+## [3.6.0] - 2023-09-22 ##
+### Added
+- [appd-libmetrics] new `bin` operation to combine continuous metric series values
+  into discrete sets of a given time span
+- [appd-pipeline] new `bin` command that makes use of the libmetrics `bin` operation
+
+## [3.5.3] - 2023-08-22 ##
+### Changed
+- [admb-ui] dependency updates
+
+## [3.5.2] - 2023-06-12 ##
+### Fixed
+- [appd-client] only split domain on last `@` sign in username allowing usernames like 
+  `user@domain@account` to be used
+  
+## [3.5.1] - 2023-05-17 ##
+### Fixed
+- [appd-client] serialize/deserialize sequence loses account property
+
 ## [3.5.0] - 2023-03-30 ##
 ### Added
 - [admb-ui] new (experimental) `plot type=table` plot type.  

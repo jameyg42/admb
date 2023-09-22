@@ -1,6 +1,6 @@
 {
   "name": "@metlife/appd-client",
-  "version": "3.3.0",
+  "version": "3.5.2",
   "description": "Various services / service-extensions for AppDynamics",
   "author": "Jamey Graham <jgraham@metlife.com>",
   "license": "UNLICENSED",
@@ -23,14 +23,14 @@
     "axios": "1.2.2",
     "lodash": "^4.17.21",
     "node-html-parser": "^6.1.1",
-    "rxjs": "~7.5.0",
+    "rxjs": "~7.8.0",
     "tough-cookie": "^4.0.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.182",
     "@types/tough-cookie": "^4.0.2",
     "jest": "27.5.1",
-    "rimraf": "^4.1.0",
+    "rimraf": "^5.0.0",
     "typescript": "~4.8.2"
   }
 }
