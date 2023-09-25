@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ViewChild, OnDestroy } from '@angular/core';
-import { MetricTimeseries } from '../svc/model';
+import { MetricTimeseries, MetricTimeseriesGroup } from '../svc/model';
 import { flatten } from 'lodash';
 import { PlotlyComponent } from 'angular-plotly.js';
 
@@ -24,9 +24,9 @@ export class TsPlotComponent implements OnInit, OnDestroy {
     return this._timeseriesGroup;
   }
   @Input()
-  set timeseriesGroup(ts: MetricTimeseries[]) {
-    this._timeseriesGroup = ts;
-    this.plotData = flatten(ts.map(timeseriesToPlots));
+  set timeseriesGroup(tss: MetricTimeseries[]) {
+    this._timeseriesGroup = tss;
+    this.plotData = flatten(tss.map(timeseriesToPlots));
     if (this.plotData.some(s => s.type === 'bar' && s.stackgroup)) {
       this.layout.barmode = 'stack';
     } else {
@@ -84,12 +84,11 @@ export class TsPlotComponent implements OnInit, OnDestroy {
 
   constructor() {
     this.config = {
-      staticPlot: true,
+      staticPlot: false,
       editable: false,
       displayModeBar: true,
       displaylogo: false,
-      responsive: true,
-      autosize: true,
+      doubleClickDelay: 400
     };
     this.layout =  {
       autosize: true,
@@ -115,9 +114,21 @@ export class TsPlotComponent implements OnInit, OnDestroy {
         pad: 0
       },
       showlegend: true,
-      legend: {orientation: 'h'},
+      legend: {
+        orientation: 'h',
+        itemclick: 'toggleothers',
+        itemdoubleclick: 'toggle'
+      },
       paper_bgcolor: 'rgba(0,0,0,0)',
       plot_bgcolor: 'rgba(0,0,0,0)',
+      hoverlabel: {
+        align: 'left',
+        namelength: -1,
+        font: {
+          size: 12
+        }
+      },
+      hovermode: 'closest'
     };
   }
 
@@ -143,9 +154,13 @@ function timeseriesToPlots(ts: MetricTimeseries) {
   const so: any = ts.metadata.plot || defaultSeriesOptions;
   const series: any = {
     name: ts.fullName,
+    truncatedName: smartTruncate(ts),
+    valueName: `${ts.name}`,
+    valueType: ts.value === 'value' ? '' : `[${ts.value}]`,
     x: ts.data.map(dp => dp.start),
     y: ts.data.map(dp => dp.value),
-    yaxis: `y${so.yaxis}`
+    yaxis: `y${so.yaxis}`,
+    hovertemplate: '<b>%{y:,d}</b> - %{data.valueName} %{data.valueType}<br>%{data.truncatedName}<extra><b>%{x|%H:%M}</b></extra>'
   };
   if (so.type === 'bar' || so.type === 'stacked-bar') {
     Object.assign(series, {
@@ -182,3 +197,19 @@ const defaultSeriesOptions = {
   yaxis: '1',
   vals: ['value']
 };
+
+function smartTruncate(ts:MetricTimeseries):string {
+  // actually kindof dumb...for now
+  const maxLength = 120;
+
+  let s = ts.fullName;
+  if (s.length <= maxLength) return s;
+
+  s = s.replace(`[${ts.value}]`, '');
+  if (s.length <= maxLength) return s;
+
+  s = s.replace('|'+ts.name, '').replace(ts.name, '');
+  if (s.length <= maxLength) return s;
+
+  return `${s.substring(0, Math.floor((maxLength/2)-3))}...${s.substring(s.length - Math.floor((maxLength/2)))}`;
+}
