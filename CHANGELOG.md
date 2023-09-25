@@ -4,6 +4,9 @@ mono-repo.  The version specified in this file will be the largest
 version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
+## [3.6.1] - 2023-09-25 ##
+### Changed
+- [admb-ui] experimental tweak to plot hover labels to try to make them more useful
 
 ## [3.6.0] - 2023-09-22 ##
 ### Added
