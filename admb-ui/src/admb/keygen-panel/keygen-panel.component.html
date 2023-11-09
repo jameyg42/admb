@@ -1,0 +1,31 @@
+<h2>API Key Generator</h2>
+<p>
+   ADMB can authenticate service requests using a HTTP header (named <code>X-API-KEY</code>)
+   that contains all the information required to log into an AppDynamics controller.  NOTE
+   this is a somewhat untraditional "key" since it includes the username/password instead of
+   being an alternative to password!
+</p>
+<p>
+   To help preserve security, the "raw" authentication information is encoded using several 
+   different methods (but NOT encrypted!).  The form below assists with creating this encoded
+   key.x
+</p>
+<div class="loginOverlay">
+      <form [formGroup]="loginForm" (ngSubmit)="doKeyGen()">
+         <div class="login-form-control">
+            <p-dropdown [options]="controllers" formControlName="controller" [group]="true" [autoDisplayFirst]="false" placeholder="controller"></p-dropdown>
+         </div>
+         <div class="p-inputgroup login-form-control">
+         <input type="text" pInputText formControlName="uid" placeholder="username" autofocus="true">
+         <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+         </div>
+         <div class="p-inputgroup login-form-control">
+         <input type="password" pPassword [feedback]="false" formControlName="pwd" placeholder="password">
+         <span class="p-inputgroup-addon"><i class="pi pi-lock"></i></span>
+         </div>
+         <button pButton type="submit" label="Generate Key"></button>
+      </form>
+   </div>
+   <div *ngIf="apiKey">
+      <code>X-API-KEY: {{ apiKey }}</code>
+   </div>

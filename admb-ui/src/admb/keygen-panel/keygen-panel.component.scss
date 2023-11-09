@@ -1,0 +1,52 @@
+ .loginOverlay {
+   width: 400px;
+   height: 200px;
+ 
+   border-radius: 10px;
+   background: white;
+   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);
+ 
+   padding: 40px;
+   padding-top: 20px;
+   text-align: center;
+ }
+ 
+ .loginOverlay .login-form-control {
+   padding-bottom: 4px;
+ }
+ .loginOverlay ::ng-deep .p-dropdown {
+   text-align: start;
+ }
+ .loginOverlay ::ng-deep .p-dropdown .p-dropdown-item {
+   padding-top: 5px;
+   padding-bottom: 5px;
+   padding-left: 35px;
+ }
+ .loginOverlay ::ng-deep .p-dropdown .p-dropdown-item-group {
+   padding-top: 2px;
+   padding-bottom: 2px;
+   padding-left: 10px;
+   font-style: italic;
+ }
+ 
+ .loginOverlay ::ng-deep .p-dropdown ,
+ .loginOverlay ::ng-deep .p-button
+ {
+   width: 320px;
+ }
+ .loginOverlay ::ng-deep .p-inputtext {
+   width: 295px;
+ }
+ .loginOverlay ::ng-deep .p-message {
+   margin-top: 8px;
+   margin-bottom: 8px;
+   margin-left: 0px;
+   margin-right: 0px;
+ 
+ }
+ .loginOverlay ::ng-deep .p-message-wrapper {
+   padding-top: 4px;
+   padding-bottom: 4px;
+   display: block;
+ }
+ 
