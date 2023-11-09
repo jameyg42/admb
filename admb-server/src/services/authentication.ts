@@ -71,7 +71,7 @@ export class AuthenticationService {
       if (!auth) {
          throw new AuthenticationError(`invalid authorization header : ${authHeader}`);
       }
-      const [scheme, encodedParams] = auth;
+      const [, scheme, encodedParams] = auth;
       if (scheme !== 'Bearer') {
          throw new AuthenticationError(`unsupported authentication scheme : ${scheme}.  Only 'Bearer' is supported`);
       }
