@@ -4,6 +4,11 @@ mono-repo.  The version specified in this file will be the largest
 version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
+## [3.7.0] - 2023-11-09 ##
+### Added
+- [admb-server] can now authenticate service calls with `x-api-key` and `authorization` headers
+- [admb-ui] trivial APIKey generator
+
 ## [3.6.1] - 2023-09-25 ##
 ### Changed
 - [admb-ui] experimental tweak to plot hover labels to try to make them more useful
