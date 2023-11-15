@@ -4,6 +4,12 @@ mono-repo.  The version specified in this file will be the largest
 version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
+
+## [3.7.1] - 2023-11-15 ##
+### Fixed
+- [admb-server] don't try to authenticate via APPDSESSION cookie when explicity invoking
+  login.  Fixes "stale session cookie breaks login" issue.
+
 ## [3.7.0] - 2023-11-09 ##
 ### Added
 - [admb-server] can now authenticate service calls with `x-api-key` and `authorization` headers
