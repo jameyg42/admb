@@ -1,5 +1,6 @@
 import express from 'express';
 import cookies from 'cookie-parser';
+import cors from 'cors';
 import { env } from 'process';
 import { asNumber } from '@metlife/appd-libutils'
 
@@ -9,6 +10,7 @@ import { serviceRoutes as user } from './controllers/user';
 import { authenticationMiddleware } from './authentication';
 
 const app = express();
+app.use(cors());
 app.use(express.static(__dirname + '/../dist/admb-ui'));
 app.use(express.json())
 app.use(cookies());

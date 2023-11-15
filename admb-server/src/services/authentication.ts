@@ -23,6 +23,15 @@ export class AuthenticationError extends Error {
 }
 
 export class AuthenticationService {
+   async login(controller:string, account:string, username:string, password:string):Promise<Session> {
+      password = xor(password);
+      try {
+         const client = await Client.open(controller, account, username, password);
+         return client.session;
+      } catch (e:any) {
+         throw new AuthenticationError(e);
+      }
+   }
    /**
     * attempts to authenticate the request using all available auth methods
     * @param req 
@@ -44,24 +53,9 @@ export class AuthenticationService {
          return Promise.resolve(session);
       }
 
-      const {url,account,uid, pwd} = req.body;
-      if (url && account && uid && pwd) {
-         const session = await this.login(url, account, uid, pwd);
-         return session;
-      }
       return Promise.resolve(undefined);
-
    }
 
-   async login(controller:string, account:string, username:string, password:string):Promise<Session> {
-      password = xor(password);
-      try {
-         const client = await Client.open(controller, account, username, password);
-         return client.session;
-      } catch (e:any) {
-         throw new AuthenticationError(e);
-      }
-   }
    async httpAuthorization(req:Request):Promise<Session> {
       const authHeader = req.headers.authorization;
       if (!authHeader) {
@@ -90,4 +84,5 @@ export class AuthenticationService {
          return this.login(controller, account, username, password);
       })
    }
+
 }

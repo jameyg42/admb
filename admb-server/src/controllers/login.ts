@@ -7,7 +7,8 @@ export const serviceRoutes = Router();
 
 serviceRoutes.post('/login', async (req,rsp,next) => {
    try {
-      const session = await new AuthenticationService().authenticate(req);
+      const {url, account, uid, pwd } = req.body;
+      const session = await new AuthenticationService().login(url, account, uid, pwd);
       if (session) {
          rsp.cookie('APPDSESSION', session.serialize());
          const user = await new UserService(new Client(session)).getUser();
@@ -15,7 +16,6 @@ serviceRoutes.post('/login', async (req,rsp,next) => {
       } else {
          rsp.status(401).send('no available authentication methods for request');
       }
-      next();
    } catch(e) {
       next(e);
    }
@@ -25,5 +25,4 @@ serviceRoutes.post('/logout', (req,rsp,next) => {
     rsp.json({
       loggedOff: true
     });
-    next();
 });
