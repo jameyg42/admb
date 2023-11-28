@@ -4,7 +4,6 @@
   "description": "codemirror language pack for appd-pipeline grammar",
   "author": "Jamey Graham <jgraham@metlife.com>",
   "license": "UNLICENSED",
-  "private": true,
   "main": "out/index.js",
   "types": "out/index.d.ts",
   "files": [
