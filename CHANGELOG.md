@@ -6,6 +6,9 @@ will be published at once with the same version number, but unchanged
 packages will not be published.
 
 ## UNRELEASED ##
+### Fixed
+- [admb-server] fixed issue in authentication middleware when not authenticated
+
 ### Removed
 - [admb-lang-tester] the parser/language testing utility removed from main build and
   relegated to the ./tools directory

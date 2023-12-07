@@ -1,5 +1,6 @@
 import { Client } from "@metlife/appd-client";
 import { Request } from "express";
+import { client } from "../authentication";
 
 export interface User {
    controller: string;
@@ -7,11 +8,11 @@ export interface User {
 }
 
 export class UserService {
-   static forRequest(req:Request):UserService {
-      return new UserService((req as any).client);
-   }
-
    constructor(private client:Client){}
+
+   static forRequest(req:Request):UserService {
+      return new UserService(client(req));
+   }
 
    getUser():Promise<User> {
       return this.client.get('/restui/user/getUser')

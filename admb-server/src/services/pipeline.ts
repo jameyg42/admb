@@ -4,11 +4,12 @@ import { KVP } from "@metlife/appd-libutils";
 import { AppDynamicsMetricsProvider, exec } from "@metlife/appd-pipeline";
 import { App, AppServices } from "@metlife/appd-services";
 import { Request } from "express";
+import { client } from "../authentication";
 
 
 export class PipelineService {
    static forRequest(req:Request):PipelineService {
-      return new PipelineService((req as any).client);
+      return new PipelineService(client(req));
    }
 
    private metricsProvider:AppDynamicsMetricsProvider;
