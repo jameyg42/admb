@@ -27,8 +27,7 @@
     "appd-pipeline",
     "admb-lang",
     "admb-ui",
-    "admb-server",
-    "admb-lang-tester"
+    "admb-server"
   ],
   "devDependencies": {
     "nodemon": "^3.0.1",

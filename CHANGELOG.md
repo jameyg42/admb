@@ -5,6 +5,11 @@ version among the changed packages.  In general, all changed packages
 will be published at once with the same version number, but unchanged 
 packages will not be published.
 
+## UNRELEASED ##
+### Removed
+- [admb-lang-tester] the parser/language testing utility removed from main build and
+  relegated to the ./tools directory
+
 ## [3.7.1] - 2023-11-15 ##
 ### Fixed
 - [admb-server] don't try to authenticate via APPDSESSION cookie when explicity invoking
