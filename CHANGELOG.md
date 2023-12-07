@@ -6,6 +6,9 @@ will be published at once with the same version number, but unchanged
 packages will not be published.
 
 ## UNRELEASED ##
+### Changed
+- [admb-ui] Angular@17 update
+
 ### Fixed
 - [admb-server] fixed issue in authentication middleware when not authenticated
 
